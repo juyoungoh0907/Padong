@@ -89,7 +89,7 @@
             <div class="flex items-center space-x-1 md:space-x-2 mt-4 md:mt-0 overflow-x-auto w-full md:w-auto scrollbar-hide">
                 <nav class="flex text-sm md:text-base font-bold text-gray-700 whitespace-nowrap mr-4">
                     <button onclick="navigateToCategory('전체')" id="nav-전체" class="px-3 py-2 text-black border-b-4 border-[#0b1d33]">종합</button>
-                    <button onclick="navigateToCategory('의회·정당')" id="nav-의회·정당" class="px-3 py-2 hover:text-black border-b-4 border-transparent">의회·정당</button>
+                    <button onclick="navigateToCategory('국회·정당')" id="nav-국회·정당" class="px-3 py-2 hover:text-black border-b-4 border-transparent">국회·정당</button>
                     <button onclick="navigateToCategory('시사·정책')" id="nav-시사·정책" class="px-3 py-2 hover:text-black border-b-4 border-transparent">시사·정책</button>
                     <button onclick="navigateToCategory('사설·칼럼')" id="nav-사설·칼럼" class="px-3 py-2 hover:text-black border-b-4 border-transparent">사설·칼럼</button>
                     <button onclick="navigateToCategory('청소년정치')" id="nav-청소년정치" class="px-3 py-2 hover:text-black border-b-4 border-transparent">청소년정치</button>
@@ -190,7 +190,7 @@
                 </div>
 
                 <div class="lg:col-span-5 space-y-4">
-                    <h3 class="text-xs font-bold text-[#0b1d33] tracking-wider uppercase border-b border-gray-300 pb-1 mb-2">분야별 입법 소식</h3>
+                    <h3 class="text-xs font-bold text-[#0b1d33] tracking-wider uppercase border-b border-gray-300 pb-1 mb-2">최근 기사</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="cat-sub-grid">
                         <!-- 동적 서브 단신 리스트 -->
                     </div>
@@ -446,7 +446,7 @@
                             <div>
                                 <label class="block text-[10px] font-bold text-gray-500 mb-1">정치 지면 카테고리 분류</label>
                                 <select id="admin-category" class="w-full border border-gray-300 p-2.5 text-xs outline-none focus:border-black font-semibold">
-                                    <option value="의회·정당">의회·정당</option>
+                                    <option value="국회·정당">국회·정당</option>
                                     <option value="시사·정책">시사·정책</option>
                                     <option value="사설·칼럼">사설·칼럼</option>
                                     <option value="청소년정치">청소년정치</option>
@@ -645,7 +645,7 @@
             <div class="shrink-0 select-none">
                 <div class="flex flex-col cursor-pointer" onclick="navigateToHome()">
                     <!-- 푸터 로고 이미지 적용 -->
-                    <img src="padong.png" alt="파동 로고" class="h-8 object-contain">
+                    <img src="padongbig.png" alt="파동 로고" class="h-8 object-contain">
                 </div>
             </div>
             
@@ -912,7 +912,7 @@
             },
             {
                 id: "art-default-2",
-                category: "의회·정당",
+                category: "국회·정당",
                 authors: ["송유근 기자"],
                 // 기사 미설정 기본 이미지 padongdefault.png 대응을 위해 비움
                 image: "",
@@ -949,20 +949,20 @@
 
         const CATEGORY_BANNER_IMAGES = {
             "청소년정치": "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?auto=format&fit=crop&w=1200&q=80",
-            "의회·정당": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80",
-            "시사·정책": "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=1200&q=80",
+            "국회·정당": "https://i.namu.wiki/i/GZa2PmLk095SWqG45ZDxRWvzneEFkdqpqnaoqMLfh3Ta4E3HDP-GxLN6kWKpC3PgGp3BtX7pMg5Vak3-nL7xPA.webp",
+            "시사·정책": "https://d2phebdq64jyfk.cloudfront.net/media/image/article/thumbnail/uWBx28",
             "사설·칼럼": "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80",
             "인터뷰": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80",
-            "시민연대": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80"
+            "시민연대": "https://thumb.mt.co.kr/cdn-cgi/image/f=avif/21/2026/06/2026061509434058464_1.jpg"
         };
 
         let DEFAULT_POLL = {
             active: true,
-            question: "국회 및 교육당국이 학내에서의 고교생 정당 활동(모임 창설 및 소식 전파)을 학칙으로 전면 금지하는 현 상황에 대해 어떻게 판단하십니까?",
+            question: "질문",
             options: [
-                { text: "학내 정치 활동 보장은 헌법상 정당 권리이므로 조속히 전면 전파되어야 한다.", votes: 41 },
-                { text: "공부방 및 면학 분위기 저해, 학생 간의 정치 편향화가 우려되므로 계속 제한해야 한다.", votes: 12 },
-                { text: "교사 주도의 정치적 압력이 통제되는 가이드 하에 부분적 결사만 인정해야 한다.", votes: 23 }
+                { text: "답변 A", votes: 0 },
+                { text: "답변 B", votes: 0 },
+                { text: "답변 C", votes: 0 }
             ]
         };
 
