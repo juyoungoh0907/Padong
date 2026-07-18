@@ -1943,7 +1943,7 @@
             authorsList.forEach(authorName => {
                 let reporter = window.reporters.find(r => r.name === authorName);
                 if (!reporter) {
-                    if (authorName === "사설 (파동 전체 의견)") {
+                    if (authorName === "파동") {
                         reporter = { email: "editorial@padong.com" };
                     } else {
                         reporter = { email: "reporter@padong.com" };
@@ -1970,16 +1970,16 @@
 
                 if (!reporter) {
                     // 기사 작성자가 사설일 경우, 공식 입장 지면 소개 카드를 노출
-                    if (authorName === "사설 (파동 전체 의견)") {
+                    if (authorName === "파동") {
                         repCard.innerHTML = `
                             <div class="flex flex-col items-center">
-                                <img src="padong.png" 
+                                <img src="padongbig.png" 
                                      class="w-16 h-12 rounded-none object-contain mb-2 p-1 bg-white"
                                      alt="파동 사설">
                                 <strong class="text-sm text-[#0b1d33] font-black block">${authorName}</strong>
                                 <span class="text-[9px] text-red-600 font-bold block mt-0.5">파동 공식 입장 지면</span>
                             </div>
-                            <p class="text-[11px] text-gray-500 leading-relaxed font-semibold">본 기획 보도는 파동 논설위원실의 합의를 거친 파동 전체의 논조이자 대표 의견입니다.</p>
+                            <p class="text-[11px] text-gray-500 leading-relaxed font-semibold">본 기획 보도는 파동 논설위원실의 합의를 거친\n파동 전체의 논조이자 대표 의견입니다.</p>
                         `;
                     } else {
                         repCard.innerHTML = `
@@ -2533,7 +2533,7 @@
                     const authorsList = art.authors || [art.author];
                     
                     // 사설 서명 기록 감지
-                    if (authorsList.includes("사설 (파동 전체 의견)")) {
+                    if (authorsList.includes("파동")) {
                         window.isEditorialSelected = true;
                     } else {
                         window.isEditorialSelected = false;
@@ -2925,7 +2925,7 @@
             // 서명 주체 선택 취합 기능 개편 (사설 스위치 혹은 다중 기자 칩스)
             let selectedAuthors = [];
             if (window.isEditorialSelected) {
-                selectedAuthors = ["사설 (파동 전체 의견)"];
+                selectedAuthors = ["파동"];
             } else {
                 const selectedChips = document.querySelectorAll('.reporter-chip-selected');
                 selectedAuthors = Array.from(selectedChips).map(chip => chip.getAttribute('data-reporter-name'));
@@ -3087,7 +3087,7 @@
 
                 // 에디터 수정 로드 시 칩스 및 사설 상태 복원 매핑
                 const authorsList = art.authors || [art.author];
-                if (authorsList.includes("사설 (파동 전체 의견)")) {
+                if (authorsList.includes("파동")) {
                     window.isEditorialSelected = true;
                 } else {
                     window.isEditorialSelected = false;
