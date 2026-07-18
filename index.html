@@ -6,8 +6,8 @@
     <!-- 유튜브 임베디드 및 외부 콘텐츠 보안 대응을 위한 Referrer Policy 설정 -->
     <meta name="referrer" content="no-referrer-when-downgrade">
     <title>파동 - 대한민국 유일 청소년 정론지</title>
-    <link class="rounded-none" rel="shortcut icon" href="favicon.ico">
-    <link class="rounded-none" rel="icon" href="favicon.ico">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" href="favicon.ico">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Pretendard 프리미엄 웹 폰트 패밀리 주입 -->
@@ -74,15 +74,19 @@
         </div>
     </div>
 
-    <header class="border-b-4 border-[#0b1d33] bg-white sticky top-0 z-40">
+    <header class="border-b-4 border-[#0b1d33] bg-white sticky top-0 z-40 relative">
         <div id="reading-progress-container" class="absolute bottom-[-4px] left-0 w-full h-[3px] bg-gray-200 z-50 overflow-hidden hidden">
             <div id="reading-progress-bar" class="h-full bg-[#0b1d33] w-0 transition-all duration-75"></div>
         </div>
 
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center bg-white">
             <div class="flex items-center space-x-4 cursor-pointer shrink-0" onclick="navigateToHome()">
-                <!-- 내비게이션 바 로고 이미지 적용 -->
-                <img src="padong.png" alt="파동 로고" class="h-10 md:h-12 object-contain">
+                <div class="flex flex-col">
+                    <h1 class="text-3xl md:text-4.5xl font-black tracking-tight text-[#0b1d33] border-b-2 border-black pb-0.5 leading-none flex items-baseline">
+                        파동
+                        <span class="text-[10px] md:text-xs font-bold text-gray-500 tracking-wider ml-2.5 uppercase">PADONG POLITICS</span>
+                    </h1>
+                </div>
             </div>
 
             <!-- 정치 전문 정론지에 적합한 탭 개편 -->
@@ -236,12 +240,12 @@
                         <div class="flex items-center space-x-4">
                             <span class="flex items-center space-x-1.5 hover:text-[#0b1d33] font-semibold select-none">
                                 <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                                <span class="text-gray-700">토론 <strong id="action-bar-comment-count" class="text-black font-extrabold">0</strong></span>
+                                <span class="text-gray-700">댓글 <strong id="action-bar-comment-count" class="text-black font-extrabold">0</strong></span>
                             </span>
                             <span class="text-gray-200">|</span>
                             <button onclick="recommendArticle()" class="flex items-center space-x-1.5 hover:text-red-500 font-semibold transition">
                                 <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
-                                <span class="text-gray-700">지지 <strong id="detail-recommendations" class="text-black font-extrabold">0</strong></span>
+                                <span class="text-gray-700">공감 <strong id="detail-recommendations" class="text-black font-extrabold">0</strong></span>
                             </button>
                             <span class="text-gray-200">|</span>
                             <span class="flex items-center space-x-1.5 text-gray-500 font-medium select-none">
@@ -300,15 +304,15 @@
                         <div class="flex items-center justify-center space-x-12 py-6 border-b border-gray-100">
                             <button onclick="reactToArticle('like')" class="flex flex-col items-center space-y-1 hover:scale-105 transition">
                                 <span class="text-3xl">💖</span>
-                                <span class="text-xs text-gray-600">적극 공감 <strong id="react-like-count" class="text-[#0b1d33]">0</strong></span>
+                                <span class="text-xs text-gray-600">좋아요 <strong id="react-like-count" class="text-[#0b1d33]">0</strong></span>
                             </button>
                             <button onclick="reactToArticle('sad')" class="flex flex-col items-center space-y-1 hover:scale-105 transition">
                                 <span class="text-3xl">😢</span>
-                                <span class="text-xs text-gray-600">우려됨 <strong id="react-sad-count" class="text-blue-500">0</strong></span>
+                                <span class="text-xs text-gray-600">슬퍼요 <strong id="react-sad-count" class="text-blue-500">0</strong></span>
                             </button>
                             <button onclick="reactToArticle('angry')" class="flex flex-col items-center space-y-1 hover:scale-105 transition">
                                 <span class="text-3xl">😡</span>
-                                <span class="text-xs text-gray-600">분노함 <strong id="react-angry-count" class="text-red-500">0</strong></span>
+                                <span class="text-xs text-gray-600">화나요 <strong id="react-angry-count" class="text-red-500">0</strong></span>
                             </button>
                         </div>
                     </div>
@@ -336,7 +340,7 @@
                 <div class="w-full lg:w-[24%] space-y-6 lg:sticky lg:top-32 shrink-0">
                     <div class="border border-gray-200 p-4 bg-white space-y-3">
                         <h3 class="text-xs font-black border-b border-black pb-1.5 flex items-center justify-between">
-                            <span class="text-sm font-bold text-gray-900">정치이슈</span>
+                            <span class="text-sm font-bold text-gray-900">실시간 트렌드</span>
                             <div class="flex space-x-1.5 text-[10px]">
                                 <button onclick="switchTrendTabDetail('views')" id="tab-trend-views-detail" class="text-[#0b1d33] font-black underline">조회수</button>
                                 <span class="text-gray-300">|</span>
@@ -644,8 +648,7 @@
         <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-start md:items-center space-y-6 md:space-y-0 md:space-x-12">
             <div class="shrink-0 select-none">
                 <div class="flex flex-col cursor-pointer" onclick="navigateToHome()">
-                    <!-- 푸터 로고 이미지 적용 -->
-                    <img src="padong.png" alt="파동 로고" class="h-8 object-contain">
+                    <span class="text-2xl font-black text-[#0b1d33] pb-0.5 border-b-2 border-black">파동</span>
                 </div>
             </div>
             
@@ -713,7 +716,7 @@
                 </div>
 
                 <div class="flex justify-end space-x-2 pt-2 border-t border-gray-150">
-                    <button onclick="closeLoginModal()" class="border border-gray-300 hover:bg-gray-100 px-4 py-2 text-xs font-bold text-gray-500 transition">닫기</button>
+                    <button onclick="closeLoginModal()" class="border border-gray-300 hover:bg-gray-100 px-4 py-2 text-xs font-bold text-gray-600 transition">닫기</button>
                     <button onclick="submitAdminLogin()" class="bg-[#0b1d33] hover:bg-slate-800 text-white px-5 py-2 text-xs font-bold transition">로그인</button>
                 </div>
             </div>
@@ -897,11 +900,10 @@
                 id: "art-headline-1",
                 category: "청소년정치",
                 authors: ["오주영 편집인"],
-                // 기사 미설정 기본 이미지 padongdefault.png 대응을 위해 비움
-                image: "",
+                image: "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?auto=format&fit=crop&w=1200&q=80",
                 title: "[단독] 전국 청소년의회 심층 검증... '실권 없는 교육청 홍보 대지' 전락 지적",
                 subtitle: "전체 17개 시도 조례 및 안건 반영율 단 1.2%... 자치 예산 심의 권한은 전무\n기성 정치 모방 행사에 청소년들을 '거수기'로 도구화한다는 비판 고조",
-                content: "정치 기본권의 사각지대에 있는 대한민국 청소년들이 '입법과 정책 참여'를 연습하도록 세워진 각 지역 청소년의회가 실제로는 알맹이 없는 보여주기식 정책 대지에 불과하다는 사실이 확인되었습니다.\n\n파동 보도국이 전국 주요 시도 교육청 산하 청소년의회 통계를 수합하여 심층 검증한 결과, 청소년 의원들이 오랜 기간 수집 및 입안한 건의안 중 지자체 조례나 행정 정책에 실제 채택된 정합 비율은 불과 1.2% 수준에 봉착한 것으로 드러났습니다.\n\n청소년 의원들은 본회의 소집권을 전수 받아 의정 훈련을 수행하지만, 지자체의 예산안 심의권은 물론 실질적인 조례 제안권조차 규제 받아, 제출하는 건의서들이 관청 내부에서 사문화되는 정례 절차를 밟고 있습니다.\n\n참여 당원 및 고등학교 자치 위원회 연합은 '현재의 청소년의회는 청소년들을 정치 효능감 있게 기르는 수단이 아니라, 예산 소진과 공보 사진 촬영을 위한 소도구에 가깝다'고 격렬히 지적했습니다.\n\n파동은 본 사안에 관하여 실효적인 참정 입법 발안권 확보 동맹을 지속하여 취재해 나갈 것입니다.",
+                content: "정치 기본권의 사각지대에 있는 대한민국 청소년들이 '입법과 정책 참여'를 연습하도록 세워진 각 지역 청소년의회가 실제로는 알맹이 없는 보여주기식 정책 대지에 불과하다는 사실이 확인되었습니다.\n\n파동 보도국이 전국 주요 시도 교육청 산하 청소년의회 통계를 수합하여 심층 검증한 결과, 청소년 의원들이 오랜 기간 수집 및 입안한 건의안 중 지자체 조례나 행정 정책에 실제 채택된 정합 비율은 불과 1.2% 수준에 봉착한 것으로 드러났습니다.\n\n[이미지링크:https://images.unsplash.com/photo-1540910419892-4a36d2c3266c|의제 제출을 위해 국회 의사당 구역에서 모인 청소년 의원들]\n\n청소년 의원들은 본회의 소집권을 전수 받아 의정 훈련을 수행하지만, 지자체의 예산안 심의권은 물론 실질적인 조례 제안권조차 규제 받아, 제출하는 건의서들이 관청 내부에서 사문화되는 정례 절차를 밟고 있습니다.\n\n참여 당원 및 고등학교 자치 위원회 연합은 '현재의 청소년의회는 청소년들을 정치 효능감 있게 기르는 수단이 아니라, 예산 소진과 공보 사진 촬영을 위한 소도구에 가깝다'고 격렬히 지적했습니다.\n\n파동은 본 사안에 관하여 실효적인 참정 입법 발안권 확보 동맹을 지속하여 취재해 나갈 것입니다.",
                 date: "2026-07-18 19:30",
                 views: 142,
                 recommendations: 56,
@@ -914,8 +916,7 @@
                 id: "art-default-2",
                 category: "의회·정당",
                 authors: ["송유근 기자"],
-                // 기사 미설정 기본 이미지 padongdefault.png 대응을 위해 비움
-                image: "",
+                image: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80",
                 title: "만 16세 정당 가입법 통과 수년... 일선 고등학교 '학칙 정치 금지' 족쇄는 여전",
                 subtitle: "법적 참정권 확대에도 고교 내 정당 모임은 원천 차단하는 사규 학칙의 모순\n'교실의 정치장화 방지' 논리와 '헌법상 정당활동 기본권' 정면 상충",
                 content: "정당 가입 연령 하한을 16세로 인하한 정당법 개정안이 국회를 통과한 지 수년이 지났음에도 불구하고, 대한민국 대다수 고등학교의 학칙은 여전히 학생들의 교내 정당 활동이나 정당 지부 소모임 구성을 가로막고 있는 상황입니다.\n\n파동 취재 결과, 고등학교 당원들은 당비 납부와 당 내 주요 정책 선거권을 행사하면서도 교문 안에 들어서는 순간 자신이 정당 소속임을 철저히 은폐해야 하는 이중생활에 구겨지고 있습니다.\n\n교내 학생 자치 기구들조차 '특정 정당 성향 공유 불허' 및 '정치적 집단 행동 엄금' 조항에 손발이 묶여 참정 리터러시를 실증적으로 교육할 수 있는 훈련장이 완전히 증발했다는 지적입니다.\n\n사법 전문가들은 '국가가 법률로 보장한 청소년의 참정 기회를 학칙이라는 하위 자치 규율이 사실상 전면 폐색하고 있다'며 헌법 소원 청구 움직임을 구체화하고 있어 귀추가 주목됩니다.",
@@ -1462,8 +1463,7 @@
                 const authorsStr = (headline.authors && headline.authors.length > 0) ? headline.authors.join(", ") : (headline.author || "파동 편집장");
                 headlineSection.style.display = "block";
                 const scoopBadgeHtml = getScoopBadgeHtml(headline.isScoop, true);
-                // 기사 이미지 미설정 및 로드 실패 시 padongdefault.png 적용
-                const headlineImage = headline.image || 'padongdefault.png';
+                const headlineImage = headline.image || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80';
 
                 const plainBodySnippet = headline.content.replace(/\[(?:이미지|동영상)링크:[^\]]+\]/g, '').substring(0, 240);
 
@@ -1482,7 +1482,7 @@
                                 <img src="${headlineImage}" 
                                      class="w-full h-auto object-cover max-h-[380px] border border-gray-200 bg-slate-50"
                                      alt="메인 보도사진"
-                                     onerror="this.src='padongdefault.png'">
+                                     onerror="this.src='https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80'">
                             </div>
                             <div class="md:col-span-4 space-y-3">
                                 <span class="bg-[#0b1d33] text-white px-2.5 py-1 text-xs font-black uppercase tracking-wider">${headline.category}</span>
@@ -1522,15 +1522,14 @@
                 const authorsStr = (subFeatured.authors && subFeatured.authors.length > 0) ? subFeatured.authors.join(", ") : (subFeatured.author || "파동 편집진");
                 rightFeaturedBox.style.display = "block";
                 const scoopBadgeHtml = getScoopBadgeHtml(subFeatured.isScoop);
-                // 기사 이미지 미설정 및 로드 실패 시 padongdefault.png 적용
-                const subFeaturedImage = subFeatured.image || 'padongdefault.png';
+                const subFeaturedImage = subFeatured.image || 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80';
 
                 rightFeaturedBox.innerHTML = `
                     <div class="cursor-pointer space-y-3 group border-b border-gray-100 pb-4" onclick="viewArticle('${subFeatured.id}')">
                         <img src="${subFeaturedImage}" 
                              class="w-full h-auto object-cover max-h-[220px] border border-gray-200 bg-slate-50"
                              alt="사이드보도"
-                             onerror="this.src='padongdefault.png'">
+                             onerror="this.src='https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80'">
                         <div class="space-y-1">
                             <span class="text-[11px] text-[#0b1d33] font-extrabold">${subFeatured.category} | 주요 뉴스</span>
                             <h4 class="text-base font-bold leading-snug text-black group-hover:underline line-clamp-2">
@@ -1549,15 +1548,14 @@
                 newsGrid.innerHTML = secondaryNews.map(art => {
                     const authorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "파동 편집진");
                     const scoopBadgeHtml = getScoopBadgeHtml(art.isScoop);
-                    // 기사 이미지 미설정 및 로드 실패 시 padongdefault.png 적용
-                    const artImage = art.image || 'padongdefault.png';
+                    const artImage = art.image || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80';
 
                     return `
                         <div class="border-b border-gray-200 pb-5 cursor-pointer group hover:bg-gray-50/50 p-2 flex space-x-4 items-start" onclick="viewArticle('${art.id}')">
                             <img src="${artImage}" 
                                  class="w-28 h-20 md:w-36 md:h-24 object-cover border border-gray-200 shrink-0 bg-slate-50"
                                  alt="썸네일"
-                                 onerror="this.src='padongdefault.png'">
+                                 onerror="this.src='https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80'">
                             <div class="space-y-1 flex-grow min-w-0 font-sans">
                                 <span class="text-xs text-[#0b1d33] font-bold uppercase tracking-wider">${art.category}</span>
                                 <h4 class="text-base font-bold leading-snug text-black group-hover:underline line-clamp-2">
@@ -1708,15 +1706,14 @@
             const mainArt = filtered[0];
             const authorsStr = (mainArt.authors && mainArt.authors.length > 0) ? mainArt.authors.join(", ") : (mainArt.author || "파동 편집 위원회");
             const scoopBadgeHtml = getScoopBadgeHtml(mainArt.isScoop, true);
-            // 기사 이미지 미설정 및 로드 실패 시 padongdefault.png 적용
-            const mainArtImage = mainArt.image || 'padongdefault.png';
+            const mainArtImage = mainArt.image || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80';
 
             catMainCol.innerHTML = `
                 <div class="bg-white border border-gray-200 p-5 cursor-pointer group" onclick="viewArticle('${mainArt.id}')">
                     <img src="${mainArtImage}" 
                          class="w-full h-auto object-cover max-h-[400px] border border-gray-200 mb-4 bg-slate-50"
                          alt="카테고리대표"
-                         onerror="this.src='padongdefault.png'">
+                         onerror="this.src='https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80'">
                     <span class="text-[#0b1d33] text-xs font-black tracking-widest uppercase mb-1.5 inline-block">[중점 보도]</span>
                     <h2 class="text-xl md:text-2xl font-black tracking-tight leading-snug text-black group-hover:underline">
                         ${scoopBadgeHtml}${mainArt.title}
@@ -1735,15 +1732,14 @@
                 catSubGrid.innerHTML = subArts.map(art => {
                     const subAuthorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "파동 편집진");
                     const scoopBadgeHtml = getScoopBadgeHtml(art.isScoop);
-                    // 기사 이미지 미설정 및 로드 실패 시 padongdefault.png 적용
-                    const subArtImage = art.image || 'padongdefault.png';
+                    const subArtImage = art.image || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80';
 
                     return `
                         <div class="bg-white border border-gray-200 p-4 cursor-pointer group hover:bg-gray-50 transition" onclick="viewArticle('${art.id}')">
                             <img src="${subArtImage}" 
                                  class="w-full h-32 object-cover border border-gray-200 mb-3 bg-slate-50"
                                  alt="단신보도"
-                                 onerror="this.src='padongdefault.png'">
+                                 onerror="this.src='https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80'">
                             <h4 class="text-xs md:text-sm font-bold text-gray-950 leading-snug group-hover:underline line-clamp-2">
                                 ${scoopBadgeHtml}${art.title}
                             </h4>
@@ -1776,7 +1772,7 @@
 
             const breadcrumbs = document.getElementById("detail-breadcrumbs");
             if (breadcrumbs) {
-                breadcrumbs.innerText = `${art.category} > 기획 정론`;
+                breadcrumbs.innerText = `${art.category} > 일반`;
             }
             
             const titleEl = document.getElementById("detail-title");
@@ -1799,8 +1795,7 @@
             if (actionCommentEl) actionCommentEl.innerText = matchCommentsCount;
 
             const imgContainer = document.getElementById("detail-image-container");
-            // 기사 이미지 미설정 시 padongdefault.png 적용
-            const mainImageToUse = art.image || 'padongdefault.png';
+            const mainImageToUse = art.image || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80';
             
             if (mainImageToUse) {
                 const isVideo = mainImageToUse.includes(".mp4") || mainImageToUse.includes(".webm") || mainImageToUse.includes("youtube.com") || mainImageToUse.includes("youtu.be");
@@ -1809,7 +1804,7 @@
                 } else {
                     imgContainer.innerHTML = `
                         <div class="w-full">
-                            <img id="detail-image" src="${mainImageToUse}" alt="대표보도사진" class="w-full h-auto object-cover max-h-[500px]" onerror="this.src='padongdefault.png'">
+                            <img id="detail-image" src="${mainImageToUse}" alt="대표보도사진" class="w-full h-auto object-cover max-h-[500px]" onerror="this.src='https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80'">
                         </div>
                     `;
                 }
@@ -1979,7 +1974,7 @@
                         <p class="text-[11px] text-gray-500 leading-relaxed text-center font-medium">"${reporter.bio}"</p>
                         <div class="pt-1.5 font-sans">
                             <button onclick="navigateToReporter('${reporter.id}')" class="w-full bg-[#0b1d33] hover:bg-slate-800 text-white font-bold text-[10px] py-2 transition">
-                                약력 및 정론 보기
+                                기자 정보
                             </button>
                         </div>
                     `;
@@ -2291,8 +2286,7 @@
             if (reporterArticles.length > 0) {
                 repArticlesFeed.innerHTML = reporterArticles.map(art => {
                     const scoopBadgeHtml = getScoopBadgeHtml(art.isScoop);
-                    // 기사 이미지 미설정 및 로드 실패 시 padongdefault.png 적용
-                    const repArtImage = art.image || 'padongdefault.png';
+                    const repArtImage = art.image || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80';
 
                     return `
                         <div class="bg-white border border-gray-200 p-4 cursor-pointer group hover:bg-gray-50 flex space-x-4 items-start" onclick="viewArticle('${art.id}')">
@@ -2311,7 +2305,7 @@
                             <img src="${repArtImage}" 
                                  class="w-24 h-16 object-cover border border-gray-200 shrink-0 bg-slate-50"
                                  alt="기자작성보도"
-                                 onerror="this.src='padongdefault.png'">
+                                 onerror="this.src='https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80'">
                         </div>
                     `;
                 }).join('');
@@ -2358,7 +2352,7 @@
             const text = textInput.value.trim();
 
             if (!writer || !text) {
-                showToast("토론자 성명과 의견 본문을 정확하게 기재하십시오.");
+                showToast("성명과 의견 본문을 정확하게 기재하십시오.");
                 return;
             }
 
@@ -2798,7 +2792,6 @@
             }
 
             let finalImage = imageInput;
-            // 미기재 시 기본값으로 padongdefault.png 등록 설정
             if (imageInput && !imageInput.startsWith("http")) {
                 if (imageInput.includes("politics") || imageInput.includes("의회") || imageInput.includes("정치")) {
                     finalImage = "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?auto=format&fit=crop&w=800&q=80";
@@ -2807,10 +2800,10 @@
                 } else if (imageInput.includes("debate") || imageInput.includes("토론") || imageInput.includes("policy")) {
                     finalImage = "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80";
                 } else {
-                    finalImage = "padongdefault.png";
+                    finalImage = "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80";
                 }
             } else if (!imageInput) {
-                finalImage = "padongdefault.png";
+                finalImage = "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80";
             }
 
             const now = new Date();
@@ -3083,15 +3076,14 @@
                 newsGrid.innerHTML = results.map(art => {
                     const authorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "파동 편집인");
                     const scoopBadgeHtml = getScoopBadgeHtml(art.isScoop);
-                    // 기사 이미지 미설정 및 로드 실패 시 padongdefault.png 적용
-                    const searchedImage = art.image || 'padongdefault.png';
+                    const searchedImage = art.image || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80';
 
                     return `
                         <div class="border-b border-gray-200 pb-5 cursor-pointer group hover:bg-gray-50/50 p-2 flex space-x-4 items-start" onclick="viewArticle('${art.id}')">
                             <img src="${searchedImage}" 
                                  class="w-28 h-20 md:w-36 md:h-24 object-cover border border-gray-200 shrink-0 bg-slate-50"
                                  alt="검색결과"
-                                 onerror="this.src='padongdefault.png'">
+                                 onerror="this.src='https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80'">
                             <div class="space-y-1 flex-grow min-w-0 font-sans">
                                 <span class="text-[10px] text-[#0b1d33] font-bold uppercase tracking-wider">${art.category}</span>
                                 <h4 class="text-base font-bold leading-snug text-black group-hover:underline line-clamp-2">
