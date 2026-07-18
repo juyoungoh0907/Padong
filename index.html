@@ -482,7 +482,7 @@
                                 </label>
                             </div>
                             
-                            <!-- 1면 탑 헤드라인 독점 고정 장치 (지적된 독점 처리 오동작 무결 패치 완료) -->
+                            <!-- 1면 탑 헤드라인 독점 고정 장치 -->
                             <div class="pt-2 border-t border-gray-200">
                                 <label class="flex items-center space-x-2 cursor-pointer text-xs font-bold text-[#0b1d33]">
                                     <input type="checkbox" id="admin-is-headline" class="text-[#0b1d33] focus:ring-[#0b1d33] h-4 w-4">
@@ -491,11 +491,21 @@
                             </div>
                         </div>
 
-                        <!-- 서명 배정 체크 박스 -->
-                        <div class="border border-gray-200 p-3 bg-gray-50">
-                            <label class="block text-[10px] font-bold text-[#0b1d33] mb-2">집필 및 송고 기자 서명 (공동 기고 및 복수 배정 가능)</label>
-                            <div id="admin-reporters-checkboxes" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                                <!-- 동적 로딩 기자 체크박스 -->
+                        <!-- 서명 배정 간편 칩 레이아웃 개편 -->
+                        <div class="border border-gray-200 p-3.5 bg-gray-50 space-y-3">
+                            <label class="block text-[10px] font-bold text-[#0b1d33]">집필 및 송고 주체 서명 (클릭하여 신속 지정)</label>
+                            
+                            <!-- 사설 지정 원클릭 스위치 -->
+                            <div class="pb-2.5 border-b border-gray-200/60">
+                                <button type="button" id="btn-editorial-opinion" onclick="toggleEditorialOpinion()" class="w-full sm:w-auto px-4 py-2 text-xs font-bold border border-red-200 bg-white text-red-600 hover:bg-red-50 flex items-center justify-center space-x-2 transition duration-150">
+                                    <span id="editorial-check-icon" class="text-sm">⬜</span>
+                                    <span>✍️ 사설 설정 (파동 전체 의견 표명)</span>
+                                </button>
+                            </div>
+
+                            <!-- 기자 이름 간편 선택 칩스 컨테이너 -->
+                            <div id="admin-reporters-chips" class="flex flex-wrap gap-2 pt-1">
+                                <!-- 동적 로드 칩스 버튼이 체크박스를 대체합니다 -->
                             </div>
                         </div>
 
@@ -644,8 +654,8 @@
         <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-start md:items-center space-y-6 md:space-y-0 md:space-x-12">
             <div class="shrink-0 select-none">
                 <div class="flex flex-col cursor-pointer" onclick="navigateToHome()">
-                    <!-- 푸터 로고 이미지 적용 -->
-                    <img src="padongbig.png" alt="파동 로고" class="h-8 object-contain">
+                    <!-- 푸터 로고 이미지 크기 조정 (h-8 -> h-11 md:h-12로 확대) -->
+                    <img src="padongbig.png" alt="파동 로고" class="h-11 md:h-12 object-contain transition-all">
                 </div>
             </div>
             
@@ -897,7 +907,6 @@
                 id: "art-headline-1",
                 category: "청소년정치",
                 authors: ["오주영 편집인"],
-                // 기사 미설정 기본 이미지 padongdefault.png 대응을 위해 비움
                 image: "",
                 title: "[단독] 전국 청소년의회 심층 검증... '실권 없는 교육청 홍보 대지' 전락 지적",
                 subtitle: "전체 17개 시도 조례 및 안건 반영율 단 1.2%... 자치 예산 심의 권한은 전무\n기성 정치 모방 행사에 청소년들을 '거수기'로 도구화한다는 비판 고조",
@@ -914,7 +923,6 @@
                 id: "art-default-2",
                 category: "국회·정당",
                 authors: ["송유근 기자"],
-                // 기사 미설정 기본 이미지 padongdefault.png 대응을 위해 비움
                 image: "",
                 title: "만 16세 정당 가입법 통과 수년... 일선 고등학교 '학칙 정치 금지' 족쇄는 여전",
                 subtitle: "법적 참정권 확대에도 고교 내 정당 모임은 원천 차단하는 사규 학칙의 모순\n'교실의 정치장화 방지' 논리와 '헌법상 정당활동 기본권' 정면 상충",
@@ -981,6 +989,9 @@
         window.currentTrendTabDetail = 'views'; 
         window.pollData = DEFAULT_POLL;
         window.clientIp = "127.0.0.1";
+        
+        // 사설 선택 스위치 글로벌 상태
+        window.isEditorialSelected = false;
 
         let lastCommentTime = 0;
         let lastReactionTime = 0;
@@ -1467,12 +1478,13 @@
 
                 const plainBodySnippet = headline.content.replace(/\[(?:이미지|동영상)링크:[^\]]+\]/g, '').substring(0, 240);
 
+                // 헤드라인 제목 크기 조정: text-2xl md:text-3.5xl -> text-3xl md:text-4xl로 한 단계 증대
                 headlineSection.innerHTML = `
                     <div class="cursor-pointer space-y-4 group bg-slate-50/40 p-4 border border-gray-100" onclick="viewArticle('${headline.id}')">
                         <div class="space-y-2">
                             <div class="flex flex-col md:flex-row md:items-center">
                                 ${scoopBadgeHtml}
-                                <h2 class="text-2xl md:text-3.5xl font-black tracking-tight leading-tight text-[#0b1d33] group-hover:underline mt-1.5 md:mt-0">
+                                <h2 class="text-3xl md:text-4xl font-black tracking-tight leading-tight text-[#0b1d33] group-hover:underline mt-1.5 md:mt-0">
                                     ${headline.title}
                                 </h2>
                             </div>
@@ -1502,7 +1514,7 @@
                                     <span>|</span>
                                     <span>${headline.date.split(' ')[0]}</span>
                                     <span>|</span>
-                                    <span class="text-[#0b1d33] font-bold"조회수 ${headline.views || 0}</span>
+                                    <span class="text-[#0b1d33] font-bold">조회수 ${headline.views || 0}</span>
                                 </div>
                             </div>
                         </div>
@@ -1925,10 +1937,16 @@
             const emailsContainer = document.getElementById("detail-emails-container");
             emailsContainer.innerHTML = "";
             const authorsList = art.authors || (art.author ? [art.author] : []);
+            
             authorsList.forEach(authorName => {
-                const reporter = window.reporters.find(r => r.name === authorName) || {
-                    email: "reporter@padong.com"
-                };
+                let reporter = window.reporters.find(r => r.name === authorName);
+                if (!reporter) {
+                    if (authorName === "사설 (파동 전체 의견)") {
+                        reporter = { email: "editorial@padong.com" };
+                    } else {
+                        reporter = { email: "reporter@padong.com" };
+                    }
+                }
                 const div = document.createElement("div");
                 div.innerHTML = `<span class="font-bold text-gray-800">${authorName}</span> <span class="text-gray-400 font-normal ml-2">${reporter.email}</span>`;
                 emailsContainer.appendChild(div);
@@ -1949,16 +1967,30 @@
                 repCard.className = "bg-white border-2 border-black p-4 text-center space-y-3";
 
                 if (!reporter) {
-                    repCard.innerHTML = `
-                        <div class="flex flex-col items-center">
-                            <img src="${DEFAULT_REPORTER_IMAGE}" 
-                                 class="w-14 h-14 rounded-none object-cover border border-gray-300 mb-2 p-1 bg-gray-50"
-                                 alt="해임 기자">
-                            <strong class="text-sm text-gray-950 font-black block">${authorName}</strong>
-                            <span class="text-[9px] text-gray-400 font-bold block mt-0.5">파동 객원기자</span>
-                        </div>
-                        <p class="text-[10px] text-gray-400">※ 해당 당원 기자는 현재 퇴임 보존 상태입니다.</p>
-                    `;
+                    // 기사 작성자가 사설일 경우, 공식 입장 지면 소개 카드를 노출
+                    if (authorName === "사설 (파동 전체 의견)") {
+                        repCard.innerHTML = `
+                            <div class="flex flex-col items-center">
+                                <img src="padong.png" 
+                                     class="w-16 h-12 rounded-none object-contain mb-2 p-1 bg-white"
+                                     alt="파동 사설">
+                                <strong class="text-sm text-[#0b1d33] font-black block">${authorName}</strong>
+                                <span class="text-[9px] text-red-600 font-bold block mt-0.5">파동 공식 입장 지면</span>
+                            </div>
+                            <p class="text-[11px] text-gray-500 leading-relaxed font-semibold">본 기획 보도는 파동 논설위원실의 합의를 거친 파동 전체의 논조이자 대표 의견입니다.</p>
+                        `;
+                    } else {
+                        repCard.innerHTML = `
+                            <div class="flex flex-col items-center">
+                                <img src="${DEFAULT_REPORTER_IMAGE}" 
+                                     class="w-14 h-14 rounded-none object-cover border border-gray-300 mb-2 p-1 bg-gray-50"
+                                     alt="해임 기자">
+                                <strong class="text-sm text-gray-950 font-black block">${authorName}</strong>
+                                <span class="text-[9px] text-gray-400 font-bold block mt-0.5">파동 객원기자</span>
+                            </div>
+                            <p class="text-[10px] text-gray-400">※ 해당 당원 기자는 현재 퇴임 보존 상태입니다.</p>
+                        `;
+                    }
                 } else {
                     const articleCount = getReporterArticleCount(reporter.name);
                     const reporterImg = reporter.image && reporter.image.trim() !== "" ? reporter.image : DEFAULT_REPORTER_IMAGE;
@@ -2440,14 +2472,113 @@
             }
         };
 
+        // 사설 설정 클릭 토글 스위치
+        window.toggleEditorialOpinion = function() {
+            window.isEditorialSelected = !window.isEditorialSelected;
+            
+            if (window.isEditorialSelected) {
+                // 사설이 선택되면 활성화된 모든 기자의 칩 선택을 해제하여 간섭 예방
+                const chips = document.querySelectorAll('.reporter-chip');
+                chips.forEach(c => {
+                    c.classList.remove('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                    c.classList.add('bg-white', 'text-gray-800', 'border-gray-200');
+                });
+                showToast("✍️ 사설로 지정되었습니다. 파동 전체의 공식 의제로 발행됩니다.");
+            }
+            updateEditorialButtonUI();
+        };
+
+        // 사설 스위치 UI 갱신 데코레이터
+        window.updateEditorialButtonUI = function() {
+            const btn = document.getElementById("btn-editorial-opinion");
+            const icon = document.getElementById("editorial-check-icon");
+            if (!btn || !icon) return;
+
+            if (window.isEditorialSelected) {
+                btn.className = "w-full sm:w-auto px-4 py-2 text-xs font-bold border-2 border-red-600 bg-red-50 text-red-700 flex items-center justify-center space-x-2 transition duration-150";
+                icon.innerText = "☑️";
+            } else {
+                btn.className = "w-full sm:w-auto px-4 py-2 text-xs font-bold border border-red-200 bg-white text-red-600 hover:bg-red-50 flex items-center justify-center space-x-2 transition duration-150";
+                icon.innerText = "⬜";
+            }
+        };
+
+        // 개별 기자 칩 클릭 토글 동작 설계
+        window.toggleReporterChip = function(btn, name) {
+            // 기자를 개별 선택하면, 사설 전용 스위치는 자동으로 기각
+            if (window.isEditorialSelected) {
+                window.isEditorialSelected = false;
+                updateEditorialButtonUI();
+            }
+            
+            const isSelected = btn.classList.contains('reporter-chip-selected');
+            if (isSelected) {
+                btn.classList.remove('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                btn.classList.add('bg-white', 'text-gray-800', 'border-gray-200');
+            } else {
+                btn.classList.add('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                btn.classList.remove('bg-white', 'text-gray-800', 'border-gray-200');
+            }
+        };
+
+        // 에디터 수정 혹은 로드 시 활성화된 서명 칩 UI 복제 동기화
+        window.updateReporterChipsUI = function() {
+            const artId = document.getElementById("admin-article-id").value;
+            
+            if (artId) {
+                const art = window.articles.find(a => a.id === artId);
+                if (art) {
+                    const authorsList = art.authors || [art.author];
+                    
+                    // 사설 서명 기록 감지
+                    if (authorsList.includes("사설 (파동 전체 의견)")) {
+                        window.isEditorialSelected = true;
+                    } else {
+                        window.isEditorialSelected = false;
+                    }
+                    
+                    const chips = document.querySelectorAll('.reporter-chip');
+                    chips.forEach(c => {
+                        const name = c.getAttribute('data-reporter-name');
+                        if (authorsList.includes(name) && !window.isEditorialSelected) {
+                            c.classList.add('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                            c.classList.remove('bg-white', 'text-gray-800', 'border-gray-200');
+                        } else {
+                            c.classList.remove('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                            c.classList.add('bg-white', 'text-gray-800', 'border-gray-200');
+                        }
+                    });
+                }
+            } else {
+                // 신규 기사 작성의 경우, 기본적으로 로그인된 기자를 매핑
+                const chips = document.querySelectorAll('.reporter-chip');
+                chips.forEach(c => {
+                    const name = c.getAttribute('data-reporter-name');
+                    if (window.isReporterMode && name === window.loggedInUser) {
+                        c.classList.add('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                        c.classList.remove('bg-white', 'text-gray-800', 'border-gray-200');
+                    } else {
+                        c.classList.remove('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                        c.classList.add('bg-white', 'text-gray-800', 'border-gray-200');
+                    }
+                });
+            }
+            updateEditorialButtonUI();
+        };
+
         window.renderAdminContent = function() {
-            const checkboxesContainer = document.getElementById("admin-reporters-checkboxes");
-            checkboxesContainer.innerHTML = window.reporters.map(r => `
-                <label class="flex items-center space-x-2 p-2 border border-gray-200 bg-white cursor-pointer hover:bg-blue-50/20 text-xs font-sans">
-                    <input type="checkbox" name="admin-authors-select" value="${r.name}" class="text-[#0b1d33] focus:ring-[#0b1d33]">
-                    <span class="text-gray-800 font-semibold truncate">${r.name} (${r.dept})</span>
-                </label>
+            const chipsContainer = document.getElementById("admin-reporters-chips");
+            // 기존 체크박스 레이아웃 대신 모던하고 가벼운 인라인 칩스로 렌더링
+            chipsContainer.innerHTML = window.reporters.map(r => `
+                <button type="button" 
+                        onclick="toggleReporterChip(this, '${escapeHtml(r.name)}')" 
+                        data-reporter-name="${escapeHtml(r.name)}" 
+                        class="reporter-chip px-3 py-1.5 border border-gray-200 bg-white text-gray-800 text-xs font-semibold hover:bg-gray-100 transition duration-150">
+                    ${escapeHtml(r.name)} (${escapeHtml(r.dept.split(' ')[1] || r.dept)})
+                </button>
             `).join('');
+
+            updateReporterChipsUI();
 
             const adminBadge = document.getElementById("admin-badge");
             const currentRoleDisplay = document.getElementById("current-role-display");
@@ -2467,8 +2598,12 @@
                 const adminOnlys = document.querySelectorAll(".admin-only-element");
                 adminOnlys.forEach(el => el.classList.add("hidden"));
 
-                const cb = document.querySelector(`input[name="admin-authors-select"][value="${window.loggedInUser}"]`);
-                if (cb) cb.checked = true;
+                // 기자 모드 세션 칩 로딩 동기화
+                const targetChip = document.querySelector(`.reporter-chip[data-reporter-name="${window.loggedInUser}"]`);
+                if (targetChip) {
+                    targetChip.classList.add('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                    targetChip.classList.remove('bg-white', 'text-gray-800', 'border-gray-200');
+                }
             }
 
             const listEl = document.getElementById("admin-article-list");
@@ -2784,11 +2919,17 @@
             const tagsInputVal = document.getElementById("admin-tags").value.trim();
             const tagsArray = tagsInputVal ? tagsInputVal.split(",").map(t => t.trim()).filter(t => t.length > 0) : [];
 
-            const selectedAuthorsCbs = document.querySelectorAll('input[name="admin-authors-select"]:checked');
-            const selectedAuthors = Array.from(selectedAuthorsCbs).map(cb => cb.value);
+            // 서명 주체 선택 취합 기능 개편 (사설 스위치 혹은 다중 기자 칩스)
+            let selectedAuthors = [];
+            if (window.isEditorialSelected) {
+                selectedAuthors = ["사설 (파동 전체 의견)"];
+            } else {
+                const selectedChips = document.querySelectorAll('.reporter-chip-selected');
+                selectedAuthors = Array.from(selectedChips).map(chip => chip.getAttribute('data-reporter-name'));
+            }
 
             if (selectedAuthors.length === 0) {
-                showToast("본 보도를 송고 집필한 기자를 한 명 이상 지정해 주십시오.");
+                showToast("본 보도를 송고 집필한 서명 주체를 설정해 주십시오. (기자 칩 선택 혹은 사설 스위치)");
                 return;
             }
 
@@ -2818,12 +2959,11 @@
 
             const targetArtId = idInput ? idInput : "art-" + Date.now();
 
-            // [핵심 해결책] 독점 지정 체크 시 다른 기사의 모든 Headline 플래그를 정교하게 초기화
+            // 독점 지정 체크 시 다른 기사의 모든 Headline 플래그를 정교하게 초기화
             if (isHeadline) {
                 if (window.useFirebase) {
                     try {
                         const batch = writeBatch(db);
-                        // 현재 로컬 메모리 상의 다른 모든 기사 중 헤드라인이었던 기사를 전수 수렴하여 DB 강제 정화
                         window.articles.forEach(a => {
                             if (a.id !== targetArtId && (a.isHeadline === true || a.isHeadline === "true")) {
                                 const docRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'articles', a.id);
@@ -2837,7 +2977,6 @@
                     }
                 }
                 
-                // 로컬 스토리지 데이터도 엄격히 정화 처리
                 window.articles.forEach(a => {
                     if (a.id !== targetArtId) {
                         a.isHeadline = false;
@@ -2866,7 +3005,7 @@
                     views: originalViews,
                     recommendations: originalRecs,
                     isScoop: isScoopVal,
-                    isHeadline: isHeadline, // 확실한 불리언 구조 고정
+                    isHeadline: isHeadline,
                     tags: tagsArray,
                     reactions: originalReactions
                 };
@@ -2943,10 +3082,25 @@
                 const radioEl = document.querySelector(`input[name="admin-scoop-type"][value="${targetScoopVal}"]`);
                 if (radioEl) radioEl.checked = true;
 
+                // 에디터 수정 로드 시 칩스 및 사설 상태 복원 매핑
                 const authorsList = art.authors || [art.author];
-                const checks = document.querySelectorAll('input[name="admin-authors-select"]');
-                checks.forEach(cb => {
-                    cb.checked = authorsList.includes(cb.value);
+                if (authorsList.includes("사설 (파동 전체 의견)")) {
+                    window.isEditorialSelected = true;
+                } else {
+                    window.isEditorialSelected = false;
+                }
+                updateEditorialButtonUI();
+
+                const chips = document.querySelectorAll('.reporter-chip');
+                chips.forEach(cb => {
+                    const name = cb.getAttribute('data-reporter-name');
+                    if (authorsList.includes(name) && !window.isEditorialSelected) {
+                        cb.classList.add('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                        cb.classList.remove('bg-white', 'text-gray-800', 'border-gray-200');
+                    } else {
+                        cb.classList.remove('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                        cb.classList.add('bg-white', 'text-gray-800', 'border-gray-200');
+                    }
                 });
 
                 document.getElementById("form-title").innerText = "취재 보도 지면 수정 (데스크 편집실)";
@@ -2998,11 +3152,22 @@
             const defaultRadio = document.querySelector('input[name="admin-scoop-type"][value="normal"]');
             if (defaultRadio) defaultRadio.checked = true;
 
-            const checks = document.querySelectorAll('input[name="admin-authors-select"]');
-            checks.forEach(cb => cb.checked = false);
+            // 서명 칩스 및 사설 상태 원상 복구 초기화
+            window.isEditorialSelected = false;
+            updateEditorialButtonUI();
+
+            const chips = document.querySelectorAll('.reporter-chip');
+            chips.forEach(cb => {
+                cb.classList.remove('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                cb.classList.add('bg-white', 'text-gray-800', 'border-gray-200');
+            });
+            
             if (window.isReporterMode) {
-                const cb = document.querySelector(`input[name="admin-authors-select"][value="${window.loggedInUser}"]`);
-                if (cb) cb.checked = true;
+                const targetChip = document.querySelector(`.reporter-chip[data-reporter-name="${window.loggedInUser}"]`);
+                if (targetChip) {
+                    targetChip.classList.add('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                    targetChip.classList.remove('bg-white', 'text-gray-800', 'border-gray-200');
+                }
             }
         };
 
