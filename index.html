@@ -59,13 +59,13 @@
             <div class="flex items-center space-x-3">
                 <div id="admin-status-area" class="flex items-center space-x-2">
                     <button onclick="openLoginModal()" id="btn-admin-login" class="text-[#0b1d33] hover:underline font-bold flex items-center">
-                        <span class="inline-block w-1.5 h-1.5 bg-[#0b1d33] mr-1.5"></span>파동신문 데스크 로그인
+                        <span class="inline-block w-1.5 h-1.5 bg-[#0b1d33] mr-1.5"></span>파동 데스크 로그인
                     </button>
                     <div id="admin-logged-in" class="hidden flex items-center space-x-2">
                         <span id="badge-role" class="bg-[#0b1d33] text-white px-1.5 py-0.5 text-[9px] font-bold">데스크 기자</span>
                         <span id="lbl-user-name" class="font-bold text-gray-800 text-[11px]">로딩중...</span>
                         <span class="text-gray-300">|</span>
-                        <button onclick="switchView('admin')" class="hover:underline font-bold text-[#0b1d33] text-[11px]">뉴스룸 데스크 가기</button>
+                        <button onclick="switchView('admin')" class="hover:underline font-bold text-[#0b1d33] text-[11px]">파동 데스크</button>
                         <span class="text-gray-300">|</span>
                         <button onclick="logoutAdmin()" class="text-gray-400 hover:text-black text-[11px] underline">로그아웃</button>
                     </div>
@@ -82,7 +82,7 @@
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center bg-white">
             <div class="flex items-center space-x-4 cursor-pointer shrink-0" onclick="navigateToHome()">
                 <!-- 내비게이션 바 로고 이미지 적용 -->
-                <img src="padong.png" alt="파동 로고" class="h-10 md:h-12 object-contain">
+                <img src="padonglogo.png" alt="파동 로고" class="h-10 md:h-12 object-contain">
             </div>
 
             <!-- 정치 전문 정론지에 적합한 탭 개편 -->
@@ -90,7 +90,7 @@
                 <nav class="flex text-sm md:text-base font-bold text-gray-700 whitespace-nowrap mr-4">
                     <button onclick="navigateToCategory('전체')" id="nav-전체" class="px-3 py-2 text-black border-b-4 border-[#0b1d33]">종합</button>
                     <button onclick="navigateToCategory('국회·정당')" id="nav-국회·정당" class="px-3 py-2 hover:text-black border-b-4 border-transparent">국회·정당</button>
-                    <button onclick="navigateToCategory('시사·정책')" id="nav-시사·정책" class="px-3 py-2 hover:text-black border-b-4 border-transparent">시사·정책</button>
+                    <button onclick="navigateToCategory('국제')" id="nav-국제" class="px-3 py-2 hover:text-black border-b-4 border-transparent">국제</button>
                     <button onclick="navigateToCategory('사설·칼럼')" id="nav-사설·칼럼" class="px-3 py-2 hover:text-black border-b-4 border-transparent">사설·칼럼</button>
                     <button onclick="navigateToCategory('청소년정치')" id="nav-청소년정치" class="px-3 py-2 hover:text-black border-b-4 border-transparent">청소년정치</button>
                     <button onclick="navigateToCategory('인터뷰')" id="nav-인터뷰" class="px-3 py-2 hover:text-black border-b-4 border-transparent">인터뷰</button>
@@ -142,7 +142,7 @@
                     <div id="poll-card-wrapper" class="border border-gray-200 p-4 bg-white space-y-3">
                         <h4 class="text-xs font-black border-b border-black pb-1.5 flex items-center justify-between">
                             <span class="text-sm font-bold text-gray-900">독자 여론조사 투표</span>
-                            <span class="bg-[#0b1d33] text-white font-extrabold text-[8px] px-1.5 py-0.2">HOT</span>
+                            <span class="bg-[#0b1d33] text-white font-extrabold text-[8px] px-1.5 py-0.2">실시간</span>
                         </h4>
                         <div id="poll-widget-container" class="space-y-3">
                             <!-- 실시간 설문조사 바인딩 -->
@@ -236,12 +236,12 @@
                         <div class="flex items-center space-x-4">
                             <span class="flex items-center space-x-1.5 hover:text-[#0b1d33] font-semibold select-none">
                                 <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                                <span class="text-gray-700">토론 <strong id="action-bar-comment-count" class="text-black font-extrabold">0</strong></span>
+                                <span class="text-gray-700">댓글 <strong id="action-bar-comment-count" class="text-black font-extrabold">0</strong></span>
                             </span>
                             <span class="text-gray-200">|</span>
                             <button onclick="recommendArticle()" class="flex items-center space-x-1.5 hover:text-red-500 font-semibold transition">
                                 <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
-                                <span class="text-gray-700">지지 <strong id="detail-recommendations" class="text-black font-extrabold">0</strong></span>
+                                <span class="text-gray-700">공감 <strong id="detail-recommendations" class="text-black font-extrabold">0</strong></span>
                             </button>
                             <span class="text-gray-200">|</span>
                             <span class="flex items-center space-x-1.5 text-gray-500 font-medium select-none">
@@ -360,7 +360,7 @@
         <!-- 지면 4: 소속 기자 프로필 아카이브 -->
         <div id="view-reporter" class="hidden space-y-8">
             <div class="border-b-2 border-black pb-2">
-                <h2 class="text-3xl font-black text-gray-900">기자단 명부</h2>
+                <h2 class="text-3xl font-black text-gray-900">기자</h2>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -380,14 +380,10 @@
         </div>
 
         <!-- 지면 5: 정적 정보 안내서 지면 -->
-        <div id="view-page" class="hidden max-w-3xl mx-auto bg-white border border-gray-200 p-4 md:p-8 space-y-6">
+        <div id="view-page" class="hidden max-w-3xl mx-auto bg-white border border-gray-200 p-8 space-y-6">
             <h2 id="page-title" class="text-xl md:text-2xl font-black text-gray-900 border-b border-black pb-2.5">페이지 제목</h2>
-            <div id="page-banner-container" class="hidden w-full"></div>
             <div id="page-content" class="text-sm md:text-base text-gray-700 leading-relaxed space-y-4 whitespace-pre-line">
                 <!-- 동적으로 페이지 글들이 배치됩니다 -->
-            </div>
-            <div id="page-extra-actions" class="hidden pt-4 flex justify-start">
-                <!-- 동적 액션 버튼 컨테이너 -->
             </div>
             <div class="pt-6 border-t border-gray-150 flex justify-end">
                 <button onclick="switchView('home')" class="bg-black text-white text-xs font-bold px-4 py-2 hover:bg-neutral-800">종합 홈으로 가기</button>
@@ -451,7 +447,7 @@
                                 <label class="block text-[10px] font-bold text-gray-500 mb-1">정치 지면 카테고리 분류</label>
                                 <select id="admin-category" class="w-full border border-gray-300 p-2.5 text-xs outline-none focus:border-black font-semibold">
                                     <option value="국회·정당">국회·정당</option>
-                                    <option value="시사·정책">시사·정책</option>
+                                    <option value="국제">국제</option>
                                     <option value="사설·칼럼">사설·칼럼</option>
                                     <option value="청소년정치">청소년정치</option>
                                     <option value="인터뷰">인터뷰</option>
@@ -486,7 +482,7 @@
                                 </label>
                             </div>
                             
-                            <!-- 1면 탑 헤드라인 독점 고정 장치 (지적된 독점 처리 오동작 무결 패치 완료) -->
+                            <!-- 1면 탑 헤드라인 독점 고정 장치 -->
                             <div class="pt-2 border-t border-gray-200">
                                 <label class="flex items-center space-x-2 cursor-pointer text-xs font-bold text-[#0b1d33]">
                                     <input type="checkbox" id="admin-is-headline" class="text-[#0b1d33] focus:ring-[#0b1d33] h-4 w-4">
@@ -495,11 +491,21 @@
                             </div>
                         </div>
 
-                        <!-- 서명 배정 체크 박스 -->
-                        <div class="border border-gray-200 p-3 bg-gray-50">
-                            <label class="block text-[10px] font-bold text-[#0b1d33] mb-2">집필 및 송고 기자 서명 (공동 기고 및 복수 배정 가능)</label>
-                            <div id="admin-reporters-checkboxes" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                                <!-- 동적 로딩 기자 체크박스 -->
+                        <!-- 서명 배정 간편 칩 레이아웃 개편 -->
+                        <div class="border border-gray-200 p-3.5 bg-gray-50 space-y-3">
+                            <label class="block text-[10px] font-bold text-[#0b1d33]">집필 및 송고 주체 서명 (클릭하여 신속 지정)</label>
+                            
+                            <!-- 사설 지정 원클릭 스위치 -->
+                            <div class="pb-2.5 border-b border-gray-200/60">
+                                <button type="button" id="btn-editorial-opinion" onclick="toggleEditorialOpinion()" class="w-full sm:w-auto px-4 py-2 text-xs font-bold border border-red-200 bg-white text-red-600 hover:bg-red-50 flex items-center justify-center space-x-2 transition duration-150">
+                                    <span id="editorial-check-icon" class="text-sm">⬜</span>
+                                    <span>✍️ 사설 설정 (파동 전체 의견 표명)</span>
+                                </button>
+                            </div>
+
+                            <!-- 기자 이름 간편 선택 칩스 컨테이너 -->
+                            <div id="admin-reporters-chips" class="flex flex-wrap gap-2 pt-1">
+                                <!-- 동적 로드 칩스 버튼이 체크박스를 대체합니다 -->
                             </div>
                         </div>
 
@@ -648,18 +654,18 @@
         <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-start md:items-center space-y-6 md:space-y-0 md:space-x-12">
             <div class="shrink-0 select-none">
                 <div class="flex flex-col cursor-pointer" onclick="navigateToHome()">
-                    <!-- 푸터 로고 이미지 적용 -->
-                    <img src="padongbig.png" alt="파동 로고" class="h-8 object-contain">
+                    <!-- 푸터 로고 이미지 크기 조정 (h-8 -> h-11 md:h-12로 확대) -->
+                    <img src="padongbig.png" alt="파동 로고" class="h-11 md:h-12 object-contain transition-all">
                 </div>
             </div>
             
             <div class="flex-grow space-y-4">
                 <div class="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 font-medium">
-                    <button onclick="showFooterStaticPage('intro')" class="hover:text-black hover:underline text-left font-bold">파동 소개</button>
+                    <button onclick="showFooterStaticPage('intro')" class="hover:text-black hover:underline text-left">파동 소개</button>
                     <span class="text-gray-300 select-none">|</span>
-                    <button onclick="showFooterStaticPage('pdf')" class="hover:text-black hover:underline text-left">지면 PDF 아카이브</button>
+                    <button onclick="showFooterStaticPage('pdf')" class="hover:text-black hover:underline text-left">지면 PDF</button>
                     <span class="text-gray-300 select-none">|</span>
-                    <button onclick="showFooterStaticPage('ad')" class="hover:text-black hover:underline text-left">정론 지지 및 제휴</button>
+                    <button onclick="showFooterStaticPage('ad')" class="hover:text-black hover:underline text-left">광고 문의</button>
                     <span class="text-gray-300 select-none">|</span>
                     <button onclick="showFooterStaticPage('rules')" class="hover:text-black hover:underline text-left">이용약관</button>
                     <span class="text-gray-300 select-none">|</span>
@@ -676,14 +682,14 @@
                         <span class="text-gray-300 select-none">|</span>
                         <span>주소: 경기도 부천시 원미구 상동</span>
                         <span class="text-gray-300 select-none">|</span>
-                        <span>대표전화: 010-5634-1865 (사무국)</span>
+                        <span>대표전화: 010-5634-1865</span>
                     </div>
                     <div class="flex flex-wrap gap-x-2 gap-y-0.5 items-center">
                         <span>제호: 파동</span>
                         <span class="text-gray-300 select-none">|</span>
                         <span>발행·편집인: 오주영</span>
                         <span class="text-gray-300 select-none">|</span>
-                        <span>정론 창간일: 2026-07-16</span>
+                        <span>창간일: 2026-07-16</span>
                         <span class="text-gray-300 select-none">|</span>
                     </div>
                 </div>
@@ -825,7 +831,7 @@
             </div>
             <p id="confirm-modal-text" class="text-xs md:text-sm text-gray-700 leading-relaxed font-semibold"></p>
             <div class="flex justify-end space-x-2 pt-2 border-t border-gray-150">
-                <button onclick="closeConfirmModal(false)" class="border border-gray-300 hover:bg-gray-150 px-4 py-2 text-xs font-bold text-gray-500 transition">취소</button>
+                <button onclick="closeConfirmModal(false)" class="border border-gray-300 hover:bg-gray-155 px-4 py-2 text-xs font-bold text-gray-500 transition">취소</button>
                 <button onclick="closeConfirmModal(true)" class="bg-[#0b1d33] hover:bg-slate-800 text-white px-5 py-2 text-xs font-bold transition">네, 확인했습니다</button>
             </div>
         </div>
@@ -837,18 +843,22 @@
         <span id="toast-text">알림 메시지</span>
     </div>
 
-    <!-- 5. 플로팅 안내 배너 -->
-    <div id="floating-report-bar" class="fixed bottom-6 right-6 bg-white border-2 border-black p-5 max-w-xs z-30 space-y-2.5 transition-transform duration-300">
+    <!-- 5. 파동 소개 상시 팝업 배너 -->
+    <div id="floating-report-bar" class="fixed bottom-4 right-4 left-4 md:left-auto md:right-6 md:bottom-6 bg-white border-2 border-black p-5 max-w-none md:max-w-xs z-30 space-y-2.5 transition-transform duration-300">
         <div class="flex justify-between items-start">
-            <h5 class="text-[13px] md:text-[14px] font-black text-[#0b1d33] tracking-tight">전국 유일 청소년 정론지!</h5>
+            <h5 class="text-[13px] md:text-[14px] font-black text-[#0b1d33] tracking-tight">전국 유일 청소년 정론지! 파동</h5>
             <button onclick="closeFloatingReport()" class="text-gray-400 hover:text-black font-extrabold text-[15px] leading-none">&times;</button>
         </div>
         <p class="text-[10.5px] text-gray-500 leading-relaxed font-medium">
-            파동에 대해 더 알아보세요.
+            파동에 대해 더 알아보세요. 청소년의 시선으로 세상을 바꾸는 정론지 파동의 이야기와 신념을 만나보세요.
         </p>
-        <div class="flex justify-end">
-            <button onclick="showFooterStaticPage('intro')" class="bg-[#0b1d33] hover:bg-slate-800 text-white font-bold text-[10px] px-3.5 py-2 transition">
-                파동 소개 바로가기
+        <div class="flex items-center justify-between pt-1">
+            <label class="flex items-center space-x-1 cursor-pointer text-[10px] text-gray-500 font-semibold select-none">
+                <input type="checkbox" id="hide-today-chk" class="text-[#0b1d33] focus:ring-[#0b1d33] w-3 h-3">
+                <span>오늘 하루 보지 않기</span>
+            </label>
+            <button onclick="goToIntroFromPopup()" class="bg-[#0b1d33] hover:bg-slate-800 text-white font-bold text-[10px] px-3.5 py-2 transition">
+                알아보기
             </button>
         </div>
     </div>
@@ -901,7 +911,6 @@
                 id: "art-headline-1",
                 category: "청소년정치",
                 authors: ["오주영 편집인"],
-                // 기사 미설정 기본 이미지 padongdefault.png 대응을 위해 비움
                 image: "",
                 title: "[단독] 전국 청소년의회 심층 검증... '실권 없는 교육청 홍보 대지' 전락 지적",
                 subtitle: "전체 17개 시도 조례 및 안건 반영율 단 1.2%... 자치 예산 심의 권한은 전무\n기성 정치 모방 행사에 청소년들을 '거수기'로 도구화한다는 비판 고조",
@@ -918,7 +927,6 @@
                 id: "art-default-2",
                 category: "국회·정당",
                 authors: ["송유근 기자"],
-                // 기사 미설정 기본 이미지 padongdefault.png 대응을 위해 비움
                 image: "",
                 title: "만 16세 정당 가입법 통과 수년... 일선 고등학교 '학칙 정치 금지' 족쇄는 여전",
                 subtitle: "법적 참정권 확대에도 고교 내 정당 모임은 원천 차단하는 사규 학칙의 모순\n'교실의 정치장화 방지' 논리와 '헌법상 정당활동 기본권' 정면 상충",
@@ -954,7 +962,7 @@
         const CATEGORY_BANNER_IMAGES = {
             "청소년정치": "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?auto=format&fit=crop&w=1200&q=80",
             "국회·정당": "https://i.namu.wiki/i/GZa2PmLk095SWqG45ZDxRWvzneEFkdqpqnaoqMLfh3Ta4E3HDP-GxLN6kWKpC3PgGp3BtX7pMg5Vak3-nL7xPA.webp",
-            "시사·정책": "https://d2phebdq64jyfk.cloudfront.net/media/image/article/thumbnail/uWBx28",
+            "국제": "https://image.utoimage.com/preview/cp873166/2018/08/201808022655_500.jpg",
             "사설·칼럼": "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80",
             "인터뷰": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80",
             "시민연대": "https://thumb.mt.co.kr/cdn-cgi/image/f=avif/21/2026/06/2026061509434058464_1.jpg"
@@ -985,6 +993,9 @@
         window.currentTrendTabDetail = 'views'; 
         window.pollData = DEFAULT_POLL;
         window.clientIp = "127.0.0.1";
+        
+        // 사설 선택 스위치 글로벌 상태
+        window.isEditorialSelected = false;
 
         let lastCommentTime = 0;
         let lastReactionTime = 0;
@@ -995,6 +1006,13 @@
             await fetchClientIp();
             renderPollWidget();
             setupScrollProgressBar();
+
+            // 오늘 하루 보지 않기 세션 만료 기간 확인 후 팝업 자동 가림막 조율
+            const hideUntil = localStorage.getItem("padong_popup_hide_until");
+            if (hideUntil && Date.now() < parseInt(hideUntil)) {
+                const banner = document.getElementById("floating-report-bar");
+                if (banner) banner.classList.add("hidden");
+            }
         };
 
         async function fetchClientIp() {
@@ -1293,53 +1311,60 @@
         window.showFooterStaticPage = function(pageId) {
             const pageTitleEl = document.getElementById("page-title");
             const pageContentEl = document.getElementById("page-content");
-            const bannerContainer = document.getElementById("page-banner-container");
-            const extraActionsEl = document.getElementById("page-extra-actions");
             window.switchView("page");
 
-            if (bannerContainer) {
-                bannerContainer.classList.add("hidden");
-                bannerContainer.innerHTML = "";
-            }
-            if (extraActionsEl) {
-                extraActionsEl.classList.add("hidden");
-                extraActionsEl.innerHTML = "";
-            }
-
             if (pageId === "intro") {
-                pageTitleEl.innerText = "파동 - 청소년의 정치 독립적 자립과 참정을 향한 정론";
-                pageContentEl.innerText = `대한민국 정치사에서 청소년은 언제나 '보호와 배제의 객체'였습니다.\n\n하지만 파동(Wave)은 투표권을 부여받은 청소년이 주체적인 눈으로 사회적 의제를 해체하고, 기성 세대가 쌓아올린 모순에 대담한 참정 균열을 내기 위해 탄생한 국내 유일무이의 청소년 정치 전문 정론지입니다.\n\n우리는 교육 현장의 정치 배제 비판, 만 16세 참정권 확대에 따른 정당 개방 실태 감시, 그리고 학외 연대 세력을 관통하는 깊이 있는 입법 분석 보도로 진정한 세대 교체적 자치 공론장을 설계할 것입니다.\n\n파동미디어 발행인 겸 편집 위원회 총괄 오주영`;
-                
-                if (bannerContainer) {
-                    bannerContainer.classList.remove("hidden");
-                    bannerContainer.innerHTML = `
-                        <img src="padongbanner.png" alt="파동 배너" class="w-full h-auto object-cover border border-gray-200 mb-4" onerror="this.outerHTML='<div class=\\'p-4 bg-gray-50 text-center text-xs text-gray-400 font-semibold border border-gray-150 mb-4\\'>📸 padongbanner.png 이미지 수신 불가</div>'">
-                    `;
-                }
+                pageTitleEl.innerText = "대한민국 유일 청소년 독립 정론지, 파동입니다.";
+                pageContentEl.innerHTML = `
+                    <div class="w-full mb-6">
+                        <img src="padongbanner.png" alt="파동 배너" class="w-full h-auto object-cover border border-gray-200 bg-slate-50" onerror="this.style.display='none'">
+                    </div>
+                    <p class="text-sm md:text-base text-gray-700 leading-relaxed whitespace-pre-line">파동은 "청소년의 시선은 본질로 통한다"라는 슬로건 아래, 기성 사회의 프레임에 갇히지 않고 진실과 가치를 추구하는 부천 관내 고등학생 4명이 모여 시작되었습니다. 우리는 오늘날 많은 청소년이 정치와 사회 이슈로부터 소외되거나 무관심해지는 현실을 마주하며, 동세대 청소년들이 사회의 주체로서 당당히 설 수 있도록 청소년의 정치 관심도를 제고하는 마중물이 되고자 합니다. 교과서 속 박제된 정치가 아닌 우리 삶을 바꾸는 살아있는 정치 이야기를 청소년의 눈높이에서 풀어내어, 더 많은 청소년이 세상의 변화에 관심을 갖고 목소리를 낼 수 있도록 이끌 것입니다.
 
-                if (extraActionsEl) {
-                    extraActionsEl.classList.remove("hidden");
-                    extraActionsEl.innerHTML = `
-                        <a href="https://www.instagram.com/padongnews/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 text-white text-xs font-bold px-4 py-2.5 transition hover:opacity-90">
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                            </svg>
-                            <span>파동 공식 인스타그램 (@padongnews)</span>
+나아가 우리는 대한민국 청소년의 목소리를 생생하게 대표하여 정계에 직접 전달하고, 기성 정치를 감시하고 견제하는 언론 본연의 역할에 집중합니다. 청소년의 삶과 미래에 직결된 정책들이 당리당략 속에 묻히지 않도록 정치권을 향해 끊임없이 질문을 던질 것입니다. 권력의 눈치를 보지 않는 청소년만의 순수하고 날카로운 시선으로 기성 정계를 견제하고, 정책 결정 과정에 당사자들의 의견이 실질적으로 반영되도록 강력한 가교 역할을 다하겠습니다. 고등학생들의 결연한 시작은 대한민국 정치를 변화시키는 거대한 파동이 될 것을 확신합니다. 본질을 꿰뚫는 청소년 정론지 파동의 거침없는 여정에 함께해 주십시오.
+
+파동미디어 대표 오주영</p>
+                    <div class="mt-8 pt-6 border-t border-gray-200 flex flex-col items-center space-y-3">
+                        <p class="text-xs text-gray-500 font-bold">파동의 실시간 소식과 일상을 인스타그램에서 만나보세요!</p>
+                        <a href="https://www.instagram.com/padongnews/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-500 text-white font-extrabold text-xs md:text-sm px-6 py-3 hover:opacity-90 transition border-2 border-[#0b1d33]">
+                            <svg class="w-5 h-5 text-white fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                            <span>파동 공식 인스타그램 바로가기</span>
                         </a>
-                    `;
-                }
+                    </div>
+                `;
             } else if (pageId === "pdf") {
-                pageTitleEl.innerText = "파동 정기 오프라인 PDF 정치 아카이브 지면 배포 안내";
-                pageContentEl.innerText = `현재 분기별 참정 입법 특별호 PDF 지면 편집이 성료되어 각 지구 청소년 정당 연대본부 및 시도 의정 체험 단체에 일괄 기부 배포되고 있습니다.\n\n[오프라인 배포 아카이브]\n- 대한민국 국회 도서관 (청소년 민주주의 기증 부문 수록)\n- 서울, 부천, 경기 청소년 자치 의회 세미나실 1호실 책장\n- 전국 거점 대안학교 및 학생 참정 연합회 사무실 마당`;
+                pageTitleEl.innerText = "파동 지면 PDF";
+                pageContentEl.innerHTML = `<p class="text-sm md:text-base text-gray-700 leading-relaxed whitespace-pre-line">파동은 아직 인터넷 신문만 지원하고 있으며, 오프라인 지면 배포는 준비중입니다.</p>`;
             } else if (pageId === "ad") {
-                pageTitleEl.innerText = "청소년 자치 광고 및 참정 협력 협정";
-                pageContentEl.innerText = `파동미디어는 이념과 정당적 선입견을 배제하고 오직 '청소년 참정권의 건전한 확대'만을 목적으로 기획된 광고 및 협정, 제휴를 승인합니다.\n\n[제휴 데스크 연락망]\n- 파동미디어 마케팅/협정 본부 오주영 대표\n- 대표 연락처: 010-5634-1865\n- 연동 전자우편: editor@padong.com`;
+                pageTitleEl.innerText = "파동 광고 문의";
+                pageContentEl.innerHTML = `<p class="text-sm md:text-base text-gray-700 leading-relaxed whitespace-pre-line">대한민국 청소년의 목소리! 파동에 광고하세요.
+파동미디어는 이념과 정당적 선입견을 담은 광고를 승인하지 않으며,
+오직 청소년 참정권을 확대하고 정계에 청소년의 목소리를 전달하기 위해서 힘씁니다.
+
+[광고 문의 연락]
+- 파동미디어 대표 오주영
+- 대표 연락처 : 010-5634-1865
+- E-Mail : editor@padong.com</p>`;
             } else if (pageId === "rules") {
-                pageTitleEl.innerText = "파동 독자 및 저작권 이용약관";
-                pageContentEl.innerText = `제1조 (목적)\n본 조항은 파동미디어가 공급하는 정보 통신 매체 '파동' 플랫폼의 저작권 보호, 독자 기여, 민주적 토론 가이드를 준용하기 위해 작성되었습니다.\n\n제2조 (청소년 인권 존중 및 비방 배제)\n본 보도국의 기사 평론 및 독자 게시판에는 타인에 대한 폭력, 차별, 혐오 유발, 또는 정당 당원으로서의 품위를 손상시키는 보도 왜곡 행위의 게재를 금지하며 적발 시 자치 위원회에 기각됩니다.\n\n제3조 (저작권)\n파동의 모든 기사는 청소년 필진의 노력이 깃든 독자 지식 재산이며, 무단 데이터 스크래핑 및 인공지능(AI) 기계 학습용 벌크 다운로드를 규제합니다.`;
+                pageTitleEl.innerText = "이용약관";
+                pageContentEl.innerHTML = `<p class="text-sm md:text-base text-gray-700 leading-relaxed whitespace-pre-line">제1조 (목적)
+본 조항은 파동미디어가 공급하는 정보 통신 매체 '파동' 플랫폼의 저작권 보호, 독자 기여, 민주적 토론 가이드를 준용하기 위해 작성되었습니다.
+
+제2조 (청소년 인권 존중 및 비방 배제)
+본 보도국의 기사 평론 및 독자 게시판에는 타인에 대한 폭력, 차별, 혐오 유발, 또는 정당 당원으로서의 품위를 손상시키는 보도 왜곡 행위의 게재를 금지하며 적발 시 자치 위원회에 기각됩니다.
+
+제3조 (저작권)
+파동의 모든 기사는 청소년 필진의 노력이 깃든 독자 지식 재산이며, 무단 데이터 스크래핑 및 인공지능(AI) 기계 학습용 벌크 다운로드를 규제합니다.</p>`;
             } else if (pageId === "privacy") {
-                pageTitleEl.innerText = "청소년 당원 및 독자 정보보호 개인정보처리방침";
-                pageContentEl.innerText = `파동미디어는 이용자의 개인 정보 보호법 제30조에 의거하여 다음과 같은 강력하고 구체적인 참정 정보 보호 방침을 고수합니다.\n\n1. 개인정보의 수집 항목 및 목적\n- 독자 댓글 등록 시: 작성자 필명, IP 주소 (스팸 도배 규제용 마스킹 수립)\n- 보도 제보 시: 이메일 및 전화번호 (제보 확인 절차 수습 이후 14일 이내 완결 소거)\n\n2. 독자 참정 비밀 보장\n기성 정당 가입법에 의해 정당 소속이 노출되어 교내에서 부당한 학칙 불이익을 당하는 사례가 없도록, 당사에 게재 및 제보된 독자 가입 정보는 외부 정부 기관 및 교육청에 일절 기증하거나 기명 인도되지 않음을 서약합니다.`;
+                pageTitleEl.innerText = "개인정보처리방침";
+                pageContentEl.innerHTML = `<p class="text-sm md:text-base text-gray-700 leading-relaxed whitespace-pre-line">파동미디어는 이용자의 개인 정보 보호법 제30조에 의거하여 다음과 같은 강력하고 구체적인 참정 정보 보호 방침을 고수합니다.
+
+1. 개인정보의 수집 항목 및 목적
+- 독자 댓글 등록 시: 작성자 필명, IP 주소 (스팸 도배 규제용 마스킹 수립)
+- 보도 제보 시: 이메일 및 전화번호 (제보 확인 절차 수습 이후 14일 이내 완결 소거)
+
+2. 독자 참정 비밀 보장
+기성 정당 가입법에 의해 정당 소속이 노출되어 교내에서 부당한 학칙 불이익을 당하는 사례가 없도록, 당사에 게재 및 제보된 독자 가입 정보는 외부 정부 기관 및 교육청에 일절 기증하거나 기명 인도되지 않음을 서약합니다.</p>`;
             }
         };
 
@@ -1350,7 +1375,22 @@
             document.getElementById("report-modal").classList.add("hidden");
         };
         window.closeFloatingReport = function() {
+            const chk = document.getElementById("hide-today-chk");
+            if (chk && chk.checked) {
+                const expiry = Date.now() + 24 * 60 * 60 * 1000;
+                localStorage.setItem("padong_popup_hide_until", expiry);
+            }
             document.getElementById("floating-report-bar").classList.add("hidden");
+        };
+        
+        window.goToIntroFromPopup = function() {
+            const chk = document.getElementById("hide-today-chk");
+            if (chk && chk.checked) {
+                const expiry = Date.now() + 24 * 60 * 60 * 1000;
+                localStorage.setItem("padong_popup_hide_until", expiry);
+            }
+            document.getElementById("floating-report-bar").classList.add("hidden");
+            window.showFooterStaticPage('intro');
         };
 
         window.openSupportModal = function() {
@@ -1390,14 +1430,6 @@
             }).length;
         }
 
-        function getReporterTotalRecommendations(reporterName) {
-            return window.articles.filter(a => {
-                if (a.authors && a.authors.includes(reporterName)) return true;
-                if (a.author === reporterName) return true;
-                return false;
-            }).reduce((sum, a) => sum + (a.recommendations || 0), 0);
-        }
-
         function getScoopBadgeHtml(isScoop, isLarge = false) {
             if (!isScoop || isScoop === "normal") return "";
             
@@ -1406,7 +1438,7 @@
             
             if (isScoop === "scoop") {
                 label = "단독";
-                colorClasses = "bg-[#0b1d33] text-white"; 
+                colorClasses = "bg-padong-navy text-white"; 
             } else if (isScoop === "breaking") {
                 label = "속보";
                 colorClasses = "bg-yellow-400 text-black"; 
@@ -1489,11 +1521,13 @@
             const newsGrid = document.getElementById("news-grid");
             const rightFeaturedBox = document.getElementById("right-featured-box");
 
-            // 오피니언 지면 이외에서 참정 보도 수집
+            // [해결] 사설·칼럼 카테고리 여부에 관계 없이 사용자가 '헤드라인으로 지정'한 기사를 최우선으로 탐색 선출
+            let headline = window.articles.find(a => a.isHeadline === true || a.isHeadline === "true");
+
+            // 오피니언(사설·칼럼) 지면 이외에서 일반 종합 보도 수집
             const mainNewsFull = window.articles.filter(a => a.category !== "사설·칼럼");
 
-            // isHeadline 플래그가 엄격히 보장된 기사 단독 선출
-            let headline = mainNewsFull.find(a => a.isHeadline === true || a.isHeadline === "true");
+            // 명시적 헤드라인 지정 기사가 부재할 경우, 일반 기사 중 최신작을 기본 헤드라인으로 자동 대체
             if (!headline && mainNewsFull.length > 0) {
                 headline = mainNewsFull[0];
             }
@@ -1509,12 +1543,13 @@
 
                 const plainBodySnippet = headline.content.replace(/\[(?:이미지|동영상)링크:[^\]]+\]/g, '').substring(0, 240);
 
+                // 헤드라인 제목 크기 조정: text-2xl md:text-3.5xl -> text-3xl md:text-4xl로 한 단계 증대
                 headlineSection.innerHTML = `
-                    <div class="cursor-pointer space-y-4 group bg-slate-50/40 p-4 border border-gray-100" onclick="viewArticle('${headline.id}')">
+                    <div class="cursor-pointer space-y-4 group py-2" onclick="viewArticle('${headline.id}')">
                         <div class="space-y-2">
                             <div class="flex flex-col md:flex-row md:items-center">
                                 ${scoopBadgeHtml}
-                                <h2 class="text-2xl md:text-3.5xl font-black tracking-tight leading-tight text-[#0b1d33] group-hover:underline mt-1.5 md:mt-0">
+                                <h2 class="text-3xl md:text-4xl font-black tracking-tight leading-tight text-[#0b1d33] group-hover:underline mt-1.5 md:mt-0">
                                     ${headline.title}
                                 </h2>
                             </div>
@@ -1544,7 +1579,7 @@
                                     <span>|</span>
                                     <span>${headline.date.split(' ')[0]}</span>
                                     <span>|</span>
-                                    <span class="text-[#0b1d33] font-bold"조회수 ${headline.views || 0}</span>
+                                    <span class="text-[#0b1d33] font-bold">조회수 ${headline.views || 0}</span>
                                 </div>
                             </div>
                         </div>
@@ -1618,9 +1653,9 @@
                 newsGrid.innerHTML = `<div class="col-span-2 text-center py-10 text-gray-400 text-xs border-t border-gray-100">민주주의 의정 지면이 준비 중입니다.</div>`;
             }
 
-            // 오피니언 지면 아카이브 노출
+            // 오피니언 지면 아카이브 노출 (메인 헤드라인에 사설이 걸렸을 경우 중복 표기를 방지하기 위해 필터링)
             const opinionList = document.getElementById("opinion-list");
-            const opinionSorted = window.articles.filter(a => a.category === "사설·칼럼").slice(0, 3);
+            const opinionSorted = window.articles.filter(a => a.category === "사설·칼럼" && a.id !== (headline ? headline.id : '')).slice(0, 3);
             if (opinionSorted.length > 0) {
                 opinionList.innerHTML = opinionSorted.map(art => {
                     const authorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "논설");
@@ -1670,7 +1705,7 @@
 
                 container.innerHTML = `
                     ${questionHtml}
-                    <p class="text-[11px] font-semibold text-[#0b1d33] bg-blue-50/50 p-2 border border-[#0b1d33]/10 my-2">✔️ 청소년 여론 수집에 기여해 주셨습니다.</p>
+                    <p class="text-[11px] font-semibold text-[#0b1d33] bg-blue-50/50 p-2 border border-[#0b1d33]/10 my-2">✔️ 투표해 주셔서 감사합니다.</p>
                     <div class="space-y-2.5 pt-1">
                         ${optHtml}
                     </div>
@@ -1967,10 +2002,16 @@
             const emailsContainer = document.getElementById("detail-emails-container");
             emailsContainer.innerHTML = "";
             const authorsList = art.authors || (art.author ? [art.author] : []);
+            
             authorsList.forEach(authorName => {
-                const reporter = window.reporters.find(r => r.name === authorName) || {
-                    email: "reporter@padong.com"
-                };
+                let reporter = window.reporters.find(r => r.name === authorName);
+                if (!reporter) {
+                    if (authorName === "사설 (파동 전체 의견)") {
+                        reporter = { email: "editorial@padong.com" };
+                    } else {
+                        reporter = { email: "reporter@padong.com" };
+                    }
+                }
                 const div = document.createElement("div");
                 div.innerHTML = `<span class="font-bold text-gray-800">${authorName}</span> <span class="text-gray-400 font-normal ml-2">${reporter.email}</span>`;
                 emailsContainer.appendChild(div);
@@ -1991,38 +2032,56 @@
                 repCard.className = "bg-white border-2 border-black p-4 text-center space-y-3";
 
                 if (!reporter) {
-                    repCard.innerHTML = `
-                        <div class="flex flex-col items-center">
-                            <img src="${DEFAULT_REPORTER_IMAGE}" 
-                                 class="w-14 h-14 rounded-none object-cover border border-gray-300 mb-2 p-1 bg-gray-50"
-                                 alt="해임 기자">
-                            <strong class="text-base text-gray-950 font-black block">${authorName}</strong>
-                            <span class="text-[10.5px] text-gray-400 font-bold block mt-0.5">파동 객원기자</span>
-                        </div>
-                        <p class="text-[11px] text-gray-400">※ 해당 당원 기자는 현재 퇴임 보존 상태입니다.</p>
-                    `;
+                    // 기사 작성자가 사설일 경우, 공식 입장 지면 소개 카드를 노출
+                    if (authorName === "사설 (파동 전체 의견)") {
+                        repCard.innerHTML = `
+                            <div class="flex flex-col items-center">
+                                <img src="padongbig.png" 
+                                     class="w-16 h-12 rounded-none object-contain mb-2 p-1 bg-white"
+                                     alt="파동 사설">
+                                <strong class="text-sm text-[#0b1d33] font-black block">${authorName}</strong>
+                                <span class="text-[9px] text-red-600 font-bold block mt-0.5">파동 공식 입장 지면</span>
+                            </div>
+                            <p class="text-[11px] text-gray-500 leading-relaxed font-semibold">본 기획 보도는 파동 논설위원실의 합의를 거친\n파동 전체의 논조이자 대표 의견입니다.</p>
+                        `;
+                    } else {
+                        repCard.innerHTML = `
+                            <div class="flex flex-col items-center">
+                                <img src="${DEFAULT_REPORTER_IMAGE}" 
+                                     class="w-14 h-14 rounded-none object-cover border border-gray-300 mb-2 p-1 bg-gray-50"
+                                     alt="해임 기자">
+                                <strong class="text-sm text-gray-950 font-black block">${authorName}</strong>
+                                <span class="text-[9px] text-gray-400 font-bold block mt-0.5">파동 객원기자</span>
+                            </div>
+                            <p class="text-[10px] text-gray-400">※ 해당 당원 기자는 현재 퇴임 보존 상태입니다.</p>
+                        `;
+                    }
                 } else {
                     const articleCount = getReporterArticleCount(reporter.name);
-                    const totalRecommendations = getReporterTotalRecommendations(reporter.name);
                     const reporterImg = reporter.image && reporter.image.trim() !== "" ? reporter.image : DEFAULT_REPORTER_IMAGE;
+                    
+                    // 실제 작동하는 누적 조회수 메커니즘 연산
+                    const reporterArticles = window.articles.filter(a => (a.authors && a.authors.includes(reporter.name)) || a.author === reporter.name);
+                    const totalViews = reporterArticles.reduce((sum, a) => sum + (a.views || 0), 0);
 
+                    // 좌측 기자 정보 글씨 크기 전부 조금씩 확대 및 누적 조회 적용
                     repCard.innerHTML = `
                         <div class="flex flex-col items-center">
                             <img src="${reporterImg}" 
-                                 class="w-16 h-16 rounded-none object-cover border-2 border-black mb-2 bg-slate-50"
+                                 class="w-20 h-20 rounded-none object-cover border-2 border-black mb-2 bg-slate-50"
                                  alt="기자 프로필"
                                  onerror="this.src='${DEFAULT_REPORTER_IMAGE}'">
-                            <strong class="text-lg text-gray-900 font-black block">${reporter.name}</strong>
-                            <span class="text-xs text-[#0b1d33] font-extrabold block mt-0.5">${reporter.dept}</span>
+                            <strong class="text-lg md:text-xl text-gray-900 font-black block leading-snug">${reporter.name}</strong>
+                            <span class="text-xs md:text-sm text-[#0b1d33] font-extrabold block mt-1">${reporter.dept}</span>
                         </div>
                         <div class="grid grid-cols-2 gap-2 border-y border-gray-200 py-2 text-xs text-gray-500 font-sans">
-                            <div>발행 보도 <strong class="text-[#0b1d33] block text-base font-black mt-0.5">${articleCount}</strong></div>
-                            <div>누적 기사 지지 <strong class="text-[#0b1d33] block text-base font-black mt-0.5">${totalRecommendations}</strong></div>
+                            <div>발행 보도 <strong class="text-[#0b1d33] block text-base md:text-lg font-black mt-1">${articleCount}</strong></div>
+                            <div>누적 조회 <strong class="text-[#0b1d33] block text-base md:text-lg font-black mt-1">${totalViews}</strong></div>
                         </div>
-                        <p class="text-[12.5px] text-gray-500 leading-relaxed text-center font-medium">"${reporter.bio}"</p>
+                        <p class="text-xs md:text-[13px] text-gray-600 leading-relaxed text-center font-medium">"${reporter.bio}"</p>
                         <div class="pt-1.5 font-sans">
                             <button onclick="navigateToReporter('${reporter.id}')" class="w-full bg-[#0b1d33] hover:bg-slate-800 text-white font-bold text-xs py-2 transition">
-                                약력 및 정론 보기
+                                기자 정보
                             </button>
                         </div>
                     `;
@@ -2280,7 +2339,6 @@
 
             const repProfileHero = document.getElementById("rep-profile-hero");
             const articleCount = getReporterArticleCount(reporter.name);
-            const totalRecommendations = getReporterTotalRecommendations(reporter.name);
 
             const careerText = reporter.career || "기입된 소속 참정 약력이 부재합니다.";
             const careerItems = careerText.split('\n').filter(item => item.trim().length > 0);
@@ -2292,6 +2350,10 @@
             `).join('');
 
             const reporterImg = reporter.image && reporter.image.trim() !== "" ? reporter.image : DEFAULT_REPORTER_IMAGE;
+
+            // 기자 프로필 누적 조회수도 실제 연산 매커니즘으로 대체
+            const reporterArticles = window.articles.filter(a => (a.authors && a.authors.includes(reporter.name)) || a.author === reporter.name);
+            const totalViews = reporterArticles.reduce((sum, a) => sum + (a.views || 0), 0);
 
             repProfileHero.innerHTML = `
                 <div class="flex flex-col items-center text-center space-y-3 font-sans">
@@ -2311,8 +2373,8 @@
                         <strong class="text-lg font-black block mt-0.5">${articleCount}</strong>
                     </div>
                     <div>
-                        <span class="text-white/60 block">누적 기사 지지</span>
-                        <strong class="text-lg font-black block mt-0.5">${totalRecommendations}</strong>
+                        <span class="text-white/60 block">누적 조회수</span>
+                        <strong class="text-lg font-black block mt-0.5">${totalViews}</strong>
                     </div>
                 </div>
 
@@ -2322,7 +2384,7 @@
                 </div>
 
                 <div class="pt-4 border-t border-white/10 space-y-3 font-sans text-left">
-                    <h4 class="text-xs font-black uppercase text-white/60 tracking-wider">주요 정당 및 참정 이력</h4>
+                    <h4 class="text-xs font-black uppercase text-white/60 tracking-wider">경력 및 이력</h4>
                     <ul class="space-y-1.5 text-xs">
                         ${careerHtml}
                     </ul>
@@ -2330,7 +2392,6 @@
             `;
 
             const repArticlesFeed = document.getElementById("rep-articles-feed");
-            const reporterArticles = window.articles.filter(a => (a.authors && a.authors.includes(reporter.name)) || a.author === reporter.name);
 
             if (reporterArticles.length > 0) {
                 repArticlesFeed.innerHTML = reporterArticles.map(art => {
@@ -2402,7 +2463,7 @@
             const text = textInput.value.trim();
 
             if (!writer || !text) {
-                showToast("토론자 성명과 의견 본문을 정확하게 기재하십시오.");
+                showToast("성명과 의견 본문을 정확하게 기재하십시오.");
                 return;
             }
 
@@ -2434,7 +2495,7 @@
 
             writerInput.value = "";
             textInput.value = "";
-            showToast("광장 토론에 무결 투고되었습니다.");
+            showToast("댓글이 등록되었습니다.");
         };
 
         function saveCommentLocally(commentObj) {
@@ -2484,14 +2545,114 @@
             }
         };
 
+        // 사설 설정 클릭 토글 스위치
+        window.toggleEditorialOpinion = function() {
+            window.isEditorialSelected = !window.isEditorialSelected;
+            
+            if (window.isEditorialSelected) {
+                // 사설이 선택되면 활성화된 모든 기자의 칩 선택을 해제하여 간섭 예방
+                const chips = document.querySelectorAll('.reporter-chip');
+                chips.forEach(c => {
+                    c.classList.remove('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                    c.classList.add('bg-white', 'text-gray-800', 'border-gray-200');
+                });
+                showToast("✍️ 사설로 지정되었습니다. 파동 전체의 공식 의제로 발행됩니다.");
+            }
+            updateEditorialButtonUI();
+        };
+
+        // 사설 스위치 UI 갱신 데코레이터
+        window.updateEditorialButtonUI = function() {
+            const btn = document.getElementById("btn-editorial-opinion");
+            const icon = document.getElementById("editorial-check-icon");
+            if (!btn || !icon) return;
+
+            if (window.isEditorialSelected) {
+                btn.className = "w-full sm:w-auto px-4 py-2 text-xs font-bold border-2 border-red-600 bg-red-50 text-red-700 flex items-center justify-center space-x-2 transition duration-150";
+                icon.innerText = "☑️";
+            } else {
+                btn.className = "w-full sm:w-auto px-4 py-2 text-xs font-bold border border-red-200 bg-white text-red-600 hover:bg-red-50 flex items-center justify-center space-x-2 transition duration-150";
+                icon.innerText = "⬜";
+            }
+        };
+
+        // 개별 기자 칩 클릭 토글 동작 설계
+        window.toggleReporterChip = function(btn, name) {
+            // 기자를 개별 선택하면, 사설 전용 스위치는 자동으로 기각
+            if (window.isEditorialSelected) {
+                window.isEditorialSelected = false;
+                updateEditorialButtonUI();
+            }
+            
+            const isSelected = btn.classList.contains('reporter-chip-selected');
+            if (isSelected) {
+                btn.classList.remove('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                btn.classList.add('bg-white', 'text-gray-800', 'border-gray-200');
+            } else {
+                btn.classList.add('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                btn.classList.remove('bg-white', 'text-gray-800', 'border-gray-200');
+            }
+        };
+
+        // 에디터 수정 혹은 로드 시 활성화된 서명 칩 UI 복제 동기화
+        window.updateReporterChipsUI = function() {
+            const artId = document.getElementById("admin-article-id").value;
+            
+            if (artId) {
+                const art = window.articles.find(a => a.id === artId);
+                if (art) {
+                    const authorsList = art.authors || [art.author];
+                    
+                    // 사설 서명 기록 감지
+                    if (authorsList.includes("사설 (파동 전체 의견)")) {
+                        window.isEditorialSelected = true;
+                    } else {
+                        window.isEditorialSelected = false;
+                    }
+                    
+                    const chips = document.querySelectorAll('.reporter-chip');
+                    chips.forEach(c => {
+                        const name = c.getAttribute('data-reporter-name');
+                        if (authorsList.includes(name) && !window.isEditorialSelected) {
+                            c.classList.add('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                            c.classList.remove('bg-white', 'text-gray-800', 'border-gray-200');
+                        } else {
+                            c.classList.remove('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                            c.classList.add('bg-white', 'text-gray-800', 'border-gray-200');
+                        }
+                    });
+                }
+            } else {
+                // 신규 기사 작성의 경우, 기본적으로 로그인된 기자를 매핑
+                const chips = document.querySelectorAll('.reporter-chip');
+                chips.forEach(c => {
+                    const name = c.getAttribute('data-reporter-name');
+                    if (window.isReporterMode && name === window.loggedInUser) {
+                        c.classList.add('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                        c.classList.remove('bg-white', 'text-gray-800', 'border-gray-200');
+                    } else {
+                        c.classList.remove('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                        c.classList.add('bg-white', 'text-gray-800', 'border-gray-200');
+                    }
+                });
+            }
+            updateEditorialButtonUI();
+        };
+
         window.renderAdminContent = function() {
-            const checkboxesContainer = document.getElementById("admin-reporters-checkboxes");
-            checkboxesContainer.innerHTML = window.reporters.map(r => `
-                <label class="flex items-center space-x-2 p-2 border border-gray-200 bg-white cursor-pointer hover:bg-blue-50/20 text-xs font-sans">
-                    <input type="checkbox" name="admin-authors-select" value="${r.name}" class="text-[#0b1d33] focus:ring-[#0b1d33]">
-                    <span class="text-gray-800 font-semibold truncate">${r.name} (${r.dept})</span>
-                </label>
+            const chipsContainer = document.getElementById("admin-reporters-chips");
+            
+            // 기존 체크박스 레이아웃 대신 모던하고 가벼운 인라인 칩스로 렌더링 (소속 잘림 오동작 해결)
+            chipsContainer.innerHTML = window.reporters.map(r => `
+                <button type="button" 
+                        onclick="toggleReporterChip(this, '${escapeHtml(r.name)}')" 
+                        data-reporter-name="${escapeHtml(r.name)}" 
+                        class="reporter-chip px-3 py-1.5 border border-gray-200 bg-white text-gray-800 text-xs font-semibold hover:bg-gray-100 transition duration-150 whitespace-nowrap">
+                    ${escapeHtml(r.name)} (${escapeHtml(r.dept)})
+                </button>
             `).join('');
+
+            updateReporterChipsUI();
 
             const adminBadge = document.getElementById("admin-badge");
             const currentRoleDisplay = document.getElementById("current-role-display");
@@ -2511,8 +2672,12 @@
                 const adminOnlys = document.querySelectorAll(".admin-only-element");
                 adminOnlys.forEach(el => el.classList.add("hidden"));
 
-                const cb = document.querySelector(`input[name="admin-authors-select"][value="${window.loggedInUser}"]`);
-                if (cb) cb.checked = true;
+                // 기자 모드 세션 칩 로딩 동기화
+                const targetChip = document.querySelector(`.reporter-chip[data-reporter-name="${window.loggedInUser}"]`);
+                if (targetChip) {
+                    targetChip.classList.add('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                    targetChip.classList.remove('bg-white', 'text-gray-800', 'border-gray-200');
+                }
             }
 
             const listEl = document.getElementById("admin-article-list");
@@ -2562,7 +2727,7 @@
             document.getElementById("admin-poll-vote2").innerText = window.pollData.options[2] ? window.pollData.options[2].votes : 0;
         }
 
-        window.saveAdminPoll = function() {
+        window.saveAdminPoll = async function() {
             if (!window.isAdminMode) return;
             const q = document.getElementById("admin-poll-question").value.trim();
             const o0 = document.getElementById("admin-poll-opt0").value.trim();
@@ -2585,7 +2750,7 @@
             if (window.useFirebase) {
                 try {
                     const pollDocRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'polls', 'main_poll');
-                    setDoc(pollDocRef, window.pollData);
+                    await setDoc(pollDocRef, window.pollData);
                 } catch(e) {
                     console.error("클라우드 여론 수립 통제 오류:", e);
                 }
@@ -2596,25 +2761,6 @@
 
             window.renderPollWidget();
             showToast("독자 여론조사 아카이브 조율이 공포되었습니다.");
-        };
-
-        window.resetPollVotes = async function() {
-            if (!window.isAdminMode) return;
-            const dec = await askUserConfirm("현재까지 적립된 여론조사 득표수를 완벽하게 리셋 및 초기화하시겠습니까?");
-            if (dec) {
-                window.pollData.options.forEach(opt => opt.votes = 0);
-                if (window.useFirebase) {
-                    try {
-                        const pollDocRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'polls', 'main_poll');
-                        await setDoc(pollDocRef, window.pollData);
-                    } catch(e) {}
-                }
-                localStorage.setItem("padong_poll_v1", JSON.stringify(window.pollData));
-                localStorage.removeItem("padong_voted_v1");
-                window.renderPollWidget();
-                loadAdminPollData();
-                showToast("의제 득표수가 완전 초기화 수습되었습니다.");
-            }
         };
 
         function renderAdminReportersList() {
@@ -2709,7 +2855,7 @@
                         email: email || original.email,
                         bio: bio || original.bio,
                         image: image || original.image,
-                        career: career || "등록된 정당 약력이 없습니다."
+                        career: career || "등록된 약력이 없습니다."
                     };
 
                     if (oldName !== name) {
@@ -2752,7 +2898,7 @@
                     bio: bio || "파동 취재기자 동지입니다.",
                     recommendations: 0,
                     image,
-                    career: career || "등록된 참정 약력이 없습니다."
+                    career: career || "등록된 약력이 없습니다."
                 };
 
                 if (window.useFirebase) {
@@ -2828,11 +2974,17 @@
             const tagsInputVal = document.getElementById("admin-tags").value.trim();
             const tagsArray = tagsInputVal ? tagsInputVal.split(",").map(t => t.trim()).filter(t => t.length > 0) : [];
 
-            const selectedAuthorsCbs = document.querySelectorAll('input[name="admin-authors-select"]:checked');
-            const selectedAuthors = Array.from(selectedAuthorsCbs).map(cb => cb.value);
+            // 서명 주체 선택 취합 기능 개편 (사설 스위치 혹은 다중 기자 칩스)
+            let selectedAuthors = [];
+            if (window.isEditorialSelected) {
+                selectedAuthors = ["사설 (파동 전체 의견)"];
+            } else {
+                const selectedChips = document.querySelectorAll('.reporter-chip-selected');
+                selectedAuthors = Array.from(selectedChips).map(chip => chip.getAttribute('data-reporter-name'));
+            }
 
             if (selectedAuthors.length === 0) {
-                showToast("본 보도를 송고 집필한 기자를 한 명 이상 지정해 주십시오.");
+                showToast("본 보도를 송고 집필한 서명 주체를 설정해 주십시오. (기자 칩 선택 혹은 사설 스위치)");
                 return;
             }
 
@@ -2862,12 +3014,11 @@
 
             const targetArtId = idInput ? idInput : "art-" + Date.now();
 
-            // [핵심 해결책] 독점 지정 체크 시 다른 기사의 모든 Headline 플래그를 정교하게 초기화
+            // 독점 지정 체크 시 다른 기사의 모든 Headline 플래그를 정교하게 초기화
             if (isHeadline) {
                 if (window.useFirebase) {
                     try {
                         const batch = writeBatch(db);
-                        // 현재 로컬 메모리 상의 다른 모든 기사 중 헤드라인이었던 기사를 전수 수렴하여 DB 강제 정화
                         window.articles.forEach(a => {
                             if (a.id !== targetArtId && (a.isHeadline === true || a.isHeadline === "true")) {
                                 const docRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'articles', a.id);
@@ -2881,7 +3032,6 @@
                     }
                 }
                 
-                // 로컬 스토리지 데이터도 엄격히 정화 처리
                 window.articles.forEach(a => {
                     if (a.id !== targetArtId) {
                         a.isHeadline = false;
@@ -2910,7 +3060,7 @@
                     views: originalViews,
                     recommendations: originalRecs,
                     isScoop: isScoopVal,
-                    isHeadline: isHeadline, // 확실한 불리언 구조 고정
+                    isHeadline: isHeadline,
                     tags: tagsArray,
                     reactions: originalReactions
                 };
@@ -2987,10 +3137,25 @@
                 const radioEl = document.querySelector(`input[name="admin-scoop-type"][value="${targetScoopVal}"]`);
                 if (radioEl) radioEl.checked = true;
 
+                // 에디터 수정 로드 시 칩스 및 사설 상태 복원 매핑
                 const authorsList = art.authors || [art.author];
-                const checks = document.querySelectorAll('input[name="admin-authors-select"]');
-                checks.forEach(cb => {
-                    cb.checked = authorsList.includes(cb.value);
+                if (authorsList.includes("사설 (파동 전체 의견)")) {
+                    window.isEditorialSelected = true;
+                } else {
+                    window.isEditorialSelected = false;
+                }
+                updateEditorialButtonUI();
+
+                const chips = document.querySelectorAll('.reporter-chip');
+                chips.forEach(cb => {
+                    const name = cb.getAttribute('data-reporter-name');
+                    if (authorsList.includes(name) && !window.isEditorialSelected) {
+                        cb.classList.add('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                        cb.classList.remove('bg-white', 'text-gray-800', 'border-gray-200');
+                    } else {
+                        cb.classList.remove('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                        cb.classList.add('bg-white', 'text-gray-800', 'border-gray-200');
+                    }
                 });
 
                 document.getElementById("form-title").innerText = "취재 보도 지면 수정 (데스크 편집실)";
@@ -3042,11 +3207,22 @@
             const defaultRadio = document.querySelector('input[name="admin-scoop-type"][value="normal"]');
             if (defaultRadio) defaultRadio.checked = true;
 
-            const checks = document.querySelectorAll('input[name="admin-authors-select"]');
-            checks.forEach(cb => cb.checked = false);
+            // 서명 칩스 및 사설 상태 원상 복구 초기화
+            window.isEditorialSelected = false;
+            updateEditorialButtonUI();
+
+            const chips = document.querySelectorAll('.reporter-chip');
+            chips.forEach(cb => {
+                cb.classList.remove('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                cb.classList.add('bg-white', 'text-gray-800', 'border-gray-200');
+            });
+            
             if (window.isReporterMode) {
-                const cb = document.querySelector(`input[name="admin-authors-select"][value="${window.loggedInUser}"]`);
-                if (cb) cb.checked = true;
+                const targetChip = document.querySelector(`.reporter-chip[data-reporter-name="${window.loggedInUser}"]`);
+                if (targetChip) {
+                    targetChip.classList.add('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
+                    targetChip.classList.remove('bg-white', 'text-gray-800', 'border-gray-200');
+                }
             }
         };
 
