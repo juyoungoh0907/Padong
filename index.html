@@ -1458,11 +1458,13 @@
             const newsGrid = document.getElementById("news-grid");
             const rightFeaturedBox = document.getElementById("right-featured-box");
 
-            // 오피니언 지면 이외에서 참정 보도 수집
+            // [해결] 사설·칼럼 카테고리 여부에 관계 없이 사용자가 '헤드라인으로 지정'한 기사를 최우선으로 탐색 선출
+            let headline = window.articles.find(a => a.isHeadline === true || a.isHeadline === "true");
+
+            // 오피니언(사설·칼럼) 지면 이외에서 일반 종합 보도 수집
             const mainNewsFull = window.articles.filter(a => a.category !== "사설·칼럼");
 
-            // isHeadline 플래그가 엄격히 보장된 기사 단독 선출
-            let headline = mainNewsFull.find(a => a.isHeadline === true || a.isHeadline === "true");
+            // 명시적 헤드라인 지정 기사가 부재할 경우, 일반 기사 중 최신작을 기본 헤드라인으로 자동 대체
             if (!headline && mainNewsFull.length > 0) {
                 headline = mainNewsFull[0];
             }
@@ -1588,9 +1590,9 @@
                 newsGrid.innerHTML = `<div class="col-span-2 text-center py-10 text-gray-400 text-xs border-t border-gray-100">민주주의 의정 지면이 준비 중입니다.</div>`;
             }
 
-            // 오피니언 지면 아카이브 노출
+            // 오피니언 지면 아카이브 노출 (메인 헤드라인에 사설이 걸렸을 경우 중복 표기를 방지하기 위해 필터링)
             const opinionList = document.getElementById("opinion-list");
-            const opinionSorted = window.articles.filter(a => a.category === "사설·칼럼").slice(0, 3);
+            const opinionSorted = window.articles.filter(a => a.category === "사설·칼럼" && a.id !== (headline ? headline.id : '')).slice(0, 3);
             if (opinionSorted.length > 0) {
                 opinionList.innerHTML = opinionSorted.map(art => {
                     const authorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "논설");
@@ -2568,13 +2570,14 @@
 
         window.renderAdminContent = function() {
             const chipsContainer = document.getElementById("admin-reporters-chips");
-            // 기존 체크박스 레이아웃 대신 모던하고 가벼운 인라인 칩스로 렌더링
+            
+            // 기존 체크박스 레이아웃 대신 모던하고 가벼운 인라인 칩스로 렌더링 (소속 잘림 오동작 해결)
             chipsContainer.innerHTML = window.reporters.map(r => `
                 <button type="button" 
                         onclick="toggleReporterChip(this, '${escapeHtml(r.name)}')" 
                         data-reporter-name="${escapeHtml(r.name)}" 
-                        class="reporter-chip px-3 py-1.5 border border-gray-200 bg-white text-gray-800 text-xs font-semibold hover:bg-gray-100 transition duration-150">
-                    ${escapeHtml(r.name)} (${escapeHtml(r.dept.split(' ')[1] || r.dept)})
+                        class="reporter-chip px-3 py-1.5 border border-gray-200 bg-white text-gray-800 text-xs font-semibold hover:bg-gray-100 transition duration-150 whitespace-nowrap">
+                    ${escapeHtml(r.name)} (${escapeHtml(r.dept)})
                 </button>
             `).join('');
 
