@@ -1,0 +1,3153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 유튜브 임베디드 및 외부 콘텐츠 보안 대응을 위한 Referrer Policy 설정 -->
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <title>파동 - 대한민국 유일 청소년 정론지</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" href="favicon.ico">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Pretendard 프리미엄 웹 폰트 패밀리 주입 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    
+    <style>
+        /* 모든 엘리먼트의 글꼴을 프리텐다드로 강제 전역 적용 */
+        * {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif !important;
+            border-radius: 0px !important;
+            box-shadow: none !important;
+        }
+        
+        body {
+            background-color: #ffffff;
+        }
+        
+        /* 스크롤바 세밀 제어 */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* 파동 시그니처 딥 오션 네이비 색상 정의 */
+        .bg-padong-navy {
+            background-color: #0b1d33;
+        }
+        .text-padong-navy {
+            color: #0b1d33;
+        }
+        .border-padong-navy {
+            border-color: #0b1d33;
+        }
+        .hover\:bg-padong-navy-hover:hover {
+            background-color: #122d4f;
+        }
+    </style>
+</head>
+<body class="text-gray-950 flex flex-col min-h-screen bg-white">
+
+    <div class="border-b border-gray-100 bg-white">
+        <div class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center text-[11px] text-gray-500">
+            <div class="flex space-x-4 items-center">
+                <span id="current-date" class="font-medium">2026년 7월 18일 토요일</span>
+            </div>
+            <div class="flex items-center space-x-3">
+                <div id="admin-status-area" class="flex items-center space-x-2">
+                    <button onclick="openLoginModal()" id="btn-admin-login" class="text-[#0b1d33] hover:underline font-bold flex items-center">
+                        <span class="inline-block w-1.5 h-1.5 bg-[#0b1d33] mr-1.5"></span>파동신문 데스크 로그인
+                    </button>
+                    <div id="admin-logged-in" class="hidden flex items-center space-x-2">
+                        <span id="badge-role" class="bg-[#0b1d33] text-white px-1.5 py-0.5 text-[9px] font-bold">데스크 기자</span>
+                        <span id="lbl-user-name" class="font-bold text-gray-800 text-[11px]">로딩중...</span>
+                        <span class="text-gray-300">|</span>
+                        <button onclick="switchView('admin')" class="hover:underline font-bold text-[#0b1d33] text-[11px]">뉴스룸 데스크 가기</button>
+                        <span class="text-gray-300">|</span>
+                        <button onclick="logoutAdmin()" class="text-gray-400 hover:text-black text-[11px] underline">로그아웃</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="border-b-4 border-[#0b1d33] bg-white sticky top-0 z-40 relative">
+        <div id="reading-progress-container" class="absolute bottom-[-4px] left-0 w-full h-[3px] bg-gray-200 z-50 overflow-hidden hidden">
+            <div id="reading-progress-bar" class="h-full bg-[#0b1d33] w-0 transition-all duration-75"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center bg-white">
+            <div class="flex items-center space-x-4 cursor-pointer shrink-0" onclick="navigateToHome()">
+                <div class="flex flex-col">
+                    <h1 class="text-3xl md:text-4.5xl font-black tracking-tight text-[#0b1d33] border-b-2 border-black pb-0.5 leading-none flex items-baseline">
+                        파동
+                        <span class="text-[10px] md:text-xs font-bold text-gray-500 tracking-wider ml-2.5 uppercase">PADONG POLITICS</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- 정치 전문 정론지에 적합한 탭 개편 -->
+            <div class="flex items-center space-x-1 md:space-x-2 mt-4 md:mt-0 overflow-x-auto w-full md:w-auto scrollbar-hide">
+                <nav class="flex text-sm md:text-base font-bold text-gray-700 whitespace-nowrap mr-4">
+                    <button onclick="navigateToCategory('전체')" id="nav-전체" class="px-3 py-2 text-black border-b-4 border-[#0b1d33]">종합</button>
+                    <button onclick="navigateToCategory('의회·정당')" id="nav-의회·정당" class="px-3 py-2 hover:text-black border-b-4 border-transparent">의회·정당</button>
+                    <button onclick="navigateToCategory('시사·정책')" id="nav-시사·정책" class="px-3 py-2 hover:text-black border-b-4 border-transparent">시사·정책</button>
+                    <button onclick="navigateToCategory('사설·칼럼')" id="nav-사설·칼럼" class="px-3 py-2 hover:text-black border-b-4 border-transparent">사설·칼럼</button>
+                    <button onclick="navigateToCategory('청소년정치')" id="nav-청소년정치" class="px-3 py-2 hover:text-black border-b-4 border-transparent">청소년정치</button>
+                    <button onclick="navigateToCategory('인터뷰')" id="nav-인터뷰" class="px-3 py-2 hover:text-black border-b-4 border-transparent">인터뷰</button>
+                    <button onclick="navigateToCategory('시민연대')" id="nav-시민연대" class="px-3 py-2 hover:text-black border-b-4 border-transparent">시민연대</button>
+                </nav>
+
+                <div class="flex border border-gray-400 bg-white h-8 shrink-0 items-center">
+                    <input type="text" id="search-input" placeholder="기사 검색" class="px-3 py-1 text-xs w-28 md:w-40 outline-none">
+                    <button onclick="searchArticles()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 h-full text-xs font-bold border-l border-gray-300">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 bg-white">
+
+        <!-- 지면 1: 종합 홈 뷰 -->
+        <div id="view-home" class="space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <div class="lg:col-span-8 space-y-8">
+                    <!-- 헤드라인 독점 게시판 -->
+                    <div id="headline-section" class="border-b-2 border-black pb-8">
+                        <!-- 동적으로 대형 탑 헤드라인 기사 주입 -->
+                    </div>
+
+                    <div>
+                        <h3 class="text-sm font-black border-b border-black pb-2 mb-4 flex justify-between items-center">
+                            <span class="flex items-center space-x-1.5">
+                                <span class="w-3 h-3 bg-[#0b1d33]"></span>
+                                <span id="category-indicator" class="text-lg font-extrabold text-gray-900">이 시각 청소년 정론</span>
+                            </span>
+                        </h3>
+                        <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
+                            <!-- 동적 카드 렌더링 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 우측 사이드바 -->
+                <div class="lg:col-span-4 space-y-8 border-t lg:border-t-0 lg:border-l border-gray-200 lg:pl-6 pt-6 lg:pt-0">
+                    <div id="right-featured-box" class="border-b border-gray-200 pb-6">
+                        <!-- 동적 대표 박스 뉴스 -->
+                    </div>
+
+                    <!-- 찬반 투표 컴포넌트 -->
+                    <div id="poll-card-wrapper" class="border border-gray-200 p-4 bg-white space-y-3">
+                        <h4 class="text-xs font-black border-b border-black pb-1.5 flex items-center justify-between">
+                            <span class="text-sm font-bold text-gray-900">독자 여론조사 투표</span>
+                            <span class="bg-[#0b1d33] text-white font-extrabold text-[8px] px-1.5 py-0.2">HOT</span>
+                        </h4>
+                        <div id="poll-widget-container" class="space-y-3">
+                            <!-- 실시간 설문조사 바인딩 -->
+                        </div>
+                    </div>
+
+                    <!-- 실시간 트렌드 복구 영역 -->
+                    <div class="border border-gray-200 p-4 bg-white space-y-3">
+                        <h3 class="text-xs font-black border-b border-black pb-1.5 flex items-center justify-between">
+                            <span class="text-sm font-bold text-gray-900">실시간 트렌드 이슈</span>
+                            <div class="flex space-x-1.5 text-[10px]">
+                                <button onclick="switchTrendTab('views')" id="tab-trend-views" class="text-[#0b1d33] font-black underline">인기순</button>
+                                <span class="text-gray-300">|</span>
+                                <button onclick="switchTrendTab('comments')" id="tab-trend-comments" class="text-gray-400 font-bold">댓글순</button>
+                            </div>
+                        </h3>
+                        <ol id="trend-list" class="space-y-3">
+                            <!-- 인기 기사 및 트렌드 실시간 연동 리스트 -->
+                        </ol>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xs font-black border-b border-black pb-1.5 mb-3">
+                            <span class="text-sm font-bold text-gray-900">사설·칼럼</span>
+                        </h3>
+                        <div id="opinion-list" class="space-y-3">
+                            <!-- 오피니언 기사 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 지면 2: 카테고리별 아카이브 뷰 -->
+        <div id="view-category" class="hidden space-y-8">
+            <div id="cat-banner-bg" class="text-white py-14 px-6 text-center space-y-4 relative overflow-hidden bg-cover bg-center">
+                <div class="absolute inset-0 bg-black/65 z-0"></div>
+                <h1 id="cat-banner-title" class="text-4xl md:text-5xl font-black tracking-widest relative z-10 uppercase">청소년정치</h1>
+                <p class="text-xs text-white/85 relative z-10 font-medium tracking-wider"></p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-7 space-y-4" id="cat-main-col">
+                    <!-- 동적 카테고리 대표 기사 탑재 -->
+                </div>
+
+                <div class="lg:col-span-5 space-y-4">
+                    <h3 class="text-xs font-bold text-[#0b1d33] tracking-wider uppercase border-b border-gray-300 pb-1 mb-2">분야별 입법 소식</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="cat-sub-grid">
+                        <!-- 동적 서브 단신 리스트 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 지면 3: 기사 상세 본문 뷰 -->
+        <div id="view-detail" class="hidden max-w-7xl mx-auto space-y-6">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <div class="hidden lg:block lg:w-[22%] shrink-0"></div>
+                
+                <div class="w-full lg:w-[54%] shrink-0 space-y-3 text-left">
+                    <div id="detail-scoop-badge-container"></div>
+                    <div id="detail-breadcrumbs" class="text-xs md:text-sm font-extrabold text-[#0b1d33] uppercase tracking-wider mb-1"></div>
+                    
+                    <h1 class="text-2xl md:text-3.5xl font-black tracking-tight text-gray-950 leading-tight block" id="detail-title"></h1>
+                    <p class="text-sm md:text-base text-gray-600 font-medium whitespace-pre-line leading-relaxed pl-3 border-l-2 border-[#0b1d33]" id="detail-subtitle"></p>
+                    
+                    <div class="text-xs text-gray-400 flex items-center space-x-2.5 pt-1">
+                        <span class="font-bold text-[#0b1d33] text-sm">파동</span>
+                        <span class="text-gray-300">|</span>
+                        <span>입력 <span id="detail-date" class="font-medium text-gray-600"></span></span>
+                    </div>
+                </div>
+                
+                <div class="hidden lg:block lg:w-[24%] shrink-0"></div>
+            </div>
+
+            <!-- 하단 3열 레이아웃 구성 -->
+            <div class="flex flex-col lg:flex-row gap-8 items-start">
+                
+                <!-- 좌측 사이드바: 소속 기자 정보 카드 -->
+                <div class="w-full lg:w-[22%] space-y-4 lg:sticky lg:top-32 shrink-0" id="detail-reporters-left">
+                    <!-- 동적 기자 카드 삽입처 -->
+                </div>
+
+                <!-- 중앙 영역 -->
+                <div class="w-full lg:w-[54%] shrink-0">
+                    
+                    <!-- 기사 상단 액션 인터페이스 바 -->
+                    <div class="flex items-center justify-between border-y border-gray-200 py-3 text-xs text-gray-500">
+                        <div class="flex items-center space-x-4">
+                            <span class="flex items-center space-x-1.5 hover:text-[#0b1d33] font-semibold select-none">
+                                <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                                <span class="text-gray-700">토론 <strong id="action-bar-comment-count" class="text-black font-extrabold">0</strong></span>
+                            </span>
+                            <span class="text-gray-200">|</span>
+                            <button onclick="recommendArticle()" class="flex items-center space-x-1.5 hover:text-red-500 font-semibold transition">
+                                <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+                                <span class="text-gray-700">지지 <strong id="detail-recommendations" class="text-black font-extrabold">0</strong></span>
+                            </button>
+                            <span class="text-gray-200">|</span>
+                            <span class="flex items-center space-x-1.5 text-gray-500 font-medium select-none">
+                                <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                <span class="text-gray-700">조회수 <strong id="detail-views" class="text-[#0b1d33] font-extrabold">0</strong></span>
+                            </span>
+                        </div>
+                        <div class="flex items-center space-x-3.5">
+                            <button onclick="copyArticleLink()" title="주소 복사" class="text-gray-600 hover:text-black">
+                                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 10.742l4.636-2.318M8.684 13.258l4.636 2.318m6-6.126a3 3 0 11-6 0 3 3 0 016 0zm-6 12a3 3 0 11-6 0 3 3 0 016 0zm6-6a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            </button>
+                            <button onclick="playArticleTTS()" id="btn-tts-play" title="지면 낭독 듣기" class="text-gray-600 hover:text-[#0b1d33] flex items-center">
+                                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                            </button>
+                            <button onclick="window.print()" title="인쇄" class="text-gray-600 hover:text-black">
+                                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 00-2 2h2m2 4h6a2 2 0 00-2-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                            </button>
+                            <span class="text-gray-200">|</span>
+                            <div class="flex items-center space-x-1 bg-white border border-gray-300 px-1 py-0.5">
+                                <span class="text-[9px] text-gray-400 px-1 select-none font-bold">크기</span>
+                                <button onclick="adjustFontSize(1)" class="px-1 hover:bg-gray-150 font-black text-gray-700 text-xs">+</button>
+                                <button onclick="adjustFontSize(-1)" class="px-1 hover:bg-gray-150 font-black text-gray-700 text-xs">-</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="btn-tts-stop" class="hidden flex items-center justify-between bg-blue-50 border border-blue-200 p-2 text-xs my-2">
+                        <span class="text-[#0b1d33] font-bold">📣 파동 기사 AI 오디오 스트리밍 송출 중</span>
+                        <button onclick="stopArticleTTS(false)" class="bg-red-600 text-white px-2 py-0.5 font-bold">낭독 정지</button>
+                    </div>
+
+                    <!-- 대표 이미지/동영상 컨테이너 -->
+                    <div id="detail-image-container" class="w-full mt-4">
+                        <!-- 동적 콘텐츠 주입 -->
+                    </div>
+
+                    <!-- 기사 본문 영역 -->
+                    <div class="text-gray-900 text-[15.5px] md:text-[16.5px] leading-relaxed space-y-5 whitespace-pre-line font-sans mt-6" id="detail-content" style="font-size: 16.5px;">
+                        <!-- 본문 텍스트 렌더링 -->
+                    </div>
+
+                    <div class="pt-6 border-t border-gray-100 space-y-6 mt-6">
+                        <div id="detail-tags-container" class="flex flex-wrap gap-2">
+                            <!-- #태그 -->
+                        </div>
+
+                        <div id="detail-emails-container" class="text-xs text-gray-600 space-y-1 py-3 border-y border-gray-100 font-medium">
+                            <!-- 기자 이메일 -->
+                        </div>
+
+                        <p class="text-[11px] text-gray-400">
+                            © 파동미디어 All rights reserved. 무단 전재, 재배포 및 인공지능(AI) 학습 이용 금지.
+                        </p>
+
+                        <!-- 독자 리액션 -->
+                        <div class="flex items-center justify-center space-x-12 py-6 border-b border-gray-100">
+                            <button onclick="reactToArticle('like')" class="flex flex-col items-center space-y-1 hover:scale-105 transition">
+                                <span class="text-3xl">💖</span>
+                                <span class="text-xs text-gray-600">적극 공감 <strong id="react-like-count" class="text-[#0b1d33]">0</strong></span>
+                            </button>
+                            <button onclick="reactToArticle('sad')" class="flex flex-col items-center space-y-1 hover:scale-105 transition">
+                                <span class="text-3xl">😢</span>
+                                <span class="text-xs text-gray-600">우려됨 <strong id="react-sad-count" class="text-blue-500">0</strong></span>
+                            </button>
+                            <button onclick="reactToArticle('angry')" class="flex flex-col items-center space-y-1 hover:scale-105 transition">
+                                <span class="text-3xl">😡</span>
+                                <span class="text-xs text-gray-600">분노함 <strong id="react-angry-count" class="text-red-500">0</strong></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 하단 독자 토론 및 의견 공간 -->
+                    <div class="bg-white border border-gray-200 p-6 space-y-6">
+                        <h3 class="text-base font-black border-b-2 border-black pb-2 flex justify-between items-center">
+                            <span class="text-lg font-black text-gray-950">댓글 (<span id="comment-count" class="text-[#0b1d33]">0</span>개)</span>
+                            <span class="text-xs text-gray-400 font-normal">정치적 다양성과 정중한 여론 형성을 지향합니다.</span>
+                        </h3>
+                        
+                        <div id="comment-list" class="space-y-4 text-sm"></div>
+                        
+                        <div class="flex flex-col space-y-3 pt-4 border-t border-gray-150">
+                            <div class="flex flex-col md:flex-row gap-3">
+                                <input type="text" id="comment-writer" placeholder="논객 성명" class="border border-gray-300 p-2.5 text-xs w-full md:w-44 outline-none focus:border-black font-semibold">
+                                <input type="text" id="comment-text" placeholder="근거와 품격을 갖춘 한줄평을 기탁해주세요." class="border border-gray-300 p-2.5 text-xs flex-grow outline-none focus:border-black">
+                                <button onclick="addComment()" class="bg-[#0b1d33] text-white px-5 py-2.5 text-xs font-bold hover:bg-slate-800 shrink-0 transition">등록</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 우측 사이드바: 트렌드 뉴스 영역 -->
+                <div class="w-full lg:w-[24%] space-y-6 lg:sticky lg:top-32 shrink-0">
+                    <div class="border border-gray-200 p-4 bg-white space-y-3">
+                        <h3 class="text-xs font-black border-b border-black pb-1.5 flex items-center justify-between">
+                            <span class="text-sm font-bold text-gray-900">정치이슈</span>
+                            <div class="flex space-x-1.5 text-[10px]">
+                                <button onclick="switchTrendTabDetail('views')" id="tab-trend-views-detail" class="text-[#0b1d33] font-black underline">조회수</button>
+                                <span class="text-gray-300">|</span>
+                                <button onclick="switchTrendTabDetail('comments')" id="tab-trend-comments-detail" class="text-gray-400 font-bold">댓글수</button>
+                            </div>
+                        </h3>
+                        <ol id="trend-list-detail" class="space-y-3">
+                            <!-- 동적 상세보기 트렌드 리스트가 렌더링됩니다 -->
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div id="admin-article-actions" class="hidden justify-end space-x-2 border-t border-gray-100 pt-4">
+                <button id="btn-detail-edit" class="bg-blue-600 text-white text-xs font-bold px-3 py-2 hover:bg-blue-700">이 기사 수정</button>
+                <button id="btn-detail-delete" class="bg-red-600 text-white text-xs font-bold px-3 py-2 hover:bg-red-700">이 기사 삭제</button>
+            </div>
+        </div>
+
+        <!-- 지면 4: 소속 기자 프로필 아카이브 -->
+        <div id="view-reporter" class="hidden space-y-8">
+            <div class="border-b-2 border-black pb-2">
+                <h2 class="text-3xl font-black text-gray-900">기자단 명부</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <div class="lg:col-span-4 space-y-6">
+                    <div id="rep-profile-hero" class="bg-[#0b1d33] text-white p-6 space-y-6">
+                        <!-- 동적으로 채워질 기자 프로필 카드 -->
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8 space-y-4">
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest border-b border-gray-200 pb-1.5 mb-2">기획 및 집필 기사</h3>
+                    <div id="rep-articles-feed" class="space-y-4">
+                        <!-- 기사의 피드가 렌더링됩니다 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 지면 5: 정적 정보 안내서 지면 -->
+        <div id="view-page" class="hidden max-w-3xl mx-auto bg-white border border-gray-200 p-8 space-y-6">
+            <h2 id="page-title" class="text-xl md:text-2xl font-black text-gray-900 border-b border-black pb-2.5">페이지 제목</h2>
+            <div id="page-content" class="text-sm md:text-base text-gray-700 leading-relaxed space-y-4 whitespace-pre-line">
+                <!-- 동적으로 페이지 글들이 배치됩니다 -->
+            </div>
+            <div class="pt-6 border-t border-gray-150 flex justify-end">
+                <button onclick="switchView('home')" class="bg-black text-white text-xs font-bold px-4 py-2 hover:bg-neutral-800">종합 홈으로 가기</button>
+            </div>
+        </div>
+
+        <!-- 지면 6: 뉴스룸 편집국 백오피스 제어센터 -->
+        <div id="view-admin" class="hidden space-y-6">
+            <div class="border-b-2 border-black pb-4 flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-4 border border-gray-200">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-black text-[#0b1d33] flex items-center space-x-2">
+                        <span>파동 편집국</span>
+                        <span id="admin-badge" class="bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 uppercase tracking-widest">DESK</span>
+                    </h2>
+                    <p class="text-[11px] text-gray-500 mt-1">
+                        접속 권한: <strong id="current-role-display" class="text-[#0b1d33]">최고 관리자</strong> | 실시간 동기화 채널 활성화 완료
+                    </p>
+                </div>
+                <div class="flex space-x-2 mt-2 md:mt-0">
+                    <button onclick="switchView('home')" class="bg-black text-white text-xs px-4 py-2 font-bold hover:bg-neutral-800">지면 홈으로 가기</button>
+                    <button onclick="logoutAdmin()" class="border border-red-500 text-red-600 text-xs px-4 py-2 font-bold hover:bg-red-50">로그아웃</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <!-- 좌측 탭 바 -->
+                <div class="lg:col-span-1 space-y-1 bg-white border border-gray-200 p-3">
+                    <button id="admin-tab-write" onclick="switchAdminTab('write')" class="w-full text-left px-3 py-2.5 text-xs font-bold border-l-4 border-[#0b1d33] bg-gray-50 text-[#0b1d33] flex items-center justify-between">
+                        <span>✍ 신규 보도 지면 편집</span> <span>▶</span>
+                    </button>
+                    <button id="admin-tab-articles" onclick="switchAdminTab('articles')" class="w-full text-left px-3 py-2.5 text-xs font-bold text-gray-600 border-l-4 border-transparent hover:bg-gray-50 flex items-center justify-between">
+                        <span>📰 발행 아카이브 관리</span> <span>▶</span>
+                    </button>
+                    <button id="admin-tab-reporters" onclick="switchAdminTab('reporters')" class="w-full text-left px-3 py-2.5 text-xs font-bold text-gray-600 border-l-4 border-transparent hover:bg-gray-50 flex items-center justify-between admin-only-element">
+                        <span>👥 기자단 관리</span> <span>▶</span>
+                    </button>
+                    <button id="admin-tab-stats" onclick="switchAdminTab('stats')" class="w-full text-left px-3 py-2.5 text-xs font-bold text-gray-600 border-l-4 border-transparent hover:bg-gray-50 flex items-center justify-between admin-only-element">
+                        <span>📊 종합 지면 여론 지표</span> <span>▶</span>
+                    </button>
+                    <button id="admin-tab-comments" onclick="switchAdminTab('comments')" class="w-full text-left px-3 py-2.5 text-xs font-bold text-gray-600 border-l-4 border-transparent hover:bg-gray-50 flex items-center justify-between admin-only-element">
+                        <span>💬 댓글 모니터링 데스크</span> <span>▶</span>
+                    </button>
+                    <button id="admin-tab-poll" onclick="switchAdminTab('poll')" class="w-full text-left px-3 py-2.5 text-xs font-bold text-gray-600 border-l-4 border-transparent hover:bg-gray-50 flex items-center justify-between admin-only-element">
+                        <span>🗳️ 여론조사</span> <span>▶</span>
+                    </button>
+                </div>
+
+                <!-- 우측 서브 서랍장 -->
+                <div class="lg:col-span-3 bg-white border border-gray-200 p-6 space-y-6">
+                    
+                    <!-- [서브탭 A: 기사 편집/작성] -->
+                    <div id="admin-subview-write" class="space-y-4">
+                        <div class="border-b border-gray-200 pb-2 flex justify-between items-center">
+                            <h1 class="text-sm font-black text-gray-800" id="form-title">보도 원고 게재</h1>
+                            <button onclick="clearAdminForm()" class="text-xs text-gray-500 hover:underline">원고 대지 초기화</button>
+                        </div>
+                        <input type="hidden" id="admin-article-id">
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 mb-1">정치 지면 카테고리 분류</label>
+                                <select id="admin-category" class="w-full border border-gray-300 p-2.5 text-xs outline-none focus:border-black font-semibold">
+                                    <option value="의회·정당">의회·정당</option>
+                                    <option value="시사·정책">시사·정책</option>
+                                    <option value="사설·칼럼">사설·칼럼</option>
+                                    <option value="청소년정치">청소년정치</option>
+                                    <option value="인터뷰">인터뷰</option>
+                                    <option value="시민연대">시민연대</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 mb-1">현장 보도 사진 외부 직접링크</label>
+                                <input type="text" id="admin-image" placeholder="직접 https://... 이미지 주소 입력 (미기재시 기본 이미지)" class="w-full border border-gray-300 p-2.5 text-xs outline-none focus:border-black">
+                            </div>
+                        </div>
+
+                        <!-- 형태 지정 라이너 -->
+                        <div class="border border-gray-200 p-3 bg-gray-50 space-y-3">
+                            <label class="block text-[10px] font-bold text-[#0b1d33] mb-1">보도 구분 플래그</label>
+                            <div class="flex items-center space-x-6 flex-wrap">
+                                <label class="flex items-center space-x-1.5 cursor-pointer text-xs font-semibold">
+                                    <input type="radio" name="admin-scoop-type" value="normal" checked class="text-[#0b1d33] focus:ring-[#0b1d33]">
+                                    <span>일반 정론</span>
+                                </label>
+                                <label class="flex items-center space-x-1.5 cursor-pointer text-xs font-semibold text-[#0b1d33]">
+                                    <input type="radio" name="admin-scoop-type" value="scoop" class="text-[#0b1d33] focus:ring-[#0b1d33]">
+                                    <span>단독</span>
+                                </label>
+                                <label class="flex items-center space-x-1.5 cursor-pointer text-xs font-semibold text-amber-500">
+                                    <input type="radio" name="admin-scoop-type" value="breaking" class="text-[#0b1d33] focus:ring-[#0b1d33]">
+                                    <span>속보</span>
+                                </label>
+                                <label class="flex items-center space-x-1.5 cursor-pointer text-xs font-semibold text-red-600">
+                                    <input type="radio" name="admin-scoop-type" value="urgent" class="text-[#0b1d33] focus:ring-[#0b1d33]">
+                                    <span>긴급</span>
+                                </label>
+                            </div>
+                            
+                            <!-- 1면 탑 헤드라인 독점 고정 장치 (지적된 독점 처리 오동작 무결 패치 완료) -->
+                            <div class="pt-2 border-t border-gray-200">
+                                <label class="flex items-center space-x-2 cursor-pointer text-xs font-bold text-[#0b1d33]">
+                                    <input type="checkbox" id="admin-is-headline" class="text-[#0b1d33] focus:ring-[#0b1d33] h-4 w-4">
+                                    <span class="text-red-700">📰 이 보도를 파동 1면 헤드라인으로 지정</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 서명 배정 체크 박스 -->
+                        <div class="border border-gray-200 p-3 bg-gray-50">
+                            <label class="block text-[10px] font-bold text-[#0b1d33] mb-2">집필 및 송고 기자 서명 (공동 기고 및 복수 배정 가능)</label>
+                            <div id="admin-reporters-checkboxes" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                                <!-- 동적 로딩 기자 체크박스 -->
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-bold text-[#0b1d33] mb-1">지면 메타 태그 설정 (쉼표로 구분)</label>
+                            <input type="text" id="admin-tags" placeholder="예: 청소년참정권, 정당활동, 국회토론회" class="w-full border border-gray-300 p-2.5 text-xs outline-none focus:border-black">
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-500 mb-1">헤드라인 대제목 (대형 메인 타이틀)</label>
+                            <input type="text" id="admin-title" placeholder="헤드라인 대제목을 입력하세요." class="w-full border border-gray-300 p-2.5 text-sm font-bold outline-none focus:border-black">
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-500 mb-1">서브 타이틀 (부제목, 기사의 논점을 2줄 내로 요약)</label>
+                            <textarea id="admin-subtitle" rows="2" placeholder="기사의 논점을 함축하는 부제목을 기입하세요." class="w-full border border-gray-300 p-2.5 text-xs outline-none focus:border-black"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-500 mb-1">기사 보도 본문</label>
+                            <textarea id="admin-content" rows="12" placeholder="정론직필 취재 본문을 기입하세요.&#13;&#10;[이미지링크:이미지_주소|주석내용] : 직접 이미지 주소 삽입 (예: [이미지링크:https://site.com/pic.jpg|현장 전경])&#13;&#10;[동영상링크:유튜브_또는_mp4_주소|주석내용] : 동영상 플레이어 삽입 (예: [동영상링크:https://www.youtube.com/watch?v=dQw4w9WgXcQ|취재 동영상 수록])" class="w-full border border-gray-300 p-3 text-xs outline-none leading-relaxed focus:border-black"></textarea>
+                            <p class="text-[9px] text-gray-400 mt-1">※ <b>본문 정제 가이드:</b> 이미지, 동영상 삽입은 오직 [이미지링크:...] 및 [동영상링크:...] 기법만을 활용합니다.</p>
+                        </div>
+
+                        <div class="flex justify-end space-x-2 pt-2 border-t border-gray-100">
+                            <button onclick="saveArticle()" class="bg-[#0b1d33] text-white px-6 py-2.5 text-xs font-bold hover:bg-slate-800">보도 지면 배포 및 전파</button>
+                        </div>
+                    </div>
+
+                    <!-- [서브탭 B: 배포 관리 목록] -->
+                    <div id="admin-subview-articles" class="hidden space-y-4">
+                        <h3 class="text-sm font-black border-b border-gray-200 pb-2">기배포 완료 정치 보도 목록</h3>
+                        <div id="admin-article-list" class="space-y-2.5 max-h-[500px] overflow-y-auto pr-1 text-xs scrollbar-hide">
+                            <!-- 로딩 기사 목록 -->
+                        </div>
+                    </div>
+
+                    <!-- [서브탭 C: 기자단 편집 관리 (Admin 전용)] -->
+                    <div id="admin-subview-reporters" class="hidden space-y-6 admin-only-element">
+                        <div class="border-b border-gray-200 pb-2 flex justify-between items-center">
+                            <h3 class="text-sm font-black" id="reporter-management-title">기자단 임명명부</h3>
+                            <button onclick="clearReporterForm()" class="text-xs text-gray-500 hover:underline font-medium">입력대지 초기화</button>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 border border-gray-200 space-y-3">
+                            <h4 id="rep-form-title" class="text-xs font-bold text-gray-700">기자단 신규 영입 / 세션 등록</h4>
+                            <input type="hidden" id="edit-rep-id">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <input type="text" id="add-rep-name" placeholder="기자 성명 (예: 김동률 기자)" class="border border-gray-300 p-2 text-xs outline-none bg-white font-semibold">
+                                <input type="text" id="add-rep-dept" placeholder="소속 부서 (예: 파동 정치 1부)" class="border border-gray-300 p-2 text-xs outline-none bg-white">
+                                <input type="email" id="add-rep-email" placeholder="이메일 (예: drkim@padong.com)" class="border border-gray-300 p-2 text-xs outline-none bg-white">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <input type="text" id="add-rep-bio" placeholder="취재 신념 등 한글 소개" class="border border-gray-300 p-2 text-xs outline-none bg-white">
+                                <input type="text" id="add-rep-image" placeholder="기자 사진 주소(URL)" class="border border-gray-300 p-2 text-xs outline-none bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 mb-1">기자 경력 및 참정 이력</label>
+                                <textarea id="add-rep-career" rows="3" placeholder="예: 2026년 파동미디어 창립 발기인 투고 위촉" class="w-full border border-gray-300 p-2.5 text-xs outline-none bg-white"></textarea>
+                            </div>
+                            <div class="flex justify-end pt-1">
+                                <button id="btn-save-reporter" onclick="addNewReporter()" class="bg-[#0b1d33] text-white px-4 py-2 text-xs font-bold hover:bg-slate-800">새 기자 영입 승인</button>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="text-xs font-bold text-gray-500">현재 승인된 정기 취재 기자단 목록</h4>
+                            <div id="admin-reporters-list" class="space-y-2 max-h-[300px] overflow-y-auto scrollbar-hide">
+                                <!-- 동적 기자단 바인딩 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- [서브탭 D: 실시간 시스템 종합 지표 (Admin 전용)] -->
+                    <div id="admin-subview-stats" class="hidden space-y-6 admin-only-element">
+                        <h3 class="text-sm font-black border-b border-gray-200 pb-2">파동미디어 종합 지면 모니터</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="border border-gray-200 p-4 bg-gray-50">
+                                <span class="text-[10px] text-gray-400 font-bold">누적 발행 지면 보도 수</span>
+                                <p id="stat-total-articles" class="text-3xl font-black text-gray-800 mt-1">0</p>
+                            </div>
+                            <div class="border border-gray-200 p-4 bg-gray-50">
+                                <span class="text-[10px] text-gray-400 font-bold">종합 열람(뷰) 수</span>
+                                <p id="stat-total-views" class="text-3xl font-black text-[#0b1d33] mt-1">0</p>
+                            </div>
+                            <div class="border border-gray-200 p-4 bg-gray-50">
+                                <span class="text-[10px] text-gray-400 font-bold">독자 참여 민주주의 의제(의견)</span>
+                                <p id="stat-total-comments" class="text-3xl font-black text-blue-600 mt-1">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- [서브탭 E: 실시간 댓글 모니터링 (Admin 전용)] -->
+                    <div id="admin-subview-comments" class="hidden space-y-4 admin-only-element">
+                        <div class="border-b border-gray-200 pb-2 flex justify-between items-center">
+                            <h3 class="text-sm font-black">실시간 여론조사 투표</h3>
+                            <span class="text-[10px] text-gray-400 font-normal">비방이나 혐오 발언에 대한 민주적 통제가 가능합니다.</span>
+                        </div>
+                        <div id="admin-comments-management-list" class="space-y-3 max-h-[450px] overflow-y-auto pr-1 text-xs scrollbar-hide">
+                            <!-- 동적 관리용 댓글 바인딩 -->
+                        </div>
+                    </div>
+
+                    <!-- [서브탭 F: 찬반 투표 안건 설정 제어 (Admin 전용)] -->
+                    <div id="admin-subview-poll" class="hidden space-y-4 admin-only-element">
+                        <h3 class="text-sm font-black border-b border-gray-200 pb-2">🗳️ 실시간 청소년 사회 여론조사 문항 설정</h3>
+                        <div class="bg-gray-50 p-4 border border-gray-200 space-y-3">
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 mb-1">설문 질문 설정</label>
+                                <input type="text" id="admin-poll-question" class="w-full border border-gray-300 p-2 text-xs outline-none bg-white focus:border-black">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-gray-500 mb-1">의견 1 (득표수 <span id="admin-poll-vote0" class="text-blue-600 font-bold">0</span>)</label>
+                                    <input type="text" id="admin-poll-opt0" class="w-full border border-gray-300 p-2 text-xs outline-none bg-white focus:border-black">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-gray-500 mb-1">의견 2 (득표수 <span id="admin-poll-vote1" class="text-blue-600 font-bold">0</span>)</label>
+                                    <input type="text" id="admin-poll-opt1" class="w-full border border-gray-300 p-2 text-xs outline-none bg-white focus:border-black">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-gray-500 mb-1">의견 3 (득표수 <span id="admin-poll-vote2" class="text-blue-600 font-bold">0</span>)</label>
+                                    <input type="text" id="admin-poll-opt2" class="w-full border border-gray-300 p-2 text-xs outline-none bg-white focus:border-black">
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <label class="flex items-center space-x-1.5 cursor-pointer text-xs font-semibold">
+                                    <input type="checkbox" id="admin-poll-active" checked class="text-[#0b1d33] focus:ring-[#0b1d33]">
+                                    <span>지면에 설문조사 위젯 노출시키기</span>
+                                </label>
+                            </div>
+                            <div class="flex justify-between pt-2 border-t border-gray-200">
+                                <button onclick="resetPollVotes()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 text-xs font-bold">집계치 완전 리셋</button>
+                                <button onclick="saveAdminPoll()" class="bg-[#0b1d33] hover:bg-slate-800 text-white px-5 py-2 text-xs font-bold">지면 게시 확정</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-gray-200 bg-white py-10 text-xs text-gray-500 mt-16">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-start md:items-center space-y-6 md:space-y-0 md:space-x-12">
+            <div class="shrink-0 select-none">
+                <div class="flex flex-col cursor-pointer" onclick="navigateToHome()">
+                    <span class="text-2xl font-black text-[#0b1d33] pb-0.5 border-b-2 border-black">파동</span>
+                </div>
+            </div>
+            
+            <div class="flex-grow space-y-4">
+                <div class="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 font-medium">
+                    <button onclick="showFooterStaticPage('intro')" class="hover:text-black hover:underline text-left">파동 소개</button>
+                    <span class="text-gray-300 select-none">|</span>
+                    <button onclick="showFooterStaticPage('pdf')" class="hover:text-black hover:underline text-left">지면 PDF 아카이브</button>
+                    <span class="text-gray-300 select-none">|</span>
+                    <button onclick="showFooterStaticPage('ad')" class="hover:text-black hover:underline text-left">정론 지지 및 제휴</button>
+                    <span class="text-gray-300 select-none">|</span>
+                    <button onclick="showFooterStaticPage('rules')" class="hover:text-black hover:underline text-left">이용약관</button>
+                    <span class="text-gray-300 select-none">|</span>
+                    <button onclick="showFooterStaticPage('privacy')" class="hover:text-black hover:underline text-left font-extrabold text-black">개인정보처리방침</button>
+                    <span class="text-gray-300 select-none">|</span>
+                    <button onclick="openSupportModal()" class="text-[#0b1d33] hover:underline text-left font-bold">후원하기</button>
+                    <span class="text-gray-300 select-none">|</span>
+                    <button onclick="openReportModal()" class="text-red-600 hover:underline text-left font-bold">제보하기</button>
+                </div>
+
+                <div class="text-[11px] text-gray-400 leading-relaxed space-y-0.5">
+                    <div class="flex flex-wrap gap-x-2 gap-y-0.5 items-center">
+                        <span>법인명: 파동미디어</span>
+                        <span class="text-gray-300 select-none">|</span>
+                        <span>주소: 경기도 부천시 원미구 상동</span>
+                        <span class="text-gray-300 select-none">|</span>
+                        <span>대표전화: 010-5634-1865 (사무국)</span>
+                    </div>
+                    <div class="flex flex-wrap gap-x-2 gap-y-0.5 items-center">
+                        <span>제호: 파동</span>
+                        <span class="text-gray-300 select-none">|</span>
+                        <span>발행·편집인: 오주영</span>
+                        <span class="text-gray-300 select-none">|</span>
+                        <span>정론 창간일: 2026-07-16</span>
+                        <span class="text-gray-300 select-none">|</span>
+                    </div>
+                </div>
+
+                <div class="text-[11px] text-gray-400 font-medium select-none">
+                    Copyright by 파동미디어 All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== UI MODAL COMPONENTS ==================== -->
+    
+    <!-- 1. 보안 로그인 모달 -->
+    <div id="login-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white border-4 border-[#0b1d33] w-full max-w-sm overflow-hidden p-6 space-y-4">
+            <div class="border-b-2 border-[#0b1d33] pb-3 flex justify-between items-center">
+                <h3 class="text-sm font-black text-[#0b1d33] uppercase tracking-widest">데스크 보안 로그인</h3>
+                <button onclick="closeLoginModal()" class="text-gray-500 hover:text-black font-bold text-xl leading-none">&times;</button>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-black text-[#0b1d33] uppercase tracking-wider mb-1">기자 이메일</label>
+                    <input type="email" id="admin-email" placeholder="email@padong.com" class="w-full border-2 border-gray-300 p-2 text-xs outline-none focus:border-[#0b1d33] font-semibold bg-white">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-black text-[#0b1d33] uppercase tracking-wider mb-1">비밀번호</label>
+                    <input type="password" id="admin-password" placeholder="••••••••" class="w-full border-2 border-gray-300 p-2 text-xs outline-none focus:border-[#0b1d33] font-semibold bg-white">
+                </div>
+
+                <div class="flex justify-end space-x-2 pt-2 border-t border-gray-150">
+                    <button onclick="closeLoginModal()" class="border border-gray-300 hover:bg-gray-100 px-4 py-2 text-xs font-bold text-gray-600 transition">닫기</button>
+                    <button onclick="submitAdminLogin()" class="bg-[#0b1d33] hover:bg-slate-800 text-white px-5 py-2 text-xs font-bold transition">로그인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. 제보하기 모달 -->
+    <div id="report-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white border-4 border-[#0b1d33] w-full max-w-xl overflow-hidden p-8 space-y-5">
+            <div class="border-b-2 border-[#0b1d33] pb-3 flex justify-between items-center">
+                <h3 class="text-sm font-black text-[#0b1d33] uppercase tracking-widest">파동 입법 및 비리 독자 제보 센터</h3>
+                <button onclick="closeReportModal()" class="text-gray-500 hover:text-black font-bold text-xl leading-none">&times;</button>
+            </div>
+            
+            <div class="space-y-4 text-sm text-gray-700">
+                <div class="space-y-1">
+                    <span class="bg-red-50 text-red-600 font-black text-[10px] px-2 py-0.5 inline-block border border-red-200">파동 제보하기</span>
+                    <h4 class="font-extrabold text-gray-900 text-lg leading-snug">여러분의 용기 있는 고발과 제보가<br>기성 권력을 흔드는 파동이 됩니다.</h4>
+                </div>
+                
+                <p class="text-gray-650 text-xs leading-relaxed">
+                    파동은 청소년에 대한 차별, 정책적 배제, 학교 및 기성 정치권의 부정부패에 대해 타협 없이 보도합니다. 수사기관 및 입법부에 영향력을 전달할 수 있도록 실증 증거와 함께 접수해 주십시오.
+                </p>
+                
+                <div class="bg-red-50/50 border-2 border-red-600 p-4 text-center space-y-2.5">
+                    <span class="text-xs font-black text-red-600">⚡제보 접수</span>
+                    <p class="text-xs text-gray-700 font-medium leading-relaxed">기명 및 철저한 익명이 완벽 보장되는 보안 통로 구글 제보 시스템입니다.</p>
+                    <a href="https://forms.gle/7yDo4AH8wsxxAB79A" target="_blank" rel="noopener noreferrer" class="inline-block bg-red-600 hover:bg-red-700 text-white text-xs font-black px-6 py-3 transition">
+                        👉 제보하기로 이동
+                    </a>
+                </div>
+                
+                <div class="border border-gray-300 p-4 bg-gray-50 space-y-2">
+                    <div class="flex items-center space-x-1.5 text-[#0b1d33] font-black text-xs border-b border-gray-200 pb-2">
+                        <span>파동 제보하기 연락처</span>
+                    </div>
+                    <div class="space-y-1.5 text-xs text-gray-800">
+                        <div class="flex justify-between">
+                            <span class="font-bold text-gray-500">📧 보도국 대표 메일:</span>
+                            <span class="font-extrabold text-gray-900 underline">editor@padong.com</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="font-bold text-gray-500">📞 대표 연락처:</span>
+                            <span class="font-extrabold text-gray-900">010-5634-1865</span>
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-red-600 font-bold border-t border-dashed border-red-200 pt-2 leading-relaxed">
+                        ⚠️ 공지: 보도 제보의 누락 방지 및 보안을 위해 인스타그램 DM 등 타 경로는 공식 접수 채널로 활용하지 않습니다. 반드시 메일, 유선전화 또는 공식 구글 폼 링크를 경유하시기 바랍니다.
+                    </p>
+                </div>
+
+                <div class="flex justify-end pt-2 border-t border-gray-150">
+                    <button onclick="closeReportModal()" class="bg-[#0b1d33] hover:bg-slate-800 text-white px-6 py-2.5 text-xs font-bold transition">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2.5 후원하기 모달 -->
+    <div id="support-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white border-4 border-[#0b1d33] w-full max-w-2xl md:max-w-3xl overflow-hidden p-8 space-y-6">
+            <div class="border-b-2 border-[#0b1d33] pb-3 flex justify-between items-center">
+                <h3 class="text-sm font-black text-[#0b1d33] uppercase tracking-widest">파동미디어 자율 후원</h3>
+                <button onclick="closeSupportModal()" class="text-gray-500 hover:text-black font-bold text-xl leading-none">&times;</button>
+            </div>
+            
+            <div class="space-y-4 text-sm text-gray-700">
+                <div class="space-y-1">
+                    <span class="bg-blue-50 text-[#0b1d33] font-black text-[10px] px-2 py-0.5 inline-block border border-blue-200">비영리 독립 정치 언론체</span>
+                    <h4 class="font-extrabold text-gray-900 text-xl leading-snug">청소년이 정치의 완전한 주역이 될 수 있도록 든든한 날개가 되어주십시오.</h4>
+                </div>
+                
+                <p class="text-gray-650 text-xs md:text-sm leading-relaxed">
+                    파동은 어떠한 정당 자본이나 이익 집단, 상업 광고주에게도 지배받지 않는 완전한 자립형 독립 언론입니다. 청소년 필진의 정치 취재비, 입법 제안 활동 공청회 개최비, 지면 소책자 제작비 등 모든 운영 예산은 독자분들의 자율 후원금으로만 성립됩니다.
+                </p>
+                
+                <div class="border border-gray-300 p-5 bg-gray-50 space-y-3">
+                    <div class="flex items-center space-x-1.5 text-[#0b1d33] font-black text-xs border-b border-gray-200 pb-2">
+                        <span>자율 투고 후원 안내</span>
+                    </div>
+                    <div class="space-y-2 text-xs md:text-sm text-gray-800">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-gray-500">🏦 공식 후원 계좌:</span>
+                            <span class="font-extrabold text-gray-900">국민은행 720502-01-319751 (예금주: 오주영)</span>
+                        </div>
+                        <div class="flex justify-between items-center border-t border-gray-100 pt-2">
+                            <span class="font-bold text-gray-500">✉️ 협력 조약 및 연대 제의:</span>
+                            <span class="font-extrabold text-[#0b1d33] underline">editor@padong.com</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end pt-2 border-t border-gray-150">
+                    <button onclick="closeSupportModal()" class="bg-[#0b1d33] hover:bg-slate-800 text-white px-6 py-2.5 text-xs font-bold transition">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. 커스텀 컨펌 모달 -->
+    <div id="confirm-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white border-4 border-[#0b1d33] w-full max-w-sm overflow-hidden p-6 space-y-4">
+            <div class="border-b border-gray-200 pb-2">
+                <span class="text-xs font-black text-red-600">⚠️ 데스크 처리 승인 확인</span>
+            </div>
+            <p id="confirm-modal-text" class="text-xs md:text-sm text-gray-700 leading-relaxed font-semibold"></p>
+            <div class="flex justify-end space-x-2 pt-2 border-t border-gray-150">
+                <button onclick="closeConfirmModal(false)" class="border border-gray-300 hover:bg-gray-150 px-4 py-2 text-xs font-bold text-gray-500 transition">취소</button>
+                <button onclick="closeConfirmModal(true)" class="bg-[#0b1d33] hover:bg-slate-800 text-white px-5 py-2 text-xs font-bold transition">네, 확인했습니다</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. 글로벌 알림 토스트 -->
+    <div id="toast-message" class="hidden fixed top-5 right-5 bg-white border-2 border-black text-gray-950 px-5 py-3 z-[100] text-xs font-bold shadow-none flex items-center space-x-2.5">
+        <span class="inline-block w-2 h-2 bg-[#0b1d33]"></span>
+        <span id="toast-text">알림 메시지</span>
+    </div>
+
+    <!-- 5. 플로팅 제보 권유 배너 -->
+    <div id="floating-report-bar" class="fixed bottom-6 right-6 bg-white border-2 border-black p-5 max-w-xs z-30 space-y-2.5 transition-transform duration-300">
+        <div class="flex justify-between items-start">
+            <h5 class="text-[13px] md:text-[14px] font-black text-[#0b1d33] tracking-tight">청소년 인권 및 비리 고발 제보</h5>
+            <button onclick="closeFloatingReport()" class="text-gray-400 hover:text-black font-extrabold text-[15px] leading-none">&times;</button>
+        </div>
+        <p class="text-[10.5px] text-gray-500 leading-relaxed font-medium">
+            권력이나 학교 내의 청소년 배제 입법, 제도적 차별 사례가 있다면 망설임 없이 파동에 폭로하십시오.
+        </p>
+        <div class="flex justify-end">
+            <button onclick="openReportModal()" class="bg-[#0b1d33] hover:bg-slate-800 text-white font-bold text-[10px] px-3.5 py-2 transition">
+                비밀 제보하기
+            </button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, updateDoc, deleteDoc, onSnapshot, collection, increment, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // 파이어베이스 연동 구성 정보
+        const firebaseConfig = {
+        apiKey: "AIzaSyAbfHLbiVLGUpTUv302m8rniZU8vQgd0FU",
+        authDomain: "padongnews.firebaseapp.com",
+        projectId: "padongnews",
+        storageBucket: "padongnews.firebasestorage.app",
+        messagingSenderId: "688309525643",
+        appId: "1:688309525643:web:2022814c9d15ce0678488e",
+        measurementId: "G-B65FXRL84X"
+        };
+
+        // 데이터베이스 간섭을 방지하고 정치 전문지로 세대교체하기 위해 고유 네임스페이스 수립
+        const appId = 'padong-politics-daily-v1';
+        window.appId = appId;
+        
+        let db = null;
+        let auth = null;
+        let useFirebase = false;
+
+        if (firebaseConfig && firebaseConfig.apiKey && !firebaseConfig.apiKey.includes("본인의_")) {
+            try {
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                useFirebase = true;
+                console.log("파동 실시간 정치 정론 클라우드 채널 연계 수립.");
+            } catch (e) {
+                console.error("Firebase 초기화 우회, 로컬 스토리지 모드 활성화.", e);
+            }
+        }
+
+        const DEFAULT_REPORTER_IMAGE = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230b1d33'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/></svg>";
+
+        const DEFAULT_REPORTERS = [
+            { id: "rep-1", name: "송유근 기자", dept: "파동 정치 1부", email: "yksong@padong.com", bio: "교실과 헌법재판소를 연결하는 참정 기사를 씁니다.", recommendations: 12, image: "", career: "2026 파동미디어 창단 기자단 위촉\n전국 청소년의회 연대 입법 모니터" },
+            { id: "rep-2", name: "오주영 편집인", dept: "파동 논설위원실", email: "editor@padong.com", bio: "정치에서 배제된 세대를 위한 직언을 던집니다.", recommendations: 24, image: "", career: "파동미디어 발행 및 편집 총괄\n국민 참정 연대 청소년 정책위원" }
+        ];
+
+        const DEFAULT_ARTICLES = [
+            {
+                id: "art-headline-1",
+                category: "청소년정치",
+                authors: ["오주영 편집인"],
+                image: "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?auto=format&fit=crop&w=1200&q=80",
+                title: "[단독] 전국 청소년의회 심층 검증... '실권 없는 교육청 홍보 대지' 전락 지적",
+                subtitle: "전체 17개 시도 조례 및 안건 반영율 단 1.2%... 자치 예산 심의 권한은 전무\n기성 정치 모방 행사에 청소년들을 '거수기'로 도구화한다는 비판 고조",
+                content: "정치 기본권의 사각지대에 있는 대한민국 청소년들이 '입법과 정책 참여'를 연습하도록 세워진 각 지역 청소년의회가 실제로는 알맹이 없는 보여주기식 정책 대지에 불과하다는 사실이 확인되었습니다.\n\n파동 보도국이 전국 주요 시도 교육청 산하 청소년의회 통계를 수합하여 심층 검증한 결과, 청소년 의원들이 오랜 기간 수집 및 입안한 건의안 중 지자체 조례나 행정 정책에 실제 채택된 정합 비율은 불과 1.2% 수준에 봉착한 것으로 드러났습니다.\n\n[이미지링크:https://images.unsplash.com/photo-1540910419892-4a36d2c3266c|의제 제출을 위해 국회 의사당 구역에서 모인 청소년 의원들]\n\n청소년 의원들은 본회의 소집권을 전수 받아 의정 훈련을 수행하지만, 지자체의 예산안 심의권은 물론 실질적인 조례 제안권조차 규제 받아, 제출하는 건의서들이 관청 내부에서 사문화되는 정례 절차를 밟고 있습니다.\n\n참여 당원 및 고등학교 자치 위원회 연합은 '현재의 청소년의회는 청소년들을 정치 효능감 있게 기르는 수단이 아니라, 예산 소진과 공보 사진 촬영을 위한 소도구에 가깝다'고 격렬히 지적했습니다.\n\n파동은 본 사안에 관하여 실효적인 참정 입법 발안권 확보 동맹을 지속하여 취재해 나갈 것입니다.",
+                date: "2026-07-18 19:30",
+                views: 142,
+                recommendations: 56,
+                isScoop: "scoop",
+                isHeadline: true,
+                tags: ["청소년정치", "청소년의회", "입법권", "교육청", "자치참여"],
+                reactions: { like: 24, sad: 12, angry: 34 }
+            },
+            {
+                id: "art-default-2",
+                category: "의회·정당",
+                authors: ["송유근 기자"],
+                image: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80",
+                title: "만 16세 정당 가입법 통과 수년... 일선 고등학교 '학칙 정치 금지' 족쇄는 여전",
+                subtitle: "법적 참정권 확대에도 고교 내 정당 모임은 원천 차단하는 사규 학칙의 모순\n'교실의 정치장화 방지' 논리와 '헌법상 정당활동 기본권' 정면 상충",
+                content: "정당 가입 연령 하한을 16세로 인하한 정당법 개정안이 국회를 통과한 지 수년이 지났음에도 불구하고, 대한민국 대다수 고등학교의 학칙은 여전히 학생들의 교내 정당 활동이나 정당 지부 소모임 구성을 가로막고 있는 상황입니다.\n\n파동 취재 결과, 고등학교 당원들은 당비 납부와 당 내 주요 정책 선거권을 행사하면서도 교문 안에 들어서는 순간 자신이 정당 소속임을 철저히 은폐해야 하는 이중생활에 구겨지고 있습니다.\n\n교내 학생 자치 기구들조차 '특정 정당 성향 공유 불허' 및 '정치적 집단 행동 엄금' 조항에 손발이 묶여 참정 리터러시를 실증적으로 교육할 수 있는 훈련장이 완전히 증발했다는 지적입니다.\n\n사법 전문가들은 '국가가 법률로 보장한 청소년의 참정 기회를 학칙이라는 하위 자치 규율이 사실상 전면 폐색하고 있다'며 헌법 소원 청구 움직임을 구체화하고 있어 귀추가 주목됩니다.",
+                date: "2026-07-18 18:20",
+                views: 98,
+                recommendations: 43,
+                isScoop: "normal",
+                isHeadline: false,
+                tags: ["정당가입", "학칙개정", "청소년기본권", "교육부"],
+                reactions: { like: 31, sad: 5, angry: 20 }
+            },
+            {
+                id: "art-default-3",
+                category: "사설·칼럼",
+                authors: ["오주영 편집인"],
+                image: "",
+                title: "[칼럼] 투표권을 쥔 청소년에게 이념 분석력을 가르치지 않는 교육",
+                subtitle: "표만 던지라는 정치는 방임이다... 공교육 정치 혐오 탈피와 리터러시 교육 주입 촉구",
+                content: "선거 참여 연령 인하라는 명목 하에 10대에게 선거권을 배분한 지 수년이 경과했다.\n\n하지만 교실은 침묵으로 일관한다. 어떤 후보의 조세 공약이 소득의 어떤 재분배 구도를 만드는지, 자본의 가치와 사회적 복지의 역학 관계를 어떻게 파악해야 하는지에 대한 정식 교육은 철저히 묵인되고 비정치라는 허울에 가려져 있다.\n\n청소년에게 투표지만을 쥐여준 채 이념의 정밀 가치 평가와 정책 분석을 가르치지 않는 공교육의 태만은 민주주의의 심각한 직무유기다. 파동은 공교육의 철저한 정치 리터러시 공론화와 교과 도입을 준엄하게 요구한다.",
+                date: "2026-07-18 17:00",
+                views: 112,
+                recommendations: 49,
+                isScoop: "normal",
+                isHeadline: false,
+                tags: ["참정권", "선거인하", "정치교육", "리터러시"],
+                reactions: { like: 40, sad: 2, angry: 1 }
+            }
+        ];
+
+        const DEFAULT_COMMENTS = [];
+
+        const CATEGORY_BANNER_IMAGES = {
+            "청소년정치": "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?auto=format&fit=crop&w=1200&q=80",
+            "의회·정당": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80",
+            "시사·정책": "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=1200&q=80",
+            "사설·칼럼": "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80",
+            "인터뷰": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80",
+            "시민연대": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80"
+        };
+
+        let DEFAULT_POLL = {
+            active: true,
+            question: "국회 및 교육당국이 학내에서의 고교생 정당 활동(모임 창설 및 소식 전파)을 학칙으로 전면 금지하는 현 상황에 대해 어떻게 판단하십니까?",
+            options: [
+                { text: "학내 정치 활동 보장은 헌법상 정당 권리이므로 조속히 전면 전파되어야 한다.", votes: 41 },
+                { text: "공부방 및 면학 분위기 저해, 학생 간의 정치 편향화가 우려되므로 계속 제한해야 한다.", votes: 12 },
+                { text: "교사 주도의 정치적 압력이 통제되는 가이드 하에 부분적 결사만 인정해야 한다.", votes: 23 }
+            ]
+        };
+
+        window.articles = [];
+        window.reporters = [];
+        window.allComments = [];
+        window.currentCategory = "전체";
+        window.activeView = "home"; 
+        window.currentArticleId = null;
+        window.currentReporterId = null;
+        window.isAdminMode = false;
+        window.isReporterMode = false;
+        window.loggedInUser = null;
+        window.useFirebase = useFirebase;
+        window.currentTrendTab = 'views'; 
+        window.currentTrendTabDetail = 'views'; 
+        window.pollData = DEFAULT_POLL;
+        window.clientIp = "127.0.0.1";
+
+        let lastCommentTime = 0;
+        let lastReactionTime = 0;
+
+        window.onload = async function() {
+            updateDateText();
+            await startAppEngine();
+            await fetchClientIp();
+            renderPollWidget();
+            setupScrollProgressBar();
+        };
+
+        async function fetchClientIp() {
+            try {
+                const res = await fetch("https://api64.ipify.org?format=json");
+                const data = await res.json();
+                if (data && data.ip) {
+                    window.clientIp = data.ip;
+                    return;
+                }
+            } catch (e) {
+                console.warn("IP 수집 경로 우회.");
+            }
+            window.clientIp = `${Math.floor(Math.random()*120)+110}.${Math.floor(Math.random()*240)+10}.${Math.floor(Math.random()*240)+10}.${Math.floor(Math.random()*254)+1}`;
+        }
+
+        function maskIp(ip) {
+            if (!ip) return "IP 미수집";
+            const parts = ip.split(".");
+            if (parts.length >= 2) {
+                return `${parts[0]}.${parts[1]}.***.***`;
+            }
+            return ip;
+        }
+
+        function setupScrollProgressBar() {
+            const bar = document.getElementById("reading-progress-bar");
+            const container = document.getElementById("reading-progress-container");
+
+            window.addEventListener("scroll", () => {
+                if (window.activeView === "detail" && window.currentArticleId) {
+                    container.classList.remove("hidden");
+                    const scrollTop = window.scrollY;
+                    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 105 : 0;
+                    bar.style.width = Math.min(scrollPercent, 100) + "%";
+                } else {
+                    container.classList.add("hidden");
+                }
+            });
+        }
+
+        function updateDateText() {
+            const dateEl = document.getElementById("current-date");
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            const date = now.getDate();
+            const days = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+            const day = days[now.getDay()];
+            dateEl.innerText = `${year}년 ${month}월 ${date}일 ${day}`;
+        }
+
+        async function startAppEngine() {
+            if (window.useFirebase) {
+                try {
+                    onAuthStateChanged(auth, (user) => {
+                        if (user && !user.isAnonymous) {
+                            const userEmail = user.email;
+                            if (userEmail === "admin@padong.com") {
+                                window.isAdminMode = true;
+                                window.isReporterMode = false;
+                                window.loggedInUser = "최고관리자";
+                            } else {
+                                window.isReporterMode = true;
+                                window.isAdminMode = false;
+                                const rep = window.reporters.find(r => r.email === userEmail);
+                                window.loggedInUser = rep ? rep.name : userEmail;
+                            }
+                            toggleAdminUI(true);
+                        } else {
+                            signInAnonymously(auth).catch(e => console.error("익명 참정 세션 연동 지연", e));
+                            window.isAdminMode = false;
+                            window.isReporterMode = false;
+                            window.loggedInUser = null;
+                            toggleAdminUI(false);
+                        }
+                    });
+                    setupRealtimeDatabase();
+                } catch (e) {
+                    console.warn("클라우드 연계 불가, 파동 로컬 아카이브 작동.", e);
+                    window.useFirebase = false;
+                    initLocalFallback();
+                }
+            } else {
+                initLocalFallback();
+            }
+        }
+
+        function initLocalFallback() {
+            const storedArticles = localStorage.getItem("padong_articles_v1");
+            const storedReporters = localStorage.getItem("padong_reporters_v1");
+            const storedComments = localStorage.getItem("padong_comments_v1");
+            const storedPoll = localStorage.getItem("padong_poll_v1");
+
+            window.articles = storedArticles ? JSON.parse(storedArticles) : DEFAULT_ARTICLES;
+            window.reporters = storedReporters ? JSON.parse(storedReporters) : DEFAULT_REPORTERS;
+            window.allComments = storedComments ? JSON.parse(storedComments) : DEFAULT_COMMENTS;
+            window.pollData = storedPoll ? JSON.parse(storedPoll) : DEFAULT_POLL;
+
+            window.renderApp();
+        }
+
+        function setupRealtimeDatabase() {
+            const articlesRef = collection(db, 'artifacts', window.appId, 'public', 'data', 'articles');
+            onSnapshot(articlesRef, (snapshot) => {
+                const temp = [];
+                snapshot.forEach(d => temp.push({ id: d.id, ...d.data() }));
+                temp.sort((a,b) => b.date.replace(" (수정됨)", "").localeCompare(a.date.replace(" (수정됨)", "")));
+                window.articles = temp;
+                window.renderApp();
+            }, (error) => { triggerFallback(); });
+
+            const reportersRef = collection(db, 'artifacts', window.appId, 'public', 'data', 'reporters');
+            onSnapshot(reportersRef, (snapshot) => {
+                const temp = [];
+                snapshot.forEach(d => temp.push({ id: d.id, ...d.data() }));
+                window.reporters = temp;
+                
+                if (auth.currentUser && !auth.currentUser.isAnonymous && auth.currentUser.email !== "admin@padong.com") {
+                    const rep = window.reporters.find(r => r.email === auth.currentUser.email);
+                    window.loggedInUser = rep ? rep.name : auth.currentUser.email;
+                    toggleAdminUI(true);
+                }
+                window.renderApp();
+            }, (error) => { triggerFallback(); });
+
+            const commentsRef = collection(db, 'artifacts', window.appId, 'public', 'data', 'comments');
+            onSnapshot(commentsRef, (snapshot) => {
+                const temp = [];
+                snapshot.forEach(d => temp.push({ id: d.id, ...d.data() }));
+                window.allComments = temp;
+                if (window.activeView === "detail" && window.currentArticleId) {
+                    window.renderDetailContent();
+                }
+            }, (error) => { triggerFallback(); });
+
+            const pollRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'polls', 'main_poll');
+            onSnapshot(pollRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    window.pollData = docSnap.data();
+                    const lastVotedQuestion = localStorage.getItem("padong_voted_question_v1");
+                    if (lastVotedQuestion !== window.pollData.question) {
+                        localStorage.removeItem("padong_voted_v1");
+                    }
+                    window.renderPollWidget();
+                }
+            }, (error) => { triggerFallback(); });
+
+            function triggerFallback() {
+                window.useFirebase = false;
+                initLocalFallback();
+            }
+        }
+
+        window.openLoginModal = function() {
+            document.getElementById("login-modal").classList.remove("hidden");
+            document.getElementById("admin-email").focus();
+        };
+
+        window.closeLoginModal = function() {
+            document.getElementById("login-modal").classList.add("hidden");
+            document.getElementById("admin-email").value = "";
+            document.getElementById("admin-password").value = "";
+        };
+
+        window.submitAdminLogin = async function() {
+            const email = document.getElementById("admin-email").value.trim();
+            const password = document.getElementById("admin-password").value;
+
+            if (!email || !password) {
+                showToast("인증 이메일과 비밀번호를 완비해 주십시오.");
+                return;
+            }
+
+            if (window.useFirebase) {
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    closeLoginModal();
+                    showToast("데스크 보안 인증에 성공했습니다.");
+                    window.switchView("admin");
+                } catch (e) {
+                    console.error("데스크 입정 실패: ", e);
+                    showToast("승인되지 않은 기자 계정이거나 패스워드 에러입니다.");
+                }
+            } else {
+                showToast("현재 독립 망 연계가 원활하지 않아 참정 로그인을 진행할 수 없습니다.");
+            }
+        };
+
+        window.logoutAdmin = async function() {
+            if (window.useFirebase) {
+                await signOut(auth);
+            }
+            window.isAdminMode = false;
+            window.isReporterMode = false;
+            window.loggedInUser = null;
+            toggleAdminUI(false);
+            showToast("보안 세션이 원활하게 종결되었습니다.");
+            window.switchView("home");
+        };
+
+        function toggleAdminUI(isAuthorized) {
+            const loginBtn = document.getElementById("btn-admin-login");
+            const loggedInArea = document.getElementById("admin-logged-in");
+            const detailActions = document.getElementById("admin-article-actions");
+            const badgeRole = document.getElementById("badge-role");
+            const lblName = document.getElementById("lbl-user-name");
+
+            if (isAuthorized) {
+                if (loginBtn) loginBtn.classList.add("hidden");
+                if (loggedInArea) loggedInArea.classList.remove("hidden");
+                if (detailActions) detailActions.classList.remove("hidden");
+                
+                if (window.isAdminMode) {
+                    if (badgeRole) {
+                        badgeRole.innerText = "최고지면기자";
+                        badgeRole.className = "bg-red-600 text-white px-1.5 py-0.5 text-[9px] font-bold";
+                    }
+                    if (lblName) lblName.innerText = "최고관리자";
+                } else if (window.isReporterMode) {
+                    if (badgeRole) {
+                        badgeRole.innerText = "취재 당원";
+                        badgeRole.className = "bg-[#0b1d33] text-white px-1.5 py-0.5 text-[9px] font-bold";
+                    }
+                    if (lblName) lblName.innerText = window.loggedInUser;
+                }
+            } else {
+                if (loginBtn) loginBtn.classList.remove("hidden");
+                if (loggedInArea) loggedInArea.classList.add("hidden");
+                if (detailActions) detailActions.classList.add("hidden");
+            }
+        }
+
+        window.switchView = function(viewName) {
+            window.activeView = viewName;
+            document.getElementById("view-home").classList.add("hidden");
+            document.getElementById("view-category").classList.add("hidden");
+            document.getElementById("view-detail").classList.add("hidden");
+            document.getElementById("view-reporter").classList.add("hidden");
+            document.getElementById("view-admin").classList.add("hidden");
+            document.getElementById("view-page").classList.add("hidden");
+
+            stopArticleTTS(true);
+
+            if (viewName === "home") {
+                document.getElementById("view-home").classList.remove("hidden");
+                window.renderMainContent();
+            } else if (viewName === "category") {
+                document.getElementById("view-category").classList.remove("hidden");
+                window.renderCategoryContent();
+            } else if (viewName === "detail") {
+                document.getElementById("view-detail").classList.remove("hidden");
+                window.renderDetailContent();
+            } else if (viewName === "reporter") {
+                document.getElementById("view-reporter").classList.remove("hidden");
+                window.renderReporterContent();
+            } else if (viewName === "admin") {
+                document.getElementById("view-admin").classList.remove("hidden");
+                window.renderAdminContent();
+            } else if (viewName === "page") {
+                document.getElementById("view-page").classList.remove("hidden");
+            }
+            window.scrollTo(0, 0);
+        };
+
+        window.navigateToHome = function() {
+            window.currentCategory = "전체";
+            updateNavigationHighlight("전체");
+            window.switchView("home");
+        };
+
+        window.navigateToCategory = function(cat) {
+            window.currentCategory = cat;
+            updateNavigationHighlight(cat);
+            if (cat === "전체") {
+                window.switchView("home");
+            } else {
+                window.switchView("category");
+            }
+        };
+
+        function updateNavigationHighlight(cat) {
+            const navButtons = document.querySelectorAll("nav text, nav button");
+            navButtons.forEach(btn => {
+                if (btn.id === `nav-${cat}`) {
+                    btn.classList.add("border-[#0b1d33]", "text-black");
+                    btn.classList.remove("border-transparent", "text-gray-500");
+                } else {
+                    btn.classList.remove("border-[#0b1d33]", "text-black");
+                    btn.classList.add("border-transparent", "text-gray-500");
+                }
+            });
+        }
+
+        window.showFooterStaticPage = function(pageId) {
+            const pageTitleEl = document.getElementById("page-title");
+            const pageContentEl = document.getElementById("page-content");
+            window.switchView("page");
+
+            if (pageId === "intro") {
+                pageTitleEl.innerText = "파동 - 청소년의 정치 독립적 자립과 참정을 향한 정론";
+                pageContentEl.innerText = `대한민국 정치사에서 청소년은 언제나 '보호와 배제의 객체'였습니다.\n\n하지만 파동(Wave)은 투표권을 부여받은 청소년이 주체적인 눈으로 사회적 의제를 해체하고, 기성 세대가 쌓아올린 모순에 대담한 참정 균열을 내기 위해 탄생한 국내 유일무이의 청소년 정치 전문 정론지입니다.\n\n우리는 교육 현장의 정치 배제 비판, 만 16세 참정권 확대에 따른 정당 개방 실태 감시, 그리고 학외 연대 세력을 관통하는 깊이 있는 입법 분석 보도로 진정한 세대 교체적 자치 공론장을 설계할 것입니다.\n\n파동미디어 발행인 겸 편집 위원회 총괄 오주영`;
+            } else if (pageId === "pdf") {
+                pageTitleEl.innerText = "파동 정기 오프라인 PDF 정치 아카이브 지면 배포 안내";
+                pageContentEl.innerText = `현재 분기별 참정 입법 특별호 PDF 지면 편집이 성료되어 각 지구 청소년 정당 연대본부 및 시도 의정 체험 단체에 일괄 기부 배포되고 있습니다.\n\n[오프라인 배포 아카이브]\n- 대한민국 국회 도서관 (청소년 민주주의 기증 부문 수록)\n- 서울, 부천, 경기 청소년 자치 의회 세미나실 1호실 책장\n- 전국 거점 대안학교 및 학생 참정 연합회 사무실 마당`;
+            } else if (pageId === "ad") {
+                pageTitleEl.innerText = "청소년 자치 광고 및 참정 협력 협정";
+                pageContentEl.innerText = `파동미디어는 이념과 정당적 선입견을 배제하고 오직 '청소년 참정권의 건전한 확대'만을 목적으로 기획된 광고 및 협정, 제휴를 승인합니다.\n\n[제휴 데스크 연락망]\n- 파동미디어 마케팅/협정 본부 오주영 대표\n- 대표 연락처: 010-5634-1865\n- 연동 전자우편: editor@padong.com`;
+            } else if (pageId === "rules") {
+                pageTitleEl.innerText = "파동 독자 및 저작권 이용약관";
+                pageContentEl.innerText = `제1조 (목적)\n본 조항은 파동미디어가 공급하는 정보 통신 매체 '파동' 플랫폼의 저작권 보호, 독자 기여, 민주적 토론 가이드를 준용하기 위해 작성되었습니다.\n\n제2조 (청소년 인권 존중 및 비방 배제)\n본 보도국의 기사 평론 및 독자 게시판에는 타인에 대한 폭력, 차별, 혐오 유발, 또는 정당 당원으로서의 품위를 손상시키는 보도 왜곡 행위의 게재를 금지하며 적발 시 자치 위원회에 기각됩니다.\n\n제3조 (저작권)\n파동의 모든 기사는 청소년 필진의 노력이 깃든 독자 지식 재산이며, 무단 데이터 스크래핑 및 인공지능(AI) 기계 학습용 벌크 다운로드를 규제합니다.`;
+            } else if (pageId === "privacy") {
+                pageTitleEl.innerText = "청소년 당원 및 독자 정보보호 개인정보처리방침";
+                pageContentEl.innerText = `파동미디어는 이용자의 개인 정보 보호법 제30조에 의거하여 다음과 같은 강력하고 구체적인 참정 정보 보호 방침을 고수합니다.\n\n1. 개인정보의 수집 항목 및 목적\n- 독자 댓글 등록 시: 작성자 필명, IP 주소 (스팸 도배 규제용 마스킹 수립)\n- 보도 제보 시: 이메일 및 전화번호 (제보 확인 절차 수습 이후 14일 이내 완결 소거)\n\n2. 독자 참정 비밀 보장\n기성 정당 가입법에 의해 정당 소속이 노출되어 교내에서 부당한 학칙 불이익을 당하는 사례가 없도록, 당사에 게재 및 제보된 독자 가입 정보는 외부 정부 기관 및 교육청에 일절 기증하거나 기명 인도되지 않음을 서약합니다.`;
+            }
+        };
+
+        window.openReportModal = function() {
+            document.getElementById("report-modal").classList.remove("hidden");
+        };
+        window.closeReportModal = function() {
+            document.getElementById("report-modal").classList.add("hidden");
+        };
+        window.closeFloatingReport = function() {
+            document.getElementById("floating-report-bar").classList.add("hidden");
+        };
+
+        window.openSupportModal = function() {
+            document.getElementById("support-modal").classList.remove("hidden");
+        };
+        window.closeSupportModal = function() {
+            document.getElementById("support-modal").classList.add("hidden");
+        };
+
+        window.showToast = function(msg) {
+            const toast = document.getElementById("toast-message");
+            const text = document.getElementById("toast-text");
+            text.innerText = msg;
+            toast.classList.remove("hidden");
+            setTimeout(() => { toast.classList.add("hidden"); }, 3000);
+        };
+
+        let confirmPromiseResolver = null;
+        window.askUserConfirm = function(msg) {
+            document.getElementById("confirm-modal-text").innerText = msg;
+            document.getElementById("confirm-modal").classList.remove("hidden");
+            return new Promise((resolve) => { confirmPromiseResolver = resolve; });
+        };
+        window.closeConfirmModal = function(decision) {
+            document.getElementById("confirm-modal").classList.add("hidden");
+            if (confirmPromiseResolver) {
+                confirmPromiseResolver(decision);
+                confirmPromiseResolver = null;
+            }
+        };
+
+        function getReporterArticleCount(reporterName) {
+            return window.articles.filter(a => {
+                if (a.authors && a.authors.includes(reporterName)) return true;
+                if (a.author === reporterName) return true;
+                return false;
+            }).length;
+        }
+
+        function getScoopBadgeHtml(isScoop, isLarge = false) {
+            if (!isScoop || isScoop === "normal") return "";
+            
+            let label = "";
+            let colorClasses = "";
+            
+            if (isScoop === "scoop") {
+                label = "단독";
+                colorClasses = "bg-[#0b1d33] text-white"; 
+            } else if (isScoop === "breaking") {
+                label = "속보";
+                colorClasses = "bg-yellow-400 text-black"; 
+            } else if (isScoop === "urgent") {
+                label = "긴급";
+                colorClasses = "bg-red-600 text-white"; 
+            }
+            
+            const padding = isLarge ? "px-2.5 py-1 text-xs font-black" : "px-1.5 py-0.5 text-[10px] font-bold";
+            return `<span class="inline-flex items-center justify-center ${padding} ${colorClasses} tracking-wider mr-2 shrink-0 whitespace-nowrap align-middle">${label}</span>`;
+        }
+
+        function getYoutubeId(url) {
+            if (!url) return null;
+            try {
+                const urlObj = new URL(url.trim());
+                if (urlObj.hostname === 'youtu.be') {
+                    return urlObj.pathname.substring(1);
+                }
+                if (urlObj.hostname.includes('youtube.com')) {
+                    if (urlObj.pathname.startsWith('/embed/')) {
+                        return urlObj.pathname.split('/')[2];
+                    }
+                    return urlObj.searchParams.get('v');
+                }
+            } catch (e) {
+                const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                const match = url.trim().match(regExp);
+                if (match && match[2].length === 11) {
+                    return match[2];
+                }
+            }
+            return null;
+        }
+
+        function generateVideoEmbedHtml(url) {
+            const ytId = getYoutubeId(url);
+            const parentOrigin = (window.location.origin && window.location.origin !== 'null') ? window.location.origin : '*';
+            
+            if (ytId) {
+                return `
+                    <div class="relative w-full aspect-video my-5 bg-black border border-gray-200">
+                        <iframe class="absolute top-0 left-0 w-full h-full" 
+                                src="https://www.youtube-nocookie.com/embed/${ytId}?enablejsapi=1&origin=${encodeURIComponent(parentOrigin)}" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                referrerpolicy="no-referrer-when-downgrade"
+                                allowfullscreen></iframe>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="w-full my-5 bg-black p-0 border border-gray-200">
+                        <video src="${url.trim()}" controls class="w-full h-auto max-h-[480px]" style="background-color: black;" onerror="this.outerHTML='<div class=\\'p-4 bg-gray-50 text-center text-xs text-gray-400 font-semibold border border-gray-200\\'>📺 정책 미디어 소스를 재생할 수 없습니다.</div>'"></video>
+                    </div>
+                `;
+            }
+        }
+
+        window.renderApp = function() {
+            toggleAdminUI(window.isAdminMode || window.isReporterMode);
+            
+            if (window.activeView === "home") {
+                window.renderMainContent();
+            } else if (window.activeView === "category") {
+                window.renderCategoryContent();
+            } else if (window.activeView === "detail") {
+                window.renderDetailContent();
+            } else if (window.activeView === "reporter") {
+                window.renderReporterContent();
+            } else if (window.activeView === "admin") {
+                window.renderAdminContent();
+            }
+            renderPollWidget();
+            renderTrendNews();
+        };
+
+        window.renderMainContent = function() {
+            const headlineSection = document.getElementById("headline-section");
+            const newsGrid = document.getElementById("news-grid");
+            const rightFeaturedBox = document.getElementById("right-featured-box");
+
+            // 오피니언 지면 이외에서 참정 보도 수집
+            const mainNewsFull = window.articles.filter(a => a.category !== "사설·칼럼");
+
+            // isHeadline 플래그가 엄격히 보장된 기사 단독 선출
+            let headline = mainNewsFull.find(a => a.isHeadline === true || a.isHeadline === "true");
+            if (!headline && mainNewsFull.length > 0) {
+                headline = mainNewsFull[0];
+            }
+
+            const remainingNews = mainNewsFull.filter(a => a.id !== (headline ? headline.id : ''));
+
+            if (headline) {
+                const authorsStr = (headline.authors && headline.authors.length > 0) ? headline.authors.join(", ") : (headline.author || "파동 편집장");
+                headlineSection.style.display = "block";
+                const scoopBadgeHtml = getScoopBadgeHtml(headline.isScoop, true);
+                const headlineImage = headline.image || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80';
+
+                const plainBodySnippet = headline.content.replace(/\[(?:이미지|동영상)링크:[^\]]+\]/g, '').substring(0, 240);
+
+                headlineSection.innerHTML = `
+                    <div class="cursor-pointer space-y-4 group bg-slate-50/40 p-4 border border-gray-100" onclick="viewArticle('${headline.id}')">
+                        <div class="space-y-2">
+                            <div class="flex flex-col md:flex-row md:items-center">
+                                ${scoopBadgeHtml}
+                                <h2 class="text-2xl md:text-3.5xl font-black tracking-tight leading-tight text-[#0b1d33] group-hover:underline mt-1.5 md:mt-0">
+                                    ${headline.title}
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start pt-2">
+                            <div class="md:col-span-8">
+                                <img src="${headlineImage}" 
+                                     class="w-full h-auto object-cover max-h-[380px] border border-gray-200 bg-slate-50"
+                                     alt="메인 보도사진"
+                                     onerror="this.src='https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80'">
+                            </div>
+                            <div class="md:col-span-4 space-y-3">
+                                <span class="bg-[#0b1d33] text-white px-2.5 py-1 text-xs font-black uppercase tracking-wider">${headline.category}</span>
+                                
+                                <div class="block md:hidden">
+                                    <p class="text-xs text-gray-700 leading-relaxed font-normal line-clamp-5 whitespace-pre-line">
+                                        ${headline.subtitle || plainBodySnippet + '...'}
+                                    </p>
+                                </div>
+                                <div class="hidden md:block space-y-2.5">
+                                    ${headline.subtitle ? `<p class="text-xs md:text-sm text-gray-950 font-extrabold border-l-2 border-[#0b1d33] pl-2 leading-relaxed whitespace-pre-line">${headline.subtitle}</p>` : ''}
+                                    <p class="text-[12.5px] text-gray-500 leading-relaxed font-normal line-clamp-5">${plainBodySnippet}...</p>
+                                </div>
+
+                                <div class="text-[11px] text-gray-400 flex flex-wrap gap-2 pt-2 border-t border-gray-100">
+                                    <span class="font-bold text-gray-700 hover:underline" onclick="event.stopPropagation(); navigateToReporterByName('${authorsStr.split(',')[0].trim()}')">${authorsStr}</span>
+                                    <span>|</span>
+                                    <span>${headline.date.split(' ')[0]}</span>
+                                    <span>|</span>
+                                    <span class="text-[#0b1d33] font-bold">열람 ${headline.views || 0}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                headlineSection.innerHTML = `
+                    <div class="text-center py-20 border border-dashed border-gray-200 font-sans">
+                        <span class="text-gray-400 text-sm block">배포 완료된 1면 탑정론 헤드라인 보도가 공란입니다.</span>
+                        <span class="text-xs text-gray-400 block mt-1">뉴스룸 편집 대지에 로그인하여 첫 지면 정론 기사를 발행하세요.</span>
+                    </div>
+                `;
+            }
+
+            if (remainingNews.length > 0) {
+                const subFeatured = remainingNews[0];
+                const authorsStr = (subFeatured.authors && subFeatured.authors.length > 0) ? subFeatured.authors.join(", ") : (subFeatured.author || "파동 편집진");
+                rightFeaturedBox.style.display = "block";
+                const scoopBadgeHtml = getScoopBadgeHtml(subFeatured.isScoop);
+                const subFeaturedImage = subFeatured.image || 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80';
+
+                rightFeaturedBox.innerHTML = `
+                    <div class="cursor-pointer space-y-3 group border-b border-gray-100 pb-4" onclick="viewArticle('${subFeatured.id}')">
+                        <img src="${subFeaturedImage}" 
+                             class="w-full h-auto object-cover max-h-[220px] border border-gray-200 bg-slate-50"
+                             alt="사이드보도"
+                             onerror="this.src='https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80'">
+                        <div class="space-y-1">
+                            <span class="text-[11px] text-[#0b1d33] font-extrabold">${subFeatured.category} · 중점 의제</span>
+                            <h4 class="text-base font-bold leading-snug text-black group-hover:underline line-clamp-2">
+                                ${scoopBadgeHtml}${subFeatured.title}
+                            </h4>
+                            <p class="text-[11px] text-gray-400">취재: ${authorsStr}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                rightFeaturedBox.style.display = "none";
+            }
+
+            const secondaryNews = remainingNews.slice(1);
+            if (secondaryNews.length > 0) {
+                newsGrid.innerHTML = secondaryNews.map(art => {
+                    const authorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "파동 편집진");
+                    const scoopBadgeHtml = getScoopBadgeHtml(art.isScoop);
+                    const artImage = art.image || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80';
+
+                    return `
+                        <div class="border-b border-gray-200 pb-5 cursor-pointer group hover:bg-gray-50/50 p-2 flex space-x-4 items-start" onclick="viewArticle('${art.id}')">
+                            <img src="${artImage}" 
+                                 class="w-28 h-20 md:w-36 md:h-24 object-cover border border-gray-200 shrink-0 bg-slate-50"
+                                 alt="썸네일"
+                                 onerror="this.src='https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80'">
+                            <div class="space-y-1 flex-grow min-w-0 font-sans">
+                                <span class="text-xs text-[#0b1d33] font-bold uppercase tracking-wider">${art.category}</span>
+                                <h4 class="text-base font-bold leading-snug text-black group-hover:underline line-clamp-2">
+                                    ${scoopBadgeHtml}${art.title}
+                                </h4>
+                                <div class="text-xs text-gray-400 flex space-x-2 pt-1">
+                                    <span class="font-semibold text-gray-600">${authorsStr}</span>
+                                    <span>|</span>
+                                    <span>열람 ${art.views || 0}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                newsGrid.innerHTML = `<div class="col-span-2 text-center py-10 text-gray-400 text-xs border-t border-gray-100">민주주의 의정 지면이 준비 중입니다.</div>`;
+            }
+
+            // 오피니언 지면 아카이브 노출
+            const opinionList = document.getElementById("opinion-list");
+            const opinionSorted = window.articles.filter(a => a.category === "사설·칼럼").slice(0, 3);
+            if (opinionSorted.length > 0) {
+                opinionList.innerHTML = opinionSorted.map(art => {
+                    const authorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "논설");
+                    return `
+                        <div class="border border-gray-200 p-3.5 cursor-pointer hover:bg-gray-50 bg-white" onclick="viewArticle('${art.id}')">
+                            <span class="text-[9px] text-[#0b1d33] font-extrabold uppercase tracking-widest">EDITORIAL</span>
+                            <h4 class="text-xs md:text-sm font-bold text-gray-800 mt-1 line-clamp-1 hover:underline">${art.title}</h4>
+                            <div class="text-[11px] text-gray-400 mt-1.5 text-right">— ${authorsStr}</div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                opinionList.innerHTML = `<p class="text-[10px] text-gray-400 py-2.5 text-center border border-gray-100">발행된 정론 사설이나 칼럼이 부재합니다.</p>`;
+            }
+        };
+
+        window.renderPollWidget = function() {
+            const wrapper = document.getElementById("poll-card-wrapper");
+            const container = document.getElementById("poll-widget-container");
+            
+            if (!window.pollData.active) {
+                wrapper.classList.add("hidden");
+                return;
+            }
+            wrapper.classList.remove("hidden");
+
+            const pollSavedVotedKey = "padong_voted_v1";
+            const totalVotes = window.pollData.options.reduce((acc, curr) => acc + curr.votes, 0);
+            const isVoted = localStorage.getItem(pollSavedVotedKey) === "true";
+            const questionHtml = `<p class="text-xs text-gray-800 font-bold leading-relaxed mb-2">${window.pollData.question}</p>`;
+
+            if (isVoted) {
+                let optHtml = window.pollData.options.map(opt => {
+                    const percent = totalVotes > 0 ? Math.round((opt.votes / totalVotes) * 100) : 0;
+                    return `
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-[11px] font-semibold text-gray-700">
+                                <span class="truncate pr-2">${opt.text}</span>
+                                <span>${percent}% (${opt.votes}표)</span>
+                            </div>
+                            <div class="w-full bg-gray-100 h-2.5">
+                                <div class="bg-[#0b1d33] h-2.5" style="width: ${percent}%"></div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                container.innerHTML = `
+                    ${questionHtml}
+                    <p class="text-[11px] font-semibold text-[#0b1d33] bg-blue-50/50 p-2 border border-[#0b1d33]/10 my-2">✔️ 청소년 여론 수집에 기여해 주셨습니다.</p>
+                    <div class="space-y-2.5 pt-1">
+                        ${optHtml}
+                    </div>
+                    <p class="text-[9px] text-gray-400 text-right pt-1">누적 투표: ${totalVotes}표</p>
+                `;
+            } else {
+                let optionsHtml = window.pollData.options.map((opt, idx) => {
+                    if (!opt.text) return '';
+                    return `
+                        <label class="flex items-start space-x-2 p-2 border border-gray-200 hover:bg-gray-50 cursor-pointer text-xs">
+                            <input type="radio" name="poll-opt" value="${idx}" class="mt-0.5 text-[#0b1d33] focus:ring-[#0b1d33]">
+                            <span class="text-gray-700 font-medium leading-tight">${opt.text}</span>
+                        </label>
+                    `;
+                }).join('');
+
+                container.innerHTML = `
+                    ${questionHtml}
+                    <div class="space-y-2 pt-1">
+                        ${optionsHtml}
+                    </div>
+                    <button onclick="submitPollVote()" class="w-full bg-[#0b1d33] text-white py-2 text-xs font-bold hover:bg-slate-800 transition">투표 참여하기</button>
+                `;
+            }
+        };
+
+        window.submitPollVote = async function() {
+            const selectedOpt = document.querySelector('input[name="poll-opt"]:checked');
+            if (!selectedOpt) {
+                showToast("투표할 문항을 하나 낙찰해 주십시오.");
+                return;
+            }
+            const idx = parseInt(selectedOpt.value);
+            window.pollData.options[idx].votes += 1;
+
+            if (window.useFirebase) {
+                try {
+                    const pollDocRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'polls', 'main_poll');
+                    await setDoc(pollDocRef, window.pollData);
+                } catch(e) {
+                    console.error("클라우드 여론 집계 지연:", e);
+                    localStorage.setItem("padong_poll_v1", JSON.stringify(window.pollData));
+                }
+            } else {
+                localStorage.setItem("padong_poll_v1", JSON.stringify(window.pollData));
+            }
+            
+            localStorage.setItem("padong_voted_v1", "true");
+            localStorage.setItem("padong_voted_question_v1", window.pollData.question);
+            
+            window.renderPollWidget();
+            showToast("여론조사가 실시간 지면에 반영되었습니다.");
+        };
+
+        window.renderCategoryContent = function() {
+            const cat = window.currentCategory;
+            document.getElementById("cat-banner-title").innerText = cat;
+
+            const bannerBgEl = document.getElementById("cat-banner-bg");
+            const bgImgUrl = CATEGORY_BANNER_IMAGES[cat] || "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?auto=format&fit=crop&w=1200&q=80";
+            bannerBgEl.style.backgroundImage = `url('${bgImgUrl}')`;
+
+            const filtered = window.articles.filter(a => a.category === cat);
+            const catMainCol = document.getElementById("cat-main-col");
+            const catSubGrid = document.getElementById("cat-sub-grid");
+
+            if (filtered.length === 0) {
+                catMainCol.innerHTML = `
+                    <div class="text-center py-16 bg-white border border-gray-200 font-sans">
+                        <p class="text-gray-400 text-sm">해당 아카이브에 편찬된 입법/참정 보도가 부재합니다.</p>
+                    </div>
+                `;
+                catSubGrid.innerHTML = ``;
+                return;
+            }
+
+            const mainArt = filtered[0];
+            const authorsStr = (mainArt.authors && mainArt.authors.length > 0) ? mainArt.authors.join(", ") : (mainArt.author || "파동 편집 위원회");
+            const scoopBadgeHtml = getScoopBadgeHtml(mainArt.isScoop, true);
+            const mainArtImage = mainArt.image || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80';
+
+            catMainCol.innerHTML = `
+                <div class="bg-white border border-gray-200 p-5 cursor-pointer group" onclick="viewArticle('${mainArt.id}')">
+                    <img src="${mainArtImage}" 
+                         class="w-full h-auto object-cover max-h-[400px] border border-gray-200 mb-4 bg-slate-50"
+                         alt="카테고리대표"
+                         onerror="this.src='https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80'">
+                    <span class="text-[#0b1d33] text-xs font-black tracking-widest uppercase mb-1.5 inline-block">[중점 보도]</span>
+                    <h2 class="text-xl md:text-2xl font-black tracking-tight leading-snug text-black group-hover:underline">
+                        ${scoopBadgeHtml}${mainArt.title}
+                    </h2>
+                    <p class="text-xs md:text-sm text-gray-500 leading-relaxed mt-2 line-clamp-3 whitespace-pre-line">${mainArt.subtitle || mainArt.content.substring(0, 150) + '...'}</p>
+                    <div class="text-xs text-gray-400 flex items-center space-x-3 pt-3 mt-3 border-t border-gray-100">
+                        <span class="font-bold text-gray-700">${authorsStr}</span>
+                        <span>|</span>
+                        <span>조회 ${mainArt.views || 0}</span>
+                    </div>
+                </div>
+            `;
+
+            const subArts = filtered.slice(1, 5);
+            if (subArts.length > 0) {
+                catSubGrid.innerHTML = subArts.map(art => {
+                    const subAuthorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "파동 편집진");
+                    const scoopBadgeHtml = getScoopBadgeHtml(art.isScoop);
+                    const subArtImage = art.image || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80';
+
+                    return `
+                        <div class="bg-white border border-gray-200 p-4 cursor-pointer group hover:bg-gray-50 transition" onclick="viewArticle('${art.id}')">
+                            <img src="${subArtImage}" 
+                                 class="w-full h-32 object-cover border border-gray-200 mb-3 bg-slate-50"
+                                 alt="단신보도"
+                                 onerror="this.src='https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80'">
+                            <h4 class="text-xs md:text-sm font-bold text-gray-950 leading-snug group-hover:underline line-clamp-2">
+                                ${scoopBadgeHtml}${art.title}
+                            </h4>
+                            <div class="text-[10px] text-gray-400 flex justify-between items-center pt-2 mt-2 border-t border-gray-100">
+                                <span>취재: ${subAuthorsStr}</span>
+                                <span>👁 ${art.views || 0}</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                catSubGrid.innerHTML = `<div class="col-span-2 text-center py-10 text-gray-400 text-xs border border-dashed border-gray-200">후속 입법 단신이 집필 중입니다.</div>`;
+            }
+        };
+
+        window.renderDetailContent = function() {
+            const art = window.articles.find(a => a.id === window.currentArticleId);
+            if (!art) {
+                window.switchView("home");
+                return;
+            }
+
+            const badgeContainer = document.getElementById("detail-scoop-badge-container");
+            if (badgeContainer) {
+                badgeContainer.innerHTML = "";
+                if (art.isScoop && art.isScoop !== "normal") {
+                    badgeContainer.innerHTML = getScoopBadgeHtml(art.isScoop, true);
+                }
+            }
+
+            const breadcrumbs = document.getElementById("detail-breadcrumbs");
+            if (breadcrumbs) {
+                breadcrumbs.innerText = `${art.category} > 기획 정론`;
+            }
+            
+            const titleEl = document.getElementById("detail-title");
+            if (titleEl) titleEl.innerText = art.title;
+            
+            const subtitleEl = document.getElementById("detail-subtitle");
+            if (subtitleEl) subtitleEl.innerText = art.subtitle || "";
+            
+            const dateEl = document.getElementById("detail-date");
+            if (dateEl) dateEl.innerText = art.date;
+            
+            const viewsEl = document.getElementById("detail-views");
+            if (viewsEl) viewsEl.innerText = art.views || 0;
+            
+            const recommendationsEl = document.getElementById("detail-recommendations");
+            if (recommendationsEl) recommendationsEl.innerText = art.recommendations || 0;
+
+            const matchCommentsCount = window.allComments.filter(c => c.articleId === art.id).length;
+            const actionCommentEl = document.getElementById("action-bar-comment-count");
+            if (actionCommentEl) actionCommentEl.innerText = matchCommentsCount;
+
+            const imgContainer = document.getElementById("detail-image-container");
+            const mainImageToUse = art.image || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80';
+            
+            if (mainImageToUse) {
+                const isVideo = mainImageToUse.includes(".mp4") || mainImageToUse.includes(".webm") || mainImageToUse.includes("youtube.com") || mainImageToUse.includes("youtu.be");
+                if (isVideo) {
+                    imgContainer.innerHTML = generateVideoEmbedHtml(mainImageToUse);
+                } else {
+                    imgContainer.innerHTML = `
+                        <div class="w-full">
+                            <img id="detail-image" src="${mainImageToUse}" alt="대표보도사진" class="w-full h-auto object-cover max-h-[500px]" onerror="this.src='https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80'">
+                        </div>
+                    `;
+                }
+                imgContainer.classList.remove("hidden");
+            } else {
+                imgContainer.classList.add("hidden");
+            }
+
+            const contentContainer = document.getElementById("detail-content");
+            contentContainer.innerHTML = "";
+
+            const rawContent = art.content;
+            const parts = rawContent.split(/(\[이미지링크:[^\]]+\]|\[동영상링크:[^\]]+\])/g);
+            
+            parts.forEach(part => {
+                if (part.startsWith("[이미지링크:") && part.endsWith("]")) {
+                    const inner = part.substring("[이미지링크:".length, part.length - 1).trim();
+                    const [directUrl, ...captionParts] = inner.split('|');
+                    const captionText = captionParts.join('|').trim();
+                    
+                    const figure = document.createElement("figure");
+                    figure.className = "my-6 block w-full";
+                    
+                    const imgNode = document.createElement("img");
+                    imgNode.src = directUrl.trim();
+                    imgNode.alt = "지면 사진";
+                    imgNode.className = "w-full h-auto object-cover max-h-[480px] rounded-none";
+                    imgNode.onerror = function() {
+                        this.outerHTML = `<div class="p-4 bg-gray-50 text-center text-xs text-gray-400 font-semibold border border-gray-150">📷 현장 보도 사진 로드 장애 (${escapeHtml(directUrl)})</div>`;
+                    };
+                    
+                    figure.appendChild(imgNode);
+
+                    if (captionText) {
+                        const caption = document.createElement("figcaption");
+                        caption.className = "text-xs text-gray-600 mt-2 text-center py-1 font-normal font-sans border-b border-gray-100";
+                        caption.innerText = captionText;
+                        figure.appendChild(caption);
+                    }
+                    
+                    contentContainer.appendChild(figure);
+                } 
+                else if (part.startsWith("[동영상링크:") && part.endsWith("]")) {
+                    const inner = part.substring("[동영상링크:".length, part.length - 1).trim();
+                    const [videoUrl, ...captionParts] = inner.split('|');
+                    const captionText = captionParts.join('|').trim();
+                    const ytId = getYoutubeId(videoUrl);
+                    
+                    const figure = document.createElement("figure");
+                    figure.className = "my-6 block w-full bg-black";
+
+                    if (ytId) {
+                        const parentOrigin = (window.location.origin && window.location.origin !== 'null') ? window.location.origin : '*';
+                        const div = document.createElement("div");
+                        div.className = "relative w-full aspect-video bg-black";
+                        div.innerHTML = `<iframe class="absolute top-0 left-0 w-full h-full" 
+                                                 src="https://www.youtube-nocookie.com/embed/${ytId}?enablejsapi=1&origin=${encodeURIComponent(parentOrigin)}" 
+                                                 frameborder="0" 
+                                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                                 referrerpolicy="no-referrer-when-downgrade"
+                                                 allowfullscreen></iframe>`;
+                        figure.appendChild(div);
+                    } else {
+                        const div = document.createElement("div");
+                        div.className = "w-full bg-black p-0";
+                        
+                        const video = document.createElement("video");
+                        video.src = videoUrl.trim();
+                        video.controls = true;
+                        video.className = "w-full h-auto max-h-[450px] mx-auto";
+                        video.style.backgroundColor = "black";
+                        video.onerror = function() {
+                            this.outerHTML = `<div class="p-4 bg-gray-50 text-center text-xs text-gray-400 font-semibold border border-gray-200">📺 정당 브리핑 동영상을 구동할 수 없습니다.</div>`;
+                        };
+                        
+                        div.appendChild(video);
+                        figure.appendChild(div);
+                    }
+
+                    if (captionText) {
+                        const caption = document.createElement("figcaption");
+                        caption.className = "text-xs text-gray-300 py-1.5 text-center font-normal font-sans bg-zinc-900";
+                        caption.innerText = captionText;
+                        figure.appendChild(caption);
+                    }
+
+                    contentContainer.appendChild(figure);
+                } 
+                else {
+                    if (part.trim()) {
+                        const p = document.createElement("p");
+                        p.className = "text-gray-900 leading-relaxed font-sans mb-4 whitespace-pre-line";
+                        p.innerText = part;
+                        contentContainer.appendChild(p);
+                    }
+                }
+            });
+
+            const tagsContainer = document.getElementById("detail-tags-container");
+            tagsContainer.innerHTML = "";
+            if (art.tags && art.tags.length > 0) {
+                art.tags.forEach(tag => {
+                    const cleanTag = tag.trim();
+                    if (cleanTag) {
+                        const span = document.createElement("span");
+                        span.className = "bg-black text-white text-[11px] font-semibold px-3 py-1 rounded-none cursor-pointer hover:opacity-80";
+                        span.innerText = `#${cleanTag}`;
+                        tagsContainer.appendChild(span);
+                    }
+                });
+            }
+
+            const emailsContainer = document.getElementById("detail-emails-container");
+            emailsContainer.innerHTML = "";
+            const authorsList = art.authors || (art.author ? [art.author] : []);
+            authorsList.forEach(authorName => {
+                const reporter = window.reporters.find(r => r.name === authorName) || {
+                    email: "reporter@padong.com"
+                };
+                const div = document.createElement("div");
+                div.innerHTML = `<span class="font-bold text-gray-800">${authorName}</span> <span class="text-gray-400 font-normal ml-2">${reporter.email}</span>`;
+                emailsContainer.appendChild(div);
+            });
+
+            const reactions = art.reactions || { like: 0, sad: 0, angry: 0 };
+            document.getElementById("react-like-count").innerText = reactions.like || 0;
+            document.getElementById("react-sad-count").innerText = reactions.sad || 0;
+            document.getElementById("react-angry-count").innerText = reactions.angry || 0;
+
+            const targetLeftProf = document.getElementById("detail-reporters-left");
+            targetLeftProf.innerHTML = "";
+
+            authorsList.forEach(authorName => {
+                const reporter = window.reporters.find(r => r.name === authorName);
+
+                const repCard = document.createElement("div");
+                repCard.className = "bg-white border-2 border-black p-4 text-center space-y-3";
+
+                if (!reporter) {
+                    repCard.innerHTML = `
+                        <div class="flex flex-col items-center">
+                            <img src="${DEFAULT_REPORTER_IMAGE}" 
+                                 class="w-14 h-14 rounded-none object-cover border border-gray-300 mb-2 p-1 bg-gray-50"
+                                 alt="해임 기자">
+                            <strong class="text-sm text-gray-950 font-black block">${authorName}</strong>
+                            <span class="text-[9px] text-gray-400 font-bold block mt-0.5">파동 객원기자</span>
+                        </div>
+                        <p class="text-[10px] text-gray-400">※ 해당 당원 기자는 현재 퇴임 보존 상태입니다.</p>
+                    `;
+                } else {
+                    const articleCount = getReporterArticleCount(reporter.name);
+                    const reporterImg = reporter.image && reporter.image.trim() !== "" ? reporter.image : DEFAULT_REPORTER_IMAGE;
+
+                    repCard.innerHTML = `
+                        <div class="flex flex-col items-center">
+                            <img src="${reporterImg}" 
+                                 class="w-16 h-16 rounded-none object-cover border-2 border-black mb-2 bg-slate-50"
+                                 alt="기자 프로필"
+                                 onerror="this.src='${DEFAULT_REPORTER_IMAGE}'">
+                            <strong class="text-base text-gray-900 font-black block">${reporter.name}</strong>
+                            <span class="text-[10px] text-[#0b1d33] font-extrabold block mt-0.5">${reporter.dept}</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 border-y border-gray-200 py-2 text-[10px] text-gray-500 font-sans">
+                            <div>발행 보도 <strong class="text-[#0b1d33] block text-sm font-black mt-0.5">${articleCount}</strong></div>
+                            <div>독자 추천 <strong class="text-[#0b1d33] block text-sm font-black mt-0.5">${reporter.recommendations}</strong></div>
+                        </div>
+                        <p class="text-[11px] text-gray-500 leading-relaxed text-center font-medium">"${reporter.bio}"</p>
+                        <div class="pt-1.5 font-sans">
+                            <button onclick="navigateToReporter('${reporter.id}')" class="w-full bg-[#0b1d33] hover:bg-slate-800 text-white font-bold text-[10px] py-2 transition">
+                                약력 및 정론 보기
+                            </button>
+                        </div>
+                    `;
+                }
+                targetLeftProf.appendChild(repCard);
+            });
+
+            const canModify = window.isAdminMode || (window.isReporterMode && authorsList.includes(window.loggedInUser));
+            const detailActions = document.getElementById("admin-article-actions");
+            if (canModify) {
+                detailActions.classList.remove("hidden");
+                detailActions.classList.add("flex");
+                document.getElementById("btn-detail-edit").onclick = () => window.loadArticleToEdit(art.id);
+                document.getElementById("btn-detail-delete").onclick = () => window.deleteArticle(art.id);
+            } else {
+                detailActions.classList.add("hidden");
+                detailActions.classList.remove("flex");
+            }
+
+            const comments = window.allComments.filter(c => c.articleId === art.id);
+            renderCommentsSection(comments);
+            renderTrendNews();
+            toggleAdminUI(window.isAdminMode || window.isReporterMode);
+        };
+
+        window.reactToArticle = function(reactionType) {
+            const nowTime = Date.now();
+            if (nowTime - lastReactionTime < 1000) {
+                showToast("⚠️ 리액션 투표는 초당 1회로 제한됩니다.");
+                return;
+            }
+            lastReactionTime = nowTime;
+
+            const art = window.articles.find(a => a.id === window.currentArticleId);
+            if (!art) return;
+
+            const reactionSessionKey = `padong_react_${reactionType}_${art.id}`;
+            if (sessionStorage.getItem(reactionSessionKey)) {
+                showToast("이미 공감을 기탁한 보도 지면입니다.");
+                return;
+            }
+
+            sessionStorage.setItem(reactionSessionKey, "true");
+            if (!art.reactions) {
+                art.reactions = { like: 0, sad: 0, angry: 0 };
+            }
+            art.reactions[reactionType] = (art.reactions[reactionType] || 0) + 1;
+
+            if (window.useFirebase) {
+                try {
+                    const docRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'articles', art.id);
+                    updateDoc(docRef, { reactions: art.reactions });
+                } catch(e) { updateLocalArticleReact(art.id, art.reactions); }
+            } else {
+                updateLocalArticleReact(art.id, art.reactions);
+            }
+            
+            document.getElementById(`react-${reactionType}-count`).innerText = art.reactions[reactionType];
+            showToast("보도에 관한 독자 공감이 수집되었습니다.");
+        };
+
+        function updateLocalArticleReact(id, reactionsObj) {
+            const idx = window.articles.findIndex(a => a.id === id);
+            if (idx !== -1) {
+                window.articles[idx].reactions = reactionsObj;
+                localStorage.setItem("padong_articles_v1", JSON.stringify(window.articles));
+            }
+        }
+
+        window.adjustFontSize = function(offset) {
+            const block = document.getElementById("detail-content");
+            let currSize = parseInt(block.style.fontSize.replace("px", ""));
+            let newSize = currSize + offset;
+            if (newSize >= 12 && newSize <= 28) {
+                block.style.fontSize = newSize + "px";
+                showToast(`정론 지면 글자 크기가 ${newSize}px로 조정되었습니다.`);
+            }
+        };
+
+        let currentUtterance = null;
+        window.playArticleTTS = function() {
+            const content = document.getElementById("detail-content").innerText;
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                
+                currentUtterance = new SpeechSynthesisUtterance("파동 독자낭독 송출을 개시합니다. " + content.substring(0, 500) + "... 이상 파동 청소년 정치 기획 보도였습니다.");
+                currentUtterance.lang = 'ko-KR';
+                currentUtterance.rate = 1.05;
+                
+                currentUtterance.onstart = function() {
+                    document.getElementById("btn-tts-stop").classList.remove("hidden");
+                };
+
+                currentUtterance.onend = function() {
+                    document.getElementById("btn-tts-stop").classList.add("hidden");
+                };
+
+                window.speechSynthesis.speak(currentUtterance);
+                showToast("오디오 보도 낭독 송출이 개시되었습니다.");
+            } else {
+                showToast("현재 기기는 하드웨어 음성 합성 모듈을 지원하지 않습니다.");
+            }
+        };
+
+        window.stopArticleTTS = function(silent = false) {
+            if ('speechSynthesis' in window) {
+                if (window.speechSynthesis.speaking) {
+                    window.speechSynthesis.cancel();
+                    if (!silent) {
+                        showToast("낭독 스트리밍이 해제되었습니다.");
+                    }
+                }
+                document.getElementById("btn-tts-stop").classList.add("hidden");
+            }
+        };
+
+        window.switchTrendTab = function(tabType) {
+            window.currentTrendTab = tabType;
+            const tabViews = document.getElementById("tab-trend-views");
+            const tabComments = document.getElementById("tab-trend-comments");
+
+            if (!tabViews || !tabComments) return;
+
+            if (tabType === 'views') {
+                tabViews.className = "text-[#0b1d33] font-black underline";
+                tabComments.className = "text-gray-400 font-bold";
+            } else {
+                tabComments.className = "text-[#0b1d33] font-black underline";
+                tabViews.className = "text-gray-400 font-bold";
+            }
+            renderTrendNews();
+        };
+
+        window.switchTrendTabDetail = function(tabType) {
+            window.currentTrendTabDetail = tabType;
+            const tabViews = document.getElementById("tab-trend-views-detail");
+            const tabComments = document.getElementById("tab-trend-comments-detail");
+
+            if (!tabViews || !tabComments) return;
+
+            if (tabType === 'views') {
+                tabViews.className = "text-[#0b1d33] font-black underline";
+                tabComments.className = "text-gray-400 font-bold";
+            } else {
+                tabComments.className = "text-[#0b1d33] font-black underline";
+                tabViews.className = "text-gray-400 font-bold";
+            }
+            renderTrendNews();
+        };
+
+        function renderTrendNews() {
+            const trendListHome = document.getElementById("trend-list");
+            if (trendListHome) {
+                let sortedHome = [];
+                if (window.currentTrendTab === 'views') {
+                    sortedHome = [...window.articles].sort((a,b) => (b.views || 0) - (a.views || 0));
+                } else {
+                    sortedHome = [...window.articles].sort((a,b) => {
+                        const cntA = window.allComments.filter(c => c.articleId === a.id).length;
+                        const cntB = window.allComments.filter(c => c.articleId === b.id).length;
+                        return cntB - cntA;
+                    });
+                }
+                trendListHome.innerHTML = renderTrendItemsHtml(sortedHome);
+            }
+
+            const trendListDetail = document.getElementById("trend-list-detail");
+            if (trendListDetail) {
+                let sortedDetail = [];
+                if (window.currentTrendTabDetail === 'views') {
+                    sortedDetail = [...window.articles].sort((a,b) => (b.views || 0) - (a.views || 0));
+                } else {
+                    sortedDetail = [...window.articles].sort((a,b) => {
+                        const cntA = window.allComments.filter(c => c.articleId === a.id).length;
+                        const cntB = window.allComments.filter(c => c.articleId === b.id).length;
+                        return cntB - cntA;
+                    });
+                }
+                trendListDetail.innerHTML = renderTrendItemsHtml(sortedDetail);
+            }
+        }
+
+        function renderTrendItemsHtml(sortedArticles) {
+            if (sortedArticles.length === 0) {
+                return `<p class="text-[11px] text-gray-400 py-4 text-center">수집된 트렌드 입법 보도가 부재합니다.</p>`;
+            }
+            return sortedArticles.slice(0, 5).map((art, idx) => {
+                const scoopBadgeHtml = getScoopBadgeHtml(art.isScoop);
+                return `
+                    <li class="flex items-start space-x-2 border-b border-gray-100 pb-2 cursor-pointer hover:bg-gray-50" onclick="viewArticle('${art.id}')">
+                        <strong class="text-xs font-black text-[#0b1d33] w-5 text-center shrink-0 mt-0.5">${idx + 1}</strong>
+                        <div class="flex-grow min-w-0 font-sans">
+                            <span class="text-gray-800 font-bold line-clamp-2 leading-snug hover:underline text-xs md:text-sm">${scoopBadgeHtml}${art.title}</span>
+                        </div>
+                    </li>
+                `;
+            }).join('');
+        }
+
+        window.recommendArticle = async function() {
+            const art = window.articles.find(a => a.id === window.currentArticleId);
+            if (!art) return;
+
+            const recommendSessionKey = `padong_reco_${art.id}`;
+            if (sessionStorage.getItem(recommendSessionKey)) {
+                showToast("본 보도에 이미 지지 선언을 기탁하셨습니다.");
+                return;
+            }
+
+            sessionStorage.setItem(recommendSessionKey, "true");
+            if (window.useFirebase) {
+                try {
+                    const docRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'articles', art.id);
+                    await updateDoc(docRef, { recommendations: increment(1) });
+                } catch(e) { incrementLocalRecommend(art.id); }
+            } else {
+                incrementLocalRecommend(art.id);
+            }
+            showToast("독자 참정 지지 표명이 정상 완결되었습니다.");
+        };
+
+        function incrementLocalRecommend(id) {
+            const idx = window.articles.findIndex(a => a.id === id);
+            if (idx !== -1) {
+                window.articles[idx].recommendations = (window.articles[idx].recommendations || 0) + 1;
+                localStorage.setItem("padong_articles_v1", JSON.stringify(window.articles));
+                window.renderApp();
+            }
+        }
+
+        window.navigateToReporter = function(reporterId) {
+            if (reporterId === "temp" || !window.reporters.find(r => r.id === reporterId)) {
+                showToast("❗ 조회불가: 탈퇴 혹은 제명된 당원 기자입니다.");
+                return;
+            }
+            window.currentReporterId = reporterId;
+            window.switchView("reporter");
+        };
+
+        window.navigateToReporterByName = function(name) {
+            const reporter = window.reporters.find(r => r.name === name);
+            if (reporter) {
+                window.navigateToReporter(reporter.id);
+            } else {
+                showToast("❗ 조회불가: 탈퇴 혹은 제명된 당원 기자입니다.");
+            }
+        };
+
+        window.renderReporterContent = function() {
+            const reporter = window.reporters.find(r => r.id === window.currentReporterId);
+            if (!reporter) {
+                window.switchView("home");
+                return;
+            }
+
+            const repProfileHero = document.getElementById("rep-profile-hero");
+            const articleCount = getReporterArticleCount(reporter.name);
+
+            const careerText = reporter.career || "기입된 소속 참정 약력이 부재합니다.";
+            const careerItems = careerText.split('\n').filter(item => item.trim().length > 0);
+            let careerHtml = careerItems.map(item => `
+                <li class="flex items-start space-x-1.5 text-white/90">
+                    <span class="text-white/65 mt-1">•</span>
+                    <span>${escapeHtml(item)}</span>
+                </li>
+            `).join('');
+
+            const reporterImg = reporter.image && reporter.image.trim() !== "" ? reporter.image : DEFAULT_REPORTER_IMAGE;
+
+            repProfileHero.innerHTML = `
+                <div class="flex flex-col items-center text-center space-y-3 font-sans">
+                    <img src="${reporterImg}" 
+                         class="w-24 h-24 rounded-none object-cover border-2 border-white bg-slate-50 shadow-none"
+                         alt="기자 사진"
+                         onerror="this.src='${DEFAULT_REPORTER_IMAGE}'">
+                    <div class="space-y-1">
+                        <h2 class="text-2xl font-black tracking-tight">${reporter.name}</h2>
+                        <span class="text-xs text-white/70 font-semibold block">${reporter.dept}</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 border-y border-white/10 py-4 text-center text-xs font-sans">
+                    <div>
+                        <span class="text-white/60 block">발행 의제 보도</span>
+                        <strong class="text-lg font-black block mt-0.5">${articleCount}</strong>
+                    </div>
+                    <div>
+                        <span class="text-white/60 block">독자 추천수</span>
+                        <strong class="text-lg font-black block mt-0.5">${reporter.recommendations}</strong>
+                    </div>
+                </div>
+
+                <div class="space-y-1 text-xs leading-relaxed italic text-white/80 font-sans text-center">
+                    <p>"${reporter.bio}"</p>
+                    <span class="block text-[10px] text-white/60 pt-2 font-normal">✉ ${reporter.email}</span>
+                </div>
+
+                <div class="pt-4 border-t border-white/10 space-y-3 font-sans text-left">
+                    <h4 class="text-xs font-black uppercase text-white/60 tracking-wider">주요 정당 및 참정 이력</h4>
+                    <ul class="space-y-1.5 text-xs">
+                        ${careerHtml}
+                    </ul>
+                </div>
+            `;
+
+            const repArticlesFeed = document.getElementById("rep-articles-feed");
+            const reporterArticles = window.articles.filter(a => (a.authors && a.authors.includes(reporter.name)) || a.author === reporter.name);
+
+            if (reporterArticles.length > 0) {
+                repArticlesFeed.innerHTML = reporterArticles.map(art => {
+                    const scoopBadgeHtml = getScoopBadgeHtml(art.isScoop);
+                    const repArtImage = art.image || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80';
+
+                    return `
+                        <div class="bg-white border border-gray-200 p-4 cursor-pointer group hover:bg-gray-50 flex space-x-4 items-start" onclick="viewArticle('${art.id}')">
+                            <div class="space-y-2 flex-grow min-w-0 font-sans">
+                                <span class="text-[10px] text-[#0b1d33] font-bold border border-[#0b1d33] px-1.5 py-0.2">${art.category}</span>
+                                <h4 class="text-base font-bold text-gray-950 group-hover:underline leading-snug line-clamp-2">
+                                    ${scoopBadgeHtml}${art.title}
+                                </h4>
+                                <p class="text-xs text-gray-400 line-clamp-2">${art.subtitle || art.content.substring(0, 100) + '...'}</p>
+                                <div class="text-[10px] text-gray-400 pt-1">
+                                    <span>발행: ${art.date}</span>
+                                    <span class="mx-1.5">·</span>
+                                    <span>열람 ${art.views || 0}</span>
+                                </div>
+                            </div>
+                            <img src="${repArtImage}" 
+                                 class="w-24 h-16 object-cover border border-gray-200 shrink-0 bg-slate-50"
+                                 alt="기자작성보도"
+                                 onerror="this.src='https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80'">
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                repArticlesFeed.innerHTML = `<div class="text-center py-16 bg-white border border-gray-200"><p class="text-gray-400 text-xs">해당 취재원의 집필 기사 아카이브가 부재합니다.</p></div>`;
+            }
+        };
+
+        function renderCommentsSection(matchedComments) {
+            const listEl = document.getElementById("comment-list");
+            const countEl = document.getElementById("comment-count");
+            countEl.innerText = matchedComments.length;
+
+            if (matchedComments.length === 0) {
+                listEl.innerHTML = `<p class="text-[11px] text-gray-400 py-4 text-center border-t border-gray-100">게재된 참정 한줄평이 없습니다. 파동의 첫 토론을 견인해보세요.</p>`;
+                return;
+            }
+
+            listEl.innerHTML = matchedComments.map(c => `
+                <div class="border-b border-gray-100 pb-3 font-sans">
+                    <div class="flex justify-between items-center text-xs text-gray-400 mb-1">
+                        <div class="flex items-center space-x-1.5">
+                            <span class="inline-block w-1.5 h-1.5 bg-[#0b1d33]"></span>
+                            <span class="font-extrabold text-gray-800 text-sm">${escapeHtml(c.writer)}</span>
+                            <span class="text-[10px] text-gray-400 bg-gray-50 px-1.5 py-0.2 border border-gray-100 font-medium tracking-tight">(${maskIp(c.ip || "127.0.0.1")})</span>
+                        </div>
+                        <span>${c.date}</span>
+                    </div>
+                    <p class="text-gray-800 pl-3.5 text-sm leading-relaxed">${escapeHtml(c.text)}</p>
+                </div>
+            `).join('');
+        }
+
+        window.addComment = async function() {
+            const nowTime = Date.now();
+            if (nowTime - lastCommentTime < 5000) {
+                showToast("⚠️ 참정 도배 통제를 위해 5초 뒤 추가 작성이 허용됩니다.");
+                return;
+            }
+
+            const writerInput = document.getElementById("comment-writer");
+            const textInput = document.getElementById("comment-text");
+            const writer = writerInput.value.trim();
+            const text = textInput.value.trim();
+
+            if (!writer || !text) {
+                showToast("토론자 성명과 의견 본문을 정확하게 기재하십시오.");
+                return;
+            }
+
+            lastCommentTime = nowTime;
+
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+            const newComment = {
+                id: "com-" + Date.now(),
+                articleId: window.currentArticleId,
+                writer: writer,
+                text: text,
+                date: dateStr,
+                ip: window.clientIp
+            };
+
+            if (window.useFirebase) {
+                try {
+                    const comDoc = doc(db, 'artifacts', window.appId, 'public', 'data', 'comments', newComment.id);
+                    await setDoc(comDoc, newComment);
+                } catch (e) {
+                    window.useFirebase = false;
+                    saveCommentLocally(newComment);
+                }
+            } else {
+                saveCommentLocally(newComment);
+            }
+
+            writerInput.value = "";
+            textInput.value = "";
+            showToast("광장 토론에 무결 투고되었습니다.");
+        };
+
+        function saveCommentLocally(commentObj) {
+            window.allComments.push(commentObj);
+            localStorage.setItem("padong_comments_v1", JSON.stringify(window.allComments));
+            const filtered = window.allComments.filter(c => c.articleId === window.currentArticleId);
+            renderCommentsSection(filtered);
+        }
+
+        window.switchAdminTab = function(tabId) {
+            if ((tabId === 'reporters' || tabId === 'stats' || tabId === 'comments' || tabId === 'poll') && !window.isAdminMode) {
+                showToast("최고 보도국장 어카운트만 임의 접근이 허용되는 지면입니다.");
+                window.switchAdminTab('write'); 
+                return;
+            }
+
+            const tabs = ['write', 'articles', 'reporters', 'stats', 'comments', 'poll'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`admin-tab-${t}`);
+                const subview = document.getElementById(`admin-subview-${t}`);
+                
+                if (!window.isAdminMode && (t === 'reporters' || t === 'stats' || t === 'comments' || t === 'poll')) {
+                    if (btn) btn.classList.add("hidden");
+                    if (subview) subview.classList.add("hidden");
+                    return;
+                } else {
+                    if (btn) btn.classList.remove("hidden");
+                }
+
+                if (t === tabId) {
+                    btn.className = "w-full text-left px-3 py-2.5 text-xs font-bold border-l-4 border-[#0b1d33] bg-gray-50 text-[#0b1d33] flex items-center justify-between";
+                    subview.classList.remove("hidden");
+                } else {
+                    btn.className = "w-full text-left px-3 py-2.5 text-xs font-bold text-gray-600 border-l-4 border-transparent hover:bg-gray-50 flex items-center justify-between";
+                    subview.classList.add("hidden");
+                }
+            });
+
+            if (tabId === 'reporters') {
+                renderAdminReportersList();
+            } else if (tabId === 'stats') {
+                renderAdminStats();
+            } else if (tabId === 'comments') {
+                renderAdminCommentsList();
+            } else if (tabId === 'poll') {
+                loadAdminPollData();
+            }
+        };
+
+        window.renderAdminContent = function() {
+            const checkboxesContainer = document.getElementById("admin-reporters-checkboxes");
+            checkboxesContainer.innerHTML = window.reporters.map(r => `
+                <label class="flex items-center space-x-2 p-2 border border-gray-200 bg-white cursor-pointer hover:bg-blue-50/20 text-xs font-sans">
+                    <input type="checkbox" name="admin-authors-select" value="${r.name}" class="text-[#0b1d33] focus:ring-[#0b1d33]">
+                    <span class="text-gray-800 font-semibold truncate">${r.name} (${r.dept})</span>
+                </label>
+            `).join('');
+
+            const adminBadge = document.getElementById("admin-badge");
+            const currentRoleDisplay = document.getElementById("current-role-display");
+
+            if (window.isAdminMode) {
+                adminBadge.innerText = "CHIEF EDITOR";
+                adminBadge.className = "bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 uppercase tracking-widest";
+                currentRoleDisplay.innerText = "최고 편집국장 (오주영)";
+                
+                const adminOnlys = document.querySelectorAll(".admin-only-element");
+                adminOnlys.forEach(el => el.classList.remove("hidden"));
+            } else if (window.isReporterMode) {
+                adminBadge.innerText = "REPORTER";
+                adminBadge.className = "bg-[#0b1d33] text-white text-[10px] font-bold px-2 py-0.5 uppercase tracking-widest";
+                currentRoleDisplay.innerText = `취재 기자 당원 (${window.loggedInUser})`;
+                
+                const adminOnlys = document.querySelectorAll(".admin-only-element");
+                adminOnlys.forEach(el => el.classList.add("hidden"));
+
+                const cb = document.querySelector(`input[name="admin-authors-select"][value="${window.loggedInUser}"]`);
+                if (cb) cb.checked = true;
+            }
+
+            const listEl = document.getElementById("admin-article-list");
+            if (window.articles.length === 0) {
+                listEl.innerHTML = `<p class="text-gray-400 text-center py-4">배포 완료된 기획 보도가 비어있습니다.</p>`;
+                return;
+            }
+
+            listEl.innerHTML = window.articles.map(art => {
+                const authorsList = art.authors || [art.author];
+                const canModify = window.isAdminMode || (window.isReporterMode && authorsList.includes(window.loggedInUser));
+                
+                return `
+                    <div class="border border-gray-200 p-3 bg-white flex justify-between items-center space-x-2 font-sans">
+                        <div class="space-y-1 max-w-[70%]">
+                            <span class="bg-[#0b1d33] text-white px-1.5 py-0.2 text-[8px] font-bold uppercase">${art.category}</span>
+                            <h4 class="font-bold text-gray-800 line-clamp-1 text-xs">${art.title}</h4>
+                            <p class="text-[9px] text-gray-400">집필: ${authorsList.join(", ")} | 조회: ${art.views || 0}</p>
+                        </div>
+                        <div class="flex space-x-1 shrink-0 font-sans">
+                            ${canModify ? `
+                                <button onclick="loadArticleToEdit('${art.id}')" class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 text-[9px] font-bold">수정</button>
+                                <button onclick="deleteArticle('${art.id}')" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 text-[9px] font-bold">삭제</button>
+                            ` : `<span class="text-[9px] text-gray-300 italic font-semibold">수정권한제한</span>`}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        function renderAdminStats() {
+            document.getElementById("stat-total-articles").innerText = window.articles.length;
+            const totalViews = window.articles.reduce((acc, curr) => acc + (curr.views || 0), 0);
+            document.getElementById("stat-total-views").innerText = totalViews;
+            document.getElementById("stat-total-comments").innerText = window.allComments.length;
+        }
+
+        function loadAdminPollData() {
+            document.getElementById("admin-poll-question").value = window.pollData.question;
+            document.getElementById("admin-poll-opt0").value = window.pollData.options[0] ? window.pollData.options[0].text : "";
+            document.getElementById("admin-poll-opt1").value = window.pollData.options[1] ? window.pollData.options[1].text : "";
+            document.getElementById("admin-poll-opt2").value = window.pollData.options[2] ? window.pollData.options[2].text : "";
+            document.getElementById("admin-poll-active").checked = window.pollData.active;
+
+            document.getElementById("admin-poll-vote0").innerText = window.pollData.options[0] ? window.pollData.options[0].votes : 0;
+            document.getElementById("admin-poll-vote1").innerText = window.pollData.options[1] ? window.pollData.options[1].votes : 0;
+            document.getElementById("admin-poll-vote2").innerText = window.pollData.options[2] ? window.pollData.options[2].votes : 0;
+        }
+
+        window.saveAdminPoll = function() {
+            if (!window.isAdminMode) return;
+            const q = document.getElementById("admin-poll-question").value.trim();
+            const o0 = document.getElementById("admin-poll-opt0").value.trim();
+            const o1 = document.getElementById("admin-poll-opt1").value.trim();
+            const o2 = document.getElementById("admin-poll-opt2").value.trim();
+            const active = document.getElementById("admin-poll-active").checked;
+
+            if (!q || !o0 || !o1) {
+                showToast("투표 안건 문항 및 최소 2지 선다 이상의 구성이 필수 요구됩니다.");
+                return;
+            }
+
+            window.pollData.question = q;
+            window.pollData.active = active;
+            
+            window.pollData.options[0] = { text: o0, votes: window.pollData.options[0] ? window.pollData.options[0].votes : 0 };
+            window.pollData.options[1] = { text: o1, votes: window.pollData.options[1] ? window.pollData.options[1].votes : 0 };
+            window.pollData.options[2] = { text: o2, votes: window.pollData.options[2] ? window.pollData.options[2].votes : 0 };
+
+            if (window.useFirebase) {
+                try {
+                    const pollDocRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'polls', 'main_poll');
+                    setDoc(pollDocRef, window.pollData);
+                } catch(e) {
+                    console.error("클라우드 여론 수립 통제 오류:", e);
+                }
+            }
+
+            localStorage.setItem("padong_poll_v1", JSON.stringify(window.pollData));
+            localStorage.removeItem("padong_voted_v1"); 
+
+            window.renderPollWidget();
+            showToast("독자 여론조사 아카이브 조율이 공포되었습니다.");
+        };
+
+        window.resetPollVotes = async function() {
+            if (!window.isAdminMode) return;
+            const dec = await askUserConfirm("현재까지 적립된 여론조사 득표수를 완벽하게 리셋 및 초기화하시겠습니까?");
+            if (dec) {
+                window.pollData.options.forEach(opt => opt.votes = 0);
+                if (window.useFirebase) {
+                    try {
+                        const pollDocRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'polls', 'main_poll');
+                        await setDoc(pollDocRef, window.pollData);
+                    } catch(e) {}
+                }
+                localStorage.setItem("padong_poll_v1", JSON.stringify(window.pollData));
+                localStorage.removeItem("padong_voted_v1");
+                window.renderPollWidget();
+                loadAdminPollData();
+                showToast("의제 득표수가 완전 초기화 수습되었습니다.");
+            }
+        };
+
+        function renderAdminReportersList() {
+            const list = document.getElementById("admin-reporters-list");
+            if (window.reporters.length === 0) {
+                list.innerHTML = `<p class="text-gray-400 text-center py-4 text-xs">승인 임명된 정기 기자 당원이 없습니다.</p>`;
+                return;
+            }
+            list.innerHTML = window.reporters.map(rep => {
+                const repImg = rep.image && rep.image.trim() !== "" ? rep.image : DEFAULT_REPORTER_IMAGE;
+                return `
+                    <div class="border border-gray-200 p-3 bg-white flex justify-between items-center text-xs font-sans">
+                        <div class="flex items-center space-x-3">
+                            <img src="${repImg}" 
+                                 class="w-10 h-10 rounded-none object-cover shrink-0 border border-gray-200 bg-slate-50"
+                                 alt="기자 사진"
+                                 onerror="this.src='${DEFAULT_REPORTER_IMAGE}'">
+                            <div>
+                                <strong class="text-gray-800 text-sm">${rep.name}</strong>
+                                <span class="text-[10px] text-[#0b1d33] font-bold ml-1.5">${rep.dept}</span>
+                                <p class="text-[10px] text-gray-400 mt-0.5">${rep.bio}</p>
+                            </div>
+                        </div>
+                        <div class="flex space-x-1">
+                            <button onclick="loadReporterToEdit('${rep.id}')" class="bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 text-[10px] font-bold">수정</button>
+                            <button onclick="deleteReporter('${rep.id}')" class="bg-red-50 hover:bg-red-600 text-white px-2.5 py-1 text-[10px] font-bold">해임</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.loadReporterToEdit = function(id) {
+            const rep = window.reporters.find(r => r.id === id);
+            if (!rep) return;
+
+            document.getElementById("edit-rep-id").value = rep.id;
+            document.getElementById("add-rep-name").value = rep.name;
+            document.getElementById("add-rep-dept").value = rep.dept;
+            document.getElementById("add-rep-email").value = rep.email;
+            document.getElementById("add-rep-bio").value = rep.bio;
+            document.getElementById("add-rep-image").value = rep.image || "";
+            document.getElementById("add-rep-career").value = rep.career || "";
+
+            document.getElementById("rep-form-title").innerText = `당원 기자 명부 수정 (${rep.name})`;
+            document.getElementById("btn-save-reporter").innerText = "명부 수정 승인";
+            showToast("기자 인사 원고가 편집대로 이동 수립되었습니다.");
+        };
+
+        window.clearReporterForm = function() {
+            document.getElementById("edit-rep-id").value = "";
+            document.getElementById("add-rep-name").value = "";
+            document.getElementById("add-rep-dept").value = "";
+            document.getElementById("add-rep-email").value = "";
+            document.getElementById("add-rep-bio").value = "";
+            document.getElementById("add-rep-image").value = "";
+            document.getElementById("add-rep-career").value = "";
+
+            document.getElementById("rep-form-title").innerText = "기자단 신규 영입 / 세션 등록";
+            document.getElementById("btn-save-reporter").innerText = "새 기자 영입 승인";
+        };
+
+        window.addNewReporter = async function() {
+            if (!window.isAdminMode) {
+                showToast("인사권 및 수습 권한은 편집국 위원회 전용 규율입니다.");
+                return;
+            }
+
+            const editId = document.getElementById("edit-rep-id").value;
+            const name = document.getElementById("add-rep-name").value.trim();
+            const dept = document.getElementById("add-rep-dept").value.trim();
+            const email = document.getElementById("add-rep-email").value.trim();
+            const bio = document.getElementById("add-rep-bio").value.trim();
+            const image = document.getElementById("add-rep-image").value.trim() || DEFAULT_REPORTER_IMAGE;
+            const career = document.getElementById("add-rep-career").value.trim();
+
+            if (!name || !dept) {
+                showToast("필진의 성명과 배정 부서는 최소 조건입니다.");
+                return;
+            }
+
+            if (editId) {
+                const idx = window.reporters.findIndex(r => r.id === editId);
+                if (idx !== -1) {
+                    const original = window.reporters[idx];
+                    const oldName = original.name;
+
+                    const updatedRep = {
+                        ...original,
+                        name,
+                        dept,
+                        email: email || original.email,
+                        bio: bio || original.bio,
+                        image: image || original.image,
+                        career: career || "등록된 정당 약력이 없습니다."
+                    };
+
+                    if (oldName !== name) {
+                        window.articles.forEach(art => {
+                            if (art.authors) {
+                                art.authors = art.authors.map(a => a === oldName ? name : a);
+                            }
+                            if (art.author === oldName) {
+                                art.author = name;
+                            }
+                        });
+                        if (!window.useFirebase) {
+                            localStorage.setItem("padong_articles_v1", JSON.stringify(window.articles));
+                        } else {
+                            for (const art of window.articles) {
+                                try {
+                                    const artDocRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'articles', art.id);
+                                    await updateDoc(artDocRef, { authors: art.authors, author: art.author || "" });
+                                } catch(e){}
+                            }
+                        }
+                    }
+
+                    if (window.useFirebase) {
+                        try {
+                            const docRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'reporters', editId);
+                            await setDoc(docRef, updatedRep);
+                        } catch(e) { updateReporterLocally(editId, updatedRep); }
+                    } else {
+                        updateReporterLocally(editId, updatedRep);
+                    }
+                    showToast("기자 인사 기동 처리가 완비되었습니다.");
+                }
+            } else {
+                const newRep = {
+                    id: "rep-" + Date.now(),
+                    name,
+                    dept,
+                    email: email || `${Date.now()}@padong.com`,
+                    bio: bio || "파동 취재기자 동지입니다.",
+                    recommendations: 0,
+                    image,
+                    career: career || "등록된 참정 약력이 없습니다."
+                };
+
+                if (window.useFirebase) {
+                    try {
+                        const docRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'reporters', newRep.id);
+                        await setDoc(docRef, newRep);
+                    } catch(e) { saveReporterLocally(newRep); }
+                } else {
+                    saveReporterLocally(newRep);
+                }
+                showToast("새 기자가 정식 임용 수립되었습니다.");
+            }
+
+            clearReporterForm();
+            renderAdminReportersList();
+            window.renderAdminContent();
+            window.renderApp(); 
+        };
+
+        function saveReporterLocally(rep) {
+            window.reporters.push(rep);
+            localStorage.setItem("padong_reporters_v1", JSON.stringify(window.reporters));
+        }
+
+        function updateReporterLocally(id, data) {
+            const idx = window.reporters.findIndex(r => r.id === id);
+            if (idx !== -1) {
+                window.reporters[idx] = data;
+                localStorage.setItem("padong_reporters_v1", JSON.stringify(window.reporters));
+            }
+        }
+
+        window.deleteReporter = async function(id) {
+            if (!window.isAdminMode) return;
+            const rep = window.reporters.find(r => r.id === id);
+            if (!rep) return;
+
+            const confirmDec = await askUserConfirm(`[${rep.name}] 기자를 명부에서 면직 영구 퇴임처리하시겠습니까? 기 작성물은 보존 유지됩니다.`);
+            if (confirmDec) {
+                if (window.useFirebase) {
+                    try {
+                        const docRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'reporters', id);
+                        await deleteDoc(docRef);
+                    } catch(e) { deleteReporterLocally(id); }
+                } else {
+                    deleteReporterLocally(id);
+                }
+                showToast("기자 제명 절차가 성료되었습니다.");
+                clearReporterForm();
+                renderAdminReportersList();
+                window.renderAdminContent();
+                window.renderApp();
+            }
+        };
+
+        function deleteReporterLocally(id) {
+            window.reporters = window.reporters.filter(r => r.id !== id);
+            localStorage.setItem("padong_reporters_v1", JSON.stringify(window.reporters));
+        }
+
+        window.saveArticle = async function() {
+            const idInput = document.getElementById("admin-article-id").value;
+            const category = document.getElementById("admin-category").value;
+            const imageInput = document.getElementById("admin-image").value.trim();
+            const title = document.getElementById("admin-title").value.trim();
+            const subtitle = document.getElementById("admin-subtitle").value.trim();
+            const content = document.getElementById("admin-content").value.trim();
+            const isHeadline = document.getElementById("admin-is-headline").checked;
+            
+            const isScoopRadio = document.querySelector('input[name="admin-scoop-type"]:checked');
+            const isScoopVal = isScoopRadio ? isScoopRadio.value : "normal";
+            
+            const tagsInputVal = document.getElementById("admin-tags").value.trim();
+            const tagsArray = tagsInputVal ? tagsInputVal.split(",").map(t => t.trim()).filter(t => t.length > 0) : [];
+
+            const selectedAuthorsCbs = document.querySelectorAll('input[name="admin-authors-select"]:checked');
+            const selectedAuthors = Array.from(selectedAuthorsCbs).map(cb => cb.value);
+
+            if (selectedAuthors.length === 0) {
+                showToast("본 보도를 송고 집필한 기자를 한 명 이상 지정해 주십시오.");
+                return;
+            }
+
+            if (!title || !content) {
+                showToast("지면의 표제어와 상세 입법 취재 본문은 무결해야 합니다.");
+                return;
+            }
+
+            let finalImage = imageInput;
+            if (imageInput && !imageInput.startsWith("http")) {
+                if (imageInput.includes("politics") || imageInput.includes("의회") || imageInput.includes("정치")) {
+                    finalImage = "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?auto=format&fit=crop&w=800&q=80";
+                } else if (imageInput.includes("assembly") || imageInput.includes("국회") || imageInput.includes("party")) {
+                    finalImage = "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80";
+                } else if (imageInput.includes("debate") || imageInput.includes("토론") || imageInput.includes("policy")) {
+                    finalImage = "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80";
+                } else {
+                    finalImage = "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80";
+                }
+            } else if (!imageInput) {
+                finalImage = "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80";
+            }
+
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+            const targetArtId = idInput ? idInput : "art-" + Date.now();
+
+            // [핵심 해결책] 독점 지정 체크 시 다른 기사의 모든 Headline 플래그를 정교하게 초기화
+            if (isHeadline) {
+                if (window.useFirebase) {
+                    try {
+                        const batch = writeBatch(db);
+                        // 현재 로컬 메모리 상의 다른 모든 기사 중 헤드라인이었던 기사를 전수 수렴하여 DB 강제 정화
+                        window.articles.forEach(a => {
+                            if (a.id !== targetArtId && (a.isHeadline === true || a.isHeadline === "true")) {
+                                const docRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'articles', a.id);
+                                batch.update(docRef, { isHeadline: false });
+                            }
+                        });
+                        await batch.commit();
+                        console.log("파동 기획 헤드라인 독점 단일화 트랜잭션 정상 완결.");
+                    } catch (e) {
+                        console.error("일괄 비우기 우회 보강 집행.", e);
+                    }
+                }
+                
+                // 로컬 스토리지 데이터도 엄격히 정화 처리
+                window.articles.forEach(a => {
+                    if (a.id !== targetArtId) {
+                        a.isHeadline = false;
+                    }
+                });
+                if (!window.useFirebase) {
+                    localStorage.setItem("padong_articles_v1", JSON.stringify(window.articles));
+                }
+            }
+
+            if (idInput) {
+                const existing = window.articles.find(a => a.id === idInput);
+                const originalViews = existing ? (existing.views || 0) : 0;
+                const originalRecs = existing ? (existing.recommendations || 0) : 0;
+                const originalReactions = existing ? (existing.reactions || { like: 0, sad: 0, angry: 0 }) : { like: 0, sad: 0, angry: 0 };
+
+                const updatedArt = {
+                    id: idInput,
+                    category,
+                    authors: selectedAuthors,
+                    image: finalImage,
+                    title,
+                    subtitle,
+                    content,
+                    date: dateStr + " (수정됨)",
+                    views: originalViews,
+                    recommendations: originalRecs,
+                    isScoop: isScoopVal,
+                    isHeadline: isHeadline, // 확실한 불리언 구조 고정
+                    tags: tagsArray,
+                    reactions: originalReactions
+                };
+
+                if (window.useFirebase) {
+                    try {
+                        const docRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'articles', idInput);
+                        await setDoc(docRef, updatedArt);
+                    } catch(e) { saveArticleLocally(idInput, updatedArt); }
+                } else {
+                    saveArticleLocally(idInput, updatedArt);
+                }
+                showToast("의제 보도 수정 배포 지면 발행이 완료되었습니다.");
+            } else {
+                const newArt = {
+                    id: targetArtId,
+                    category,
+                    authors: selectedAuthors,
+                    image: finalImage,
+                    title,
+                    subtitle,
+                    content,
+                    date: dateStr,
+                    views: 0,
+                    recommendations: 0,
+                    isScoop: isScoopVal,
+                    isHeadline: isHeadline,
+                    tags: tagsArray,
+                    reactions: { like: 0, sad: 0, angry: 0 }
+                };
+
+                if (window.useFirebase) {
+                    try {
+                        const docRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'articles', newArt.id);
+                        await setDoc(docRef, newArt);
+                    } catch(e) { saveArticleLocally(null, newArt); }
+                } else {
+                    saveArticleLocally(null, newArt);
+                }
+                showToast("신규 기획 참정 보도가 실시간 지면에 공표되었습니다.");
+            }
+
+            clearAdminForm();
+            window.renderAdminContent();
+            window.switchView("home");
+        };
+
+        function saveArticleLocally(id, data) {
+            if (id) {
+                const idx = window.articles.findIndex(a => a.id === id);
+                if (idx !== -1) { window.articles[idx] = data; }
+            } else {
+                window.articles.unshift(data);
+            }
+            localStorage.setItem("padong_articles_v1", JSON.stringify(window.articles));
+            window.renderApp();
+        }
+
+        window.loadArticleToEdit = function(id) {
+            const art = window.articles.find(a => a.id === id);
+            if (art) {
+                window.switchView("admin");
+                window.switchAdminTab("write");
+                document.getElementById("admin-article-id").value = art.id;
+                document.getElementById("admin-category").value = art.category;
+                document.getElementById("admin-image").value = art.image || "";
+                document.getElementById("admin-title").value = art.title;
+                document.getElementById("admin-subtitle").value = art.subtitle || "";
+                document.getElementById("admin-content").value = art.content;
+                document.getElementById("admin-tags").value = art.tags ? art.tags.join(", ") : "";
+                document.getElementById("admin-is-headline").checked = (art.isHeadline === true || art.isHeadline === "true");
+
+                const targetScoopVal = art.isScoop || "normal";
+                const radioEl = document.querySelector(`input[name="admin-scoop-type"][value="${targetScoopVal}"]`);
+                if (radioEl) radioEl.checked = true;
+
+                const authorsList = art.authors || [art.author];
+                const checks = document.querySelectorAll('input[name="admin-authors-select"]');
+                checks.forEach(cb => {
+                    cb.checked = authorsList.includes(cb.value);
+                });
+
+                document.getElementById("form-title").innerText = "취재 보도 지면 수정 (데스크 편집실)";
+                showToast("원고가 원활하게 로드되었습니다.");
+            }
+        };
+
+        window.deleteArticle = async function(id) {
+            const confirmDec = await askUserConfirm("해당 참정 보도 지면을 영구히 폐기 처분하시겠습니까?");
+            if (confirmDec) {
+                if (window.useFirebase) {
+                    try {
+                        const docRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'articles', id);
+                        await deleteDoc(docRef);
+                        
+                        const related = window.allComments.filter(c => c.articleId === id);
+                        for (const com of related) {
+                            const comDoc = doc(db, 'artifacts', window.appId, 'public', 'data', 'comments', com.id);
+                            await deleteDoc(comDoc);
+                        }
+                    } catch(e) { deleteArticleLocally(id); }
+                } else {
+                    deleteArticleLocally(id);
+                }
+                showToast("의제 소거 및 폐기 절차가 완료되었습니다.");
+                window.switchView("home");
+            }
+        };
+
+        function deleteArticleLocally(id) {
+            window.articles = window.articles.filter(a => a.id !== id);
+            window.allComments = window.allComments.filter(c => c.articleId !== id);
+            localStorage.setItem("padong_articles_v1", JSON.stringify(window.articles));
+            localStorage.setItem("padong_comments_v1", JSON.stringify(window.allComments));
+            window.renderApp();
+        }
+
+        window.clearAdminForm = function() {
+            document.getElementById("admin-article-id").value = "";
+            document.getElementById("admin-category").value = "청소년정치";
+            document.getElementById("admin-image").value = "";
+            document.getElementById("admin-title").value = "";
+            document.getElementById("admin-subtitle").value = "";
+            document.getElementById("admin-content").value = "";
+            document.getElementById("admin-tags").value = "";
+            document.getElementById("admin-is-headline").checked = false;
+            document.getElementById("form-title").innerText = "보도 원고 게재";
+
+            const defaultRadio = document.querySelector('input[name="admin-scoop-type"][value="normal"]');
+            if (defaultRadio) defaultRadio.checked = true;
+
+            const checks = document.querySelectorAll('input[name="admin-authors-select"]');
+            checks.forEach(cb => cb.checked = false);
+            if (window.isReporterMode) {
+                const cb = document.querySelector(`input[name="admin-authors-select"][value="${window.loggedInUser}"]`);
+                if (cb) cb.checked = true;
+            }
+        };
+
+        function renderAdminCommentsList() {
+            const list = document.getElementById("admin-comments-management-list");
+            if (window.allComments.length === 0) {
+                list.innerHTML = `<p class="text-gray-400 text-center py-4 text-xs">수집 감지된 독자 의견이 없습니다.</p>`;
+                return;
+            }
+
+            list.innerHTML = window.allComments.map(com => {
+                const targetArt = window.articles.find(a => a.id === com.articleId);
+                const targetTitle = targetArt ? targetArt.title : "폐기 보도 아카이브";
+
+                return `
+                    <div class="border border-gray-200 p-3 bg-white flex justify-between items-start space-x-2 font-sans">
+                        <div class="space-y-1 max-w-[80%]">
+                            <span class="text-[9px] text-[#0b1d33] font-bold block">[연동 보도: ${targetTitle}]</span>
+                            <span class="font-extrabold text-gray-800">${com.writer} <span class="text-[#0b1d33] font-bold">(${com.ip || "127.0.0.1"})</span></span>
+                            <p class="text-gray-650 mt-1 text-xs">${com.text}</p>
+                            <span class="block text-[8px] text-gray-400 mt-1">게재: ${com.date}</span>
+                        </div>
+                        <button onclick="deleteCommentByAdmin('${com.id}')" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 text-[9px] font-bold shrink-0">강제 규제 소거</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.deleteCommentByAdmin = async function(id) {
+            const decision = await askUserConfirm("본 독자 의견에 대한 강제 소거 규제를 집행하시겠습니까?");
+            if (decision) {
+                if (window.useFirebase) {
+                    try {
+                        const docRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'comments', id);
+                        await deleteDoc(docRef);
+                    } catch(e) { deleteCommentLocally(id); }
+                } else {
+                    deleteCommentLocally(id);
+                }
+                showToast("의견이 실시간 지면에서 소거 규제되었습니다.");
+                renderAdminCommentsList();
+            }
+        };
+
+        function deleteCommentLocally(id) {
+            window.allComments = window.allComments.filter(c => c.id !== id);
+            localStorage.setItem("padong_comments_v1", JSON.stringify(window.allComments));
+        }
+
+        window.searchArticles = function() {
+            const query = document.getElementById("search-input").value.trim().toLowerCase();
+            if (!query) {
+                showToast("검색을 유도할 어휘를 최소한으로 기재하십시오.");
+                return;
+            }
+
+            const results = window.articles.filter(a => {
+                const authorsStr = (a.authors && a.authors.length > 0) ? a.authors.join(", ") : (a.author || "");
+                return a.title.toLowerCase().includes(query) || 
+                       a.content.toLowerCase().includes(query) || 
+                       authorsStr.toLowerCase().includes(query) ||
+                       (a.subtitle && a.subtitle.toLowerCase().includes(query));
+            });
+
+            window.currentCategory = "전체";
+            window.switchView("home");
+
+            const headlineSection = document.getElementById("headline-section");
+            const newsGrid = document.getElementById("news-grid");
+            const rightFeaturedBox = document.getElementById("right-featured-box");
+
+            document.getElementById("category-indicator").innerText = `'${query}' 기사 검색 결과`;
+
+            headlineSection.style.display = "none";
+            rightFeaturedBox.style.display = "none";
+
+            if (results.length > 0) {
+                newsGrid.innerHTML = results.map(art => {
+                    const authorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "파동 편집인");
+                    const scoopBadgeHtml = getScoopBadgeHtml(art.isScoop);
+                    const searchedImage = art.image || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80';
+
+                    return `
+                        <div class="border-b border-gray-200 pb-5 cursor-pointer group hover:bg-gray-50/50 p-2 flex space-x-4 items-start" onclick="viewArticle('${art.id}')">
+                            <img src="${searchedImage}" 
+                                 class="w-28 h-20 md:w-36 md:h-24 object-cover border border-gray-200 shrink-0 bg-slate-50"
+                                 alt="검색결과"
+                                 onerror="this.src='https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80'">
+                            <div class="space-y-1 flex-grow min-w-0 font-sans">
+                                <span class="text-[10px] text-[#0b1d33] font-bold uppercase tracking-wider">${art.category}</span>
+                                <h4 class="text-base font-bold leading-snug text-black group-hover:underline line-clamp-2">
+                                    ${scoopBadgeHtml}${art.title}
+                                </h4>
+                                <div class="text-xs text-gray-400 flex space-x-2 pt-1">
+                                    <span class="font-semibold text-gray-600">${authorsStr}</span>
+                                    <span>|</span>
+                                    <span>열람 ${art.views || 0}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                newsGrid.innerHTML = `
+                    <div class="col-span-2 text-center py-16 text-gray-400 text-xs border border-dashed border-gray-200 bg-white font-sans">
+                        검색어 '${query}'와 일치하는 참정 정론 기사가 확보되지 않았습니다.
+                    </div>
+                `;
+            }
+        };
+
+        window.viewArticle = async function(id) {
+            window.currentArticleId = id;
+            const viewSessionKey = `padong_read_v1_${id}`;
+
+            if (!sessionStorage.getItem(viewSessionKey)) {
+                sessionStorage.setItem(viewSessionKey, "true");
+                if (window.useFirebase) {
+                    try {
+                        const docRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'articles', id);
+                        await updateDoc(docRef, { views: increment(1) });
+                    } catch(e) { incrementLocalViews(id); }
+                } else {
+                    incrementLocalViews(id);
+                }
+            }
+            window.switchView("detail");
+        };
+
+        function incrementLocalViews(id) {
+            const idx = window.articles.findIndex(a => a.id === id);
+            if (idx !== -1) {
+                window.articles[idx].views = (window.articles[idx].views || 0) + 1;
+                localStorage.setItem("padong_articles_v1", JSON.stringify(window.articles));
+                window.renderApp();
+            }
+        }
+
+        window.copyArticleLink = function() {
+            const dummy = document.createElement("input");
+            document.body.appendChild(dummy);
+            dummy.value = window.location.href.split('#')[0] + "#" + window.currentArticleId;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+            showToast("보도 지면 직접연동 경로가 클립보드에 마이그레이션되었습니다.");
+        };
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
