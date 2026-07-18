@@ -360,7 +360,7 @@
         <!-- 지면 4: 소속 기자 프로필 아카이브 -->
         <div id="view-reporter" class="hidden space-y-8">
             <div class="border-b-2 border-black pb-2">
-                <h2 class="text-3xl font-black text-gray-900">기자단 명부</h2>
+                <h2 class="text-3xl font-black text-gray-900">기자</h2>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -663,9 +663,9 @@
                 <div class="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 font-medium">
                     <button onclick="showFooterStaticPage('intro')" class="hover:text-black hover:underline text-left">파동 소개</button>
                     <span class="text-gray-300 select-none">|</span>
-                    <button onclick="showFooterStaticPage('pdf')" class="hover:text-black hover:underline text-left">지면 PDF 아카이브</button>
+                    <button onclick="showFooterStaticPage('pdf')" class="hover:text-black hover:underline text-left">지면 PDF</button>
                     <span class="text-gray-300 select-none">|</span>
-                    <button onclick="showFooterStaticPage('ad')" class="hover:text-black hover:underline text-left">정론 지지 및 제휴</button>
+                    <button onclick="showFooterStaticPage('ad')" class="hover:text-black hover:underline text-left">광고 문의</button>
                     <span class="text-gray-300 select-none">|</span>
                     <button onclick="showFooterStaticPage('rules')" class="hover:text-black hover:underline text-left">이용약관</button>
                     <span class="text-gray-300 select-none">|</span>
@@ -1306,16 +1306,16 @@
                 pageTitleEl.innerText = "파동 - 청소년의 정치 독립적 자립과 참정을 향한 정론";
                 pageContentEl.innerText = `대한민국 정치사에서 청소년은 언제나 '보호와 배제의 객체'였습니다.\n\n하지만 파동(Wave)은 투표권을 부여받은 청소년이 주체적인 눈으로 사회적 의제를 해체하고, 기성 세대가 쌓아올린 모순에 대담한 참정 균열을 내기 위해 탄생한 국내 유일무이의 청소년 정치 전문 정론지입니다.\n\n우리는 교육 현장의 정치 배제 비판, 만 16세 참정권 확대에 따른 정당 개방 실태 감시, 그리고 학외 연대 세력을 관통하는 깊이 있는 입법 분석 보도로 진정한 세대 교체적 자치 공론장을 설계할 것입니다.\n\n파동미디어 발행인 겸 편집 위원회 총괄 오주영`;
             } else if (pageId === "pdf") {
-                pageTitleEl.innerText = "파동 정기 오프라인 PDF 정치 아카이브 지면 배포 안내";
-                pageContentEl.innerText = `현재 분기별 참정 입법 특별호 PDF 지면 편집이 성료되어 각 지구 청소년 정당 연대본부 및 시도 의정 체험 단체에 일괄 기부 배포되고 있습니다.\n\n[오프라인 배포 아카이브]\n- 대한민국 국회 도서관 (청소년 민주주의 기증 부문 수록)\n- 서울, 부천, 경기 청소년 자치 의회 세미나실 1호실 책장\n- 전국 거점 대안학교 및 학생 참정 연합회 사무실 마당`;
+                pageTitleEl.innerText = "파동 지면 PDF";
+                pageContentEl.innerText = `파동은 아직 인터넷 신문만 지원하고 있으며, 오프라인 지면 배포는 준비중입니다.`;
             } else if (pageId === "ad") {
-                pageTitleEl.innerText = "청소년 자치 광고 및 참정 협력 협정";
-                pageContentEl.innerText = `파동미디어는 이념과 정당적 선입견을 배제하고 오직 '청소년 참정권의 건전한 확대'만을 목적으로 기획된 광고 및 협정, 제휴를 승인합니다.\n\n[제휴 데스크 연락망]\n- 파동미디어 마케팅/협정 본부 오주영 대표\n- 대표 연락처: 010-5634-1865\n- 연동 전자우편: editor@padong.com`;
+                pageTitleEl.innerText = "파동 광고 문의";
+                pageContentEl.innerText = `대한민국 청소년의 목소리! 파동에 광고하세요.\n파동미디어는 이념과 정당적 선입견을 담은 광고를 승인하지 않으며,\n오직 청소년 참정권을 확대하고 정계에 청소년의 목소리를 전달하기 위해서 힘씁니다.\n\n[광고 문의 연락]\n- 파동미디어 대표 오주영\n- 대표 연락처 : 010-5634-1865\n- E-Mail : editor@padong.com`;
             } else if (pageId === "rules") {
-                pageTitleEl.innerText = "파동 독자 및 저작권 이용약관";
+                pageTitleEl.innerText = "이용약관";
                 pageContentEl.innerText = `제1조 (목적)\n본 조항은 파동미디어가 공급하는 정보 통신 매체 '파동' 플랫폼의 저작권 보호, 독자 기여, 민주적 토론 가이드를 준용하기 위해 작성되었습니다.\n\n제2조 (청소년 인권 존중 및 비방 배제)\n본 보도국의 기사 평론 및 독자 게시판에는 타인에 대한 폭력, 차별, 혐오 유발, 또는 정당 당원으로서의 품위를 손상시키는 보도 왜곡 행위의 게재를 금지하며 적발 시 자치 위원회에 기각됩니다.\n\n제3조 (저작권)\n파동의 모든 기사는 청소년 필진의 노력이 깃든 독자 지식 재산이며, 무단 데이터 스크래핑 및 인공지능(AI) 기계 학습용 벌크 다운로드를 규제합니다.`;
             } else if (pageId === "privacy") {
-                pageTitleEl.innerText = "청소년 당원 및 독자 정보보호 개인정보처리방침";
+                pageTitleEl.innerText = "개인정보처리방침";
                 pageContentEl.innerText = `파동미디어는 이용자의 개인 정보 보호법 제30조에 의거하여 다음과 같은 강력하고 구체적인 참정 정보 보호 방침을 고수합니다.\n\n1. 개인정보의 수집 항목 및 목적\n- 독자 댓글 등록 시: 작성자 필명, IP 주소 (스팸 도배 규제용 마스킹 수립)\n- 보도 제보 시: 이메일 및 전화번호 (제보 확인 절차 수습 이후 14일 이내 완결 소거)\n\n2. 독자 참정 비밀 보장\n기성 정당 가입법에 의해 정당 소속이 노출되어 교내에서 부당한 학칙 불이익을 당하는 사례가 없도록, 당사에 게재 및 제보된 독자 가입 정보는 외부 정부 기관 및 교육청에 일절 기증하거나 기명 인도되지 않음을 서약합니다.`;
             }
         };
@@ -1642,7 +1642,7 @@
 
                 container.innerHTML = `
                     ${questionHtml}
-                    <p class="text-[11px] font-semibold text-[#0b1d33] bg-blue-50/50 p-2 border border-[#0b1d33]/10 my-2">✔️ 청소년 여론 수집에 기여해 주셨습니다.</p>
+                    <p class="text-[11px] font-semibold text-[#0b1d33] bg-blue-50/50 p-2 border border-[#0b1d33]/10 my-2">✔️ 투표해 주셔서 감사합니다.</p>
                     <div class="space-y-2.5 pt-1">
                         ${optHtml}
                     </div>
@@ -2013,7 +2013,7 @@
                         <p class="text-[11px] text-gray-500 leading-relaxed text-center font-medium">"${reporter.bio}"</p>
                         <div class="pt-1.5 font-sans">
                             <button onclick="navigateToReporter('${reporter.id}')" class="w-full bg-[#0b1d33] hover:bg-slate-800 text-white font-bold text-[10px] py-2 transition">
-                                약력 및 정론 보기
+                                기자 정보
                             </button>
                         </div>
                     `;
@@ -2312,7 +2312,7 @@
                 </div>
 
                 <div class="pt-4 border-t border-white/10 space-y-3 font-sans text-left">
-                    <h4 class="text-xs font-black uppercase text-white/60 tracking-wider">주요 정당 및 참정 이력</h4>
+                    <h4 class="text-xs font-black uppercase text-white/60 tracking-wider">경력 및 이력</h4>
                     <ul class="space-y-1.5 text-xs">
                         ${careerHtml}
                     </ul>
