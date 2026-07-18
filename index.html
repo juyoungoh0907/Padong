@@ -1943,7 +1943,7 @@
             authorsList.forEach(authorName => {
                 let reporter = window.reporters.find(r => r.name === authorName);
                 if (!reporter) {
-                    if (authorName === "파동") {
+                    if (authorName === "사설 (파동 전체 의견)") {
                         reporter = { email: "editorial@padong.com" };
                     } else {
                         reporter = { email: "reporter@padong.com" };
@@ -1970,7 +1970,7 @@
 
                 if (!reporter) {
                     // 기사 작성자가 사설일 경우, 공식 입장 지면 소개 카드를 노출
-                    if (authorName === "파동") {
+                    if (authorName === "사설 (파동 전체 의견)") {
                         repCard.innerHTML = `
                             <div class="flex flex-col items-center">
                                 <img src="padongbig.png" 
@@ -2533,7 +2533,7 @@
                     const authorsList = art.authors || [art.author];
                     
                     // 사설 서명 기록 감지
-                    if (authorsList.includes("파동")) {
+                    if (authorsList.includes("사설 (파동 전체 의견)")) {
                         window.isEditorialSelected = true;
                     } else {
                         window.isEditorialSelected = false;
@@ -2925,7 +2925,7 @@
             // 서명 주체 선택 취합 기능 개편 (사설 스위치 혹은 다중 기자 칩스)
             let selectedAuthors = [];
             if (window.isEditorialSelected) {
-                selectedAuthors = ["파동"];
+                selectedAuthors = ["사설 (파동 전체 의견)"];
             } else {
                 const selectedChips = document.querySelectorAll('.reporter-chip-selected');
                 selectedAuthors = Array.from(selectedChips).map(chip => chip.getAttribute('data-reporter-name'));
@@ -3087,7 +3087,7 @@
 
                 // 에디터 수정 로드 시 칩스 및 사설 상태 복원 매핑
                 const authorsList = art.authors || [art.author];
-                if (authorsList.includes("파동")) {
+                if (authorsList.includes("사설 (파동 전체 의견)")) {
                     window.isEditorialSelected = true;
                 } else {
                     window.isEditorialSelected = false;
