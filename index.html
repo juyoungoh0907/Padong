@@ -85,17 +85,17 @@
                 <img src="padonglogo.png" alt="파동 로고" class="h-10 md:h-12 object-contain">
             </div>
 
-            <!-- 정치 전문 정론지에 적합한 탭 개편 (심층탐사보도 밀기 위해 첫 탭 배치) -->
+            <!-- 정치 전문 정론지에 적합한 탭 개편 (심층탐사보도를 돋보이게 만들되, 맨 뒤로 배치 완료) -->
             <div class="flex items-center space-x-1 md:space-x-2 mt-4 md:mt-0 overflow-x-auto w-full md:w-auto scrollbar-hide">
-                <nav class="flex text-sm md:text-base font-bold text-gray-700 whitespace-nowrap mr-4">
+                <nav class="flex text-sm md:text-base font-bold text-gray-700 whitespace-nowrap mr-4 items-center">
                     <button onclick="navigateToCategory('전체')" id="nav-전체" class="px-3 py-2 text-black border-b-4 border-[#0b1d33]">종합</button>
-                    <button onclick="navigateToCategory('심층탐사')" id="nav-심층탐사" class="px-3 py-2 hover:text-black border-b-4 border-transparent">심층탐사보도</button>
                     <button onclick="navigateToCategory('국회·정당')" id="nav-국회·정당" class="px-3 py-2 hover:text-black border-b-4 border-transparent">국회·정당</button>
                     <button onclick="navigateToCategory('국제')" id="nav-국제" class="px-3 py-2 hover:text-black border-b-4 border-transparent">국제</button>
                     <button onclick="navigateToCategory('사설·칼럼')" id="nav-사설·칼럼" class="px-3 py-2 hover:text-black border-b-4 border-transparent">사설·칼럼</button>
                     <button onclick="navigateToCategory('청소년정치')" id="nav-청소년정치" class="px-3 py-2 hover:text-black border-b-4 border-transparent">청소년정치</button>
                     <button onclick="navigateToCategory('인터뷰')" id="nav-인터뷰" class="px-3 py-2 hover:text-black border-b-4 border-transparent">인터뷰</button>
                     <button onclick="navigateToCategory('시민연대')" id="nav-시민연대" class="px-3 py-2 hover:text-black border-b-4 border-transparent">시민연대</button>
+                    <button onclick="navigateToCategory('심층탐사')" id="nav-심층탐사" class="px-3 py-1.5 hover:text-black border border-[#0b1d33] bg-slate-50 text-[#0b1d33] font-black transition-all ml-1 shrink-0">심층탐사 🔍</button>
                 </nav>
 
                 <div class="flex border border-gray-400 bg-white h-8 shrink-0 items-center">
@@ -110,7 +110,7 @@
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 bg-white">
 
-        <!-- 지면 1: 종합 홈 뷰 -->
+        <!-- 지면 1: 종합 홈 뷰 (헤드라인 하위에 심층탐사보도가 무조건 맨 위에 위치하도록 개설) -->
         <div id="view-home" class="space-y-8">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
@@ -120,8 +120,13 @@
                         <!-- 동적으로 대형 탑 헤드라인 기사 주입 -->
                     </div>
 
-                    <!-- 실시간 특집 포커스 영역 (관리자 설정 시 메인에 자동 활성화) -->
-                    <div id="special-feature-section" class="border-b-2 border-black pb-8 hidden">
+                    <!-- [무조건 제일 위] 심층탐사보도 고정 기획 섹션 -->
+                    <div id="main-investigation-section" class="border-b-2 border-[#0b1d33] pb-8 hidden">
+                        <!-- 동적으로 최상위 심층탐사보도 목록들이 아름답게 바인딩됩니다 -->
+                    </div>
+
+                    <!-- 실시간 특집 포커스 영역 (더이상 자극적인 빨간색을 쓰지 않고 차분하고 세련된 모던 스타일로 개조) -->
+                    <div id="special-feature-section" class="border-b-2 border-gray-300 pb-8 hidden">
                         <!-- 동적으로 특집 기사 모음 주입 -->
                     </div>
 
@@ -385,7 +390,7 @@
             </div>
         </div>
 
-        <!-- 지면 5: 정적 정보 안내서 지면 (파동 소개 여백 축소 반영) -->
+        <!-- 지면 5: 정적 정보 안내서 지면 (파동 소개 여백 대폭 축소) -->
         <div id="view-page" class="hidden max-w-3xl mx-auto bg-white border border-gray-200 p-8 space-y-3">
             <h2 id="page-title" class="text-xl md:text-2xl font-black text-gray-900 border-b border-black pb-2">페이지 제목</h2>
             <div id="page-content" class="text-sm md:text-base text-gray-700 leading-relaxed space-y-3 whitespace-pre-line">
@@ -633,7 +638,7 @@
                         <div class="bg-gray-50 p-4 border border-gray-200 space-y-3">
                             <div>
                                 <label class="block text-[10px] font-bold text-[#0b1d33] mb-1">📌 메인화면 노출 특집 지정</label>
-                                <input type="text" id="admin-featured-special" placeholder="예: [12.3 비상계엄] (입력 시 메인화면에 해당 특집 기획보도 영역이 동적 활성화됩니다)" class="w-full border border-gray-300 p-2.5 text-xs outline-none bg-white focus:border-black font-semibold">
+                                <input type="text" id="admin-featured-special" placeholder="예: [12.3 비상계엄] (입력 시 메인화면에 해당 특집 보도 영역이 동적 활성화됩니다)" class="w-full border border-gray-300 p-2.5 text-xs outline-none bg-white focus:border-black font-semibold">
                             </div>
                             <hr class="border-gray-200 my-2">
                             <div>
@@ -676,7 +681,7 @@
         <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-start md:items-center space-y-6 md:space-y-0 md:space-x-12">
             <div class="shrink-0 select-none">
                 <div class="flex flex-col cursor-pointer" onclick="navigateToHome()">
-                    <!-- 푸터 로고 이미지 크기 조정 (h-8 -> h-11 md:h-12로 확대) -->
+                    <!-- 푸터 로고 이미지 크기 조정 -->
                     <img src="padongbig.png" alt="파동 로고" class="h-11 md:h-12 object-contain transition-all">
                 </div>
             </div>
@@ -931,7 +936,7 @@
         const DEFAULT_ARTICLES = [
             {
                 id: "art-headline-1",
-                category: "청소년정치",
+                category: "심층탐사",
                 specialFeature: "[12.3 비상계엄]",
                 authors: ["오주영 편집인"],
                 image: "",
@@ -984,7 +989,7 @@
 
         const DEFAULT_COMMENTS = [];
 
-        // 심층탐사보도 배너 이미지 수립
+        // 심층탐사보도를 돋보이게 만들기 위한 탐사 전용 인덱스 배경 추가
         const CATEGORY_BANNER_IMAGES = {
             "심층탐사": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80",
             "청소년정치": "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?auto=format&fit=crop&w=1200&q=80",
@@ -1328,11 +1333,18 @@
             const navButtons = document.querySelectorAll("nav text, nav button");
             navButtons.forEach(btn => {
                 if (btn.id === `nav-${cat}`) {
-                    btn.classList.add("border-[#0b1d33]", "text-black");
-                    btn.classList.remove("border-transparent", "text-gray-500");
+                    // 심층탐사의 경우 맨 뒤 강조버튼을 처리
+                    if (cat === "심층탐사") {
+                        btn.className = "px-3 py-1.5 border border-[#0b1d33] bg-[#0b1d33] text-white font-black ml-1 shrink-0";
+                    } else {
+                        btn.className = "px-3 py-2 text-black border-b-4 border-[#0b1d33]";
+                    }
                 } else {
-                    btn.classList.remove("border-[#0b1d33]", "text-black");
-                    btn.classList.add("border-transparent", "text-gray-500");
+                    if (btn.id === "nav-심층탐사") {
+                        btn.className = "px-3 py-1.5 border border-[#0b1d33] bg-slate-50 text-[#0b1d33] font-black hover:bg-[#0b1d33] hover:text-white transition-all ml-1 shrink-0";
+                    } else {
+                        btn.className = "px-3 py-2 hover:text-black border-b-4 border-transparent text-gray-500";
+                    }
                 }
             });
         }
@@ -1344,7 +1356,7 @@
 
             if (pageId === "intro") {
                 pageTitleEl.innerText = "대한민국 유일 청소년 독립 정론지, 파동입니다.";
-                // 파동 소개 - 여백 축소 요청 반영 (mb-6 -> mb-2, mt-1 등)
+                // 파동 소개 - 여백 축소 반영
                 pageContentEl.innerHTML = `
                     <div class="w-full mb-2">
                         <img src="padongbanner.png" alt="파동 배너" class="w-full h-auto object-cover border border-gray-200 bg-slate-50" onerror="this.style.display='none'">
@@ -1491,12 +1503,14 @@
             const newsGrid = document.getElementById("news-grid");
             const rightFeaturedBox = document.getElementById("right-featured-box");
             const specialSection = document.getElementById("special-feature-section");
+            const mainInvestigationSection = document.getElementById("main-investigation-section");
 
             document.getElementById("category-indicator").innerText = `특집 아카이브: ${featureName}`;
 
             headlineSection.style.display = "none";
             rightFeaturedBox.style.display = "none";
             if (specialSection) specialSection.classList.add("hidden");
+            if (mainInvestigationSection) mainInvestigationSection.classList.add("hidden");
 
             const results = window.articles.filter(a => a.specialFeature === featureName);
 
@@ -1505,7 +1519,7 @@
                     const authorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "파동 편집인");
                     const scoopBadgeHtml = getScoopBadgeHtml(art.isScoop);
                     const searchedImage = art.image || 'padongdefault.png';
-                    const specialFeatureBadge = art.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${art.specialFeature}')" class="bg-red-50 text-red-600 border border-red-200 px-1.5 py-0.2 text-[9px] font-black mr-1.5 hover:bg-red-100 cursor-pointer inline-block">${art.specialFeature}</span>` : '';
+                    const specialFeatureBadge = art.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${art.specialFeature}')" class="bg-gray-100 text-gray-700 border border-gray-200 px-1.5 py-0.2 text-[9px] font-black mr-1.5 hover:bg-gray-200 cursor-pointer inline-block">${art.specialFeature}</span>` : '';
 
                     return `
                         <div class="border-b border-gray-200 pb-5 cursor-pointer group hover:bg-gray-50/50 p-2 flex space-x-4 items-start" onclick="viewArticle('${art.id}')">
@@ -1609,21 +1623,21 @@
             const newsGrid = document.getElementById("news-grid");
             const rightFeaturedBox = document.getElementById("right-featured-box");
             const specialSection = document.getElementById("special-feature-section");
+            const mainInvestigationSection = document.getElementById("main-investigation-section");
 
-            // [해결] 사설·칼럼 카테고리 여부에 관계 없이 사용자가 '헤드라인으로 지정'한 기사를 최우선으로 탐색 선출
+            // 헤드라인 지목 기사 탐색
             let headline = window.articles.find(a => a.isHeadline === true || a.isHeadline === "true");
 
-            // 오피니언(사설·칼럼) 지면 이외에서 일반 종합 보도 수집
+            // 오피니언(사설·칼럼) 제외 종합 기사 모음
             const mainNewsFull = window.articles.filter(a => a.category !== "사설·칼럼");
 
-            // 명시적 헤드라인 지정 기사가 부재할 경우, 일반 기사 중 최신작을 기본 헤드라인으로 자동 대체
             if (!headline && mainNewsFull.length > 0) {
                 headline = mainNewsFull[0];
             }
 
-            const remainingNews = mainNewsFull.filter(a => a.id !== (headline ? headline.id : ''));
+            let remainingNews = mainNewsFull.filter(a => a.id !== (headline ? headline.id : ''));
 
-            // [수정] 모바일 뱃지 재배치 및 요약글 왼쪽 남색 세로줄 동적 렌더링 반영
+            // 1. 헤드라인 탑 보도 렌더링 (모바일 뱃지 및 세로줄 레이아웃 정합)
             if (headline) {
                 const authorsStr = (headline.authors && headline.authors.length > 0) ? headline.authors.join(", ") : (headline.author || "파동 편집장");
                 headlineSection.style.display = "block";
@@ -1632,8 +1646,7 @@
 
                 const plainBodySnippet = headline.content.replace(/\[(?:이미지|동영상)링크:[^\]]+\]/g, '').substring(0, 240);
 
-                // 모바일에서 뱃지를 정돈되게 모아주고, 기사 요약 및 부제목 왼쪽에 뚜렷한 세로줄 배치
-                const specialFeatureBadge = headline.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${headline.specialFeature}')" class="bg-red-50 text-red-600 border border-red-200 px-2 py-0.5 text-xs font-black mr-2 hover:bg-red-100 cursor-pointer inline-block align-middle">${headline.specialFeature}</span>` : '';
+                const specialFeatureBadge = headline.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${headline.specialFeature}')" class="bg-gray-100 text-gray-700 border border-gray-200 px-2 py-0.5 text-xs font-black mr-2 hover:bg-gray-200 cursor-pointer inline-block align-middle">${headline.specialFeature}</span>` : '';
                 const categoryBadgeHtml = `<span class="bg-[#0b1d33] text-white px-2.5 py-1 text-xs font-black uppercase tracking-wider inline-block align-middle mr-2">${headline.category}</span>`;
 
                 headlineSection.innerHTML = `
@@ -1656,17 +1669,11 @@
                                      onerror="this.src='padongdefault.png'">
                             </div>
                             <div class="md:col-span-4 space-y-3">
-                                <!-- 모바일 버전: 요약글 왼쪽에 PC와 동일한 남색 세로줄을 균형감 있게 정렬 -->
+                                <!-- 모바일&PC 모두 세로줄 디자인 일원화 제공 -->
                                 <div class="block md:hidden">
-                                    ${headline.subtitle ? `
-                                        <p class="text-xs text-gray-950 font-extrabold border-l-2 border-[#0b1d33] pl-2.5 leading-relaxed whitespace-pre-line">
-                                            ${headline.subtitle}
-                                        </p>
-                                    ` : `
-                                        <p class="text-xs text-gray-700 leading-relaxed font-normal border-l-2 border-[#0b1d33] pl-2.5 line-clamp-5 whitespace-pre-line">
-                                            ${plainBodySnippet}...
-                                        </p>
-                                    `}
+                                    <p class="text-xs text-gray-950 font-extrabold border-l-2 border-[#0b1d33] pl-2.5 leading-relaxed whitespace-pre-line">
+                                        ${headline.subtitle || plainBodySnippet + '...'}
+                                    </p>
                                 </div>
                                 <div class="hidden md:block space-y-2.5">
                                     ${headline.subtitle ? `<p class="text-xs md:text-sm text-gray-950 font-extrabold border-l-2 border-[#0b1d33] pl-2.5 leading-relaxed whitespace-pre-line">${headline.subtitle}</p>` : ''}
@@ -1693,28 +1700,91 @@
                 `;
             }
 
-            // [메인 노출 특집 설정 연동 렌더링 구현]
+            // 2. [강조 - 무조건 제일 위] 심층탐사보도 섹션 렌더링
+            const investigationArticles = window.articles.filter(a => a.category === "심층탐사" && a.id !== (headline ? headline.id : ''));
+            if (investigationArticles.length > 0) {
+                mainInvestigationSection.classList.remove("hidden");
+                
+                // 최고 우선순위 심층 보도 1개 부각 레이아웃
+                const topInvest = investigationArticles[0];
+                const topInvestImg = topInvest.image || 'padongdefault.png';
+                const topInvestAuthors = (topInvest.authors && topInvest.authors.length > 0) ? topInvest.authors.join(", ") : (topInvest.author || "파동 탐사 보도팀");
+                const topScoop = getScoopBadgeHtml(topInvest.isScoop);
+
+                // 우측 서브 심층 보도 리스트 수립
+                const subInvestListHtml = investigationArticles.slice(1, 4).map(sub => {
+                    const subAuthors = (sub.authors && sub.authors.length > 0) ? sub.authors.join(", ") : (sub.author || "파동 탐사팀");
+                    const subScoop = getScoopBadgeHtml(sub.isScoop);
+                    return `
+                        <div class="border-b border-gray-200 pb-3 last:border-0 last:pb-0 cursor-pointer group" onclick="viewArticle('${sub.id}')">
+                            <h4 class="text-sm font-bold text-gray-950 group-hover:underline leading-snug line-clamp-2">
+                                ${subScoop}${escapeHtml(sub.title)}
+                            </h4>
+                            <p class="text-[11px] text-gray-400 mt-1">${subAuthors} | 👁 ${sub.views || 0}</p>
+                        </div>
+                    `;
+                }).join('');
+
+                mainInvestigationSection.innerHTML = `
+                    <div class="border-t-4 border-[#0b1d33] pt-4 mt-6">
+                        <h3 class="text-sm font-black pb-3 mb-4 flex justify-between items-center">
+                            <span class="flex items-center space-x-2">
+                                <span class="text-lg font-black text-[#0b1d33]">🔍 심층탐사보도 기획</span>
+                                <span class="bg-[#0b1d33] text-white font-extrabold text-[8px] px-2 py-0.5 uppercase tracking-wider">FOCUS</span>
+                            </span>
+                            <button onclick="navigateToCategory('심층탐사')" class="text-xs text-[#0b1d33] hover:underline font-bold">심층뉴스룸 바로가기 &rarr;</button>
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                            <div class="md:col-span-7 bg-slate-50/50 p-4 border border-slate-100 cursor-pointer group" onclick="viewArticle('${topInvest.id}')">
+                                <img src="${topInvestImg}" class="w-full h-44 object-cover border border-gray-200 mb-3 bg-slate-50" onerror="this.src='padongdefault.png'">
+                                <h4 class="text-base md:text-lg font-black text-gray-950 group-hover:underline leading-snug">
+                                    ${topScoop}${escapeHtml(topInvest.title)}
+                                </h4>
+                                <p class="text-xs text-gray-500 mt-2 line-clamp-2 leading-relaxed font-medium">
+                                    ${escapeHtml(topInvest.subtitle || topInvest.content.substring(0, 100))}
+                                </p>
+                                <div class="text-[10px] text-gray-400 mt-3 flex justify-between">
+                                    <span>취재: ${topInvestAuthors}</span>
+                                    <span>조회수 ${topInvest.views || 0}</span>
+                                </div>
+                            </div>
+                            <div class="md:col-span-5 flex flex-col justify-between space-y-4 bg-white border border-gray-200 p-4">
+                                <span class="text-xs font-black text-[#0b1d33] border-b border-gray-100 pb-1">기획취재 라인업</span>
+                                ${subInvestListHtml || `<p class="text-xs text-gray-400 py-6 text-center">추가 배포 대기 중입니다.</p>`}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                mainInvestigationSection.classList.add("hidden");
+            }
+
+            // 심층탐사보도에 노출된 기사는 하단 일반 리스트에서 제외하여 다양성 증폭
+            const renderedInvestIds = investigationArticles.map(a => a.id);
+            remainingNews = remainingNews.filter(a => !renderedInvestIds.includes(a.id));
+
+            // 3. 특집 기사 섹션 렌더링 (빨간색 제외, 차분하고 깔끔한 무채색 레이아웃으로 변경)
             if (window.pollData && window.pollData.featuredSpecial && window.pollData.featuredSpecial.trim() !== "") {
                 const featSpecial = window.pollData.featuredSpecial.trim();
-                const featArticles = window.articles.filter(a => a.specialFeature === featSpecial);
+                const featArticles = window.articles.filter(a => a.specialFeature === featSpecial && a.id !== (headline ? headline.id : ''));
                 
                 if (featArticles.length > 0) {
                     specialSection.classList.remove("hidden");
                     specialSection.innerHTML = `
-                        <div class="mt-6 bg-red-50/40 border border-red-100 p-6 space-y-4">
-                            <h3 class="text-sm font-black border-b border-red-200 pb-2 flex justify-between items-center">
+                        <div class="mt-6 bg-slate-50 border border-gray-200 p-6 space-y-4">
+                            <h3 class="text-sm font-black border-b border-gray-300 pb-2 flex justify-between items-center">
                                 <span class="flex items-center space-x-2">
-                                    <span class="w-3.5 h-3.5 bg-red-600"></span>
-                                    <span class="text-lg font-black text-red-700">실시간 특집 포커스: ${escapeHtml(featSpecial)}</span>
+                                    <span class="w-3.5 h-3.5 bg-gray-600"></span>
+                                    <span class="text-lg font-black text-gray-800">특집 포커스: ${escapeHtml(featSpecial)}</span>
                                 </span>
-                                <button onclick="viewSpecialFeature('${escapeHtml(featSpecial)}')" class="text-xs text-red-600 hover:underline font-bold">전체보기 &rarr;</button>
+                                <button onclick="viewSpecialFeature('${escapeHtml(featSpecial)}')" class="text-xs text-gray-500 hover:underline font-bold">전체보기 &rarr;</button>
                             </h3>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 ${featArticles.slice(0, 3).map(art => {
                                     const artImage = art.image || 'padongdefault.png';
                                     const authorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "파동 편집인");
                                     return `
-                                        <div class="bg-white border border-gray-150 p-3.5 cursor-pointer group hover:border-red-300 transition" onclick="viewArticle('${art.id}')">
+                                        <div class="bg-white border border-gray-150 p-3.5 cursor-pointer group hover:border-gray-400 transition" onclick="viewArticle('${art.id}')">
                                             <img src="${artImage}" 
                                                  class="w-full h-28 object-cover border border-gray-200 mb-2.5 bg-slate-50"
                                                  onerror="this.src='padongdefault.png'">
@@ -1738,13 +1808,14 @@
                 specialSection.classList.add("hidden");
             }
 
+            // 4. 우측 서브 대표 뉴스박스 기배치
             if (remainingNews.length > 0) {
                 const subFeatured = remainingNews[0];
                 const authorsStr = (subFeatured.authors && subFeatured.authors.length > 0) ? subFeatured.authors.join(", ") : (subFeatured.author || "파동 편집진");
                 rightFeaturedBox.style.display = "block";
                 const scoopBadgeHtml = getScoopBadgeHtml(subFeatured.isScoop);
                 const subFeaturedImage = subFeatured.image || 'padongdefault.png';
-                const specialFeatureBadge = subFeatured.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${subFeatured.specialFeature}')" class="bg-red-50 text-red-600 border border-red-200 px-1.5 py-0.2 text-[9px] font-black mr-1.5 hover:bg-red-100 cursor-pointer inline-block">${subFeatured.specialFeature}</span>` : '';
+                const specialFeatureBadge = subFeatured.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${subFeatured.specialFeature}')" class="bg-gray-100 text-gray-700 border border-gray-200 px-1.5 py-0.2 text-[9px] font-black mr-1.5 hover:bg-gray-200 cursor-pointer inline-block">${subFeatured.specialFeature}</span>` : '';
 
                 rightFeaturedBox.innerHTML = `
                     <div class="cursor-pointer space-y-3 group border-b border-gray-100 pb-4" onclick="viewArticle('${subFeatured.id}')">
@@ -1768,13 +1839,14 @@
                 rightFeaturedBox.style.display = "none";
             }
 
+            // 5. 일반 주요 뉴스 그리드 마크업 구성
             const secondaryNews = remainingNews.slice(1);
             if (secondaryNews.length > 0) {
                 newsGrid.innerHTML = secondaryNews.map(art => {
                     const authorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "파동 편집진");
                     const scoopBadgeHtml = getScoopBadgeHtml(art.isScoop);
                     const artImage = art.image || 'padongdefault.png';
-                    const specialFeatureBadge = art.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${art.specialFeature}')" class="bg-red-50 text-red-600 border border-red-200 px-1.5 py-0.2 text-[9px] font-black mr-1.5 hover:bg-red-100 cursor-pointer inline-block">${art.specialFeature}</span>` : '';
+                    const specialFeatureBadge = art.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${art.specialFeature}')" class="bg-gray-100 text-gray-700 border border-gray-200 px-1.5 py-0.2 text-[9px] font-black mr-1.5 hover:bg-gray-200 cursor-pointer inline-block">${art.specialFeature}</span>` : '';
 
                     return `
                         <div class="border-b border-gray-200 pb-5 cursor-pointer group hover:bg-gray-50/50 p-2 flex space-x-4 items-start" onclick="viewArticle('${art.id}')">
@@ -1803,7 +1875,7 @@
                 newsGrid.innerHTML = `<div class="col-span-2 text-center py-10 text-gray-400 text-xs border-t border-gray-100">민주주의 의정 지면이 준비 중입니다.</div>`;
             }
 
-            // 오피니언 지면 아카이브 노출
+            // 오피니언 칼럼 아카이브
             const opinionList = document.getElementById("opinion-list");
             const opinionSorted = window.articles.filter(a => a.category === "사설·칼럼" && a.id !== (headline ? headline.id : '')).slice(0, 3);
             if (opinionSorted.length > 0) {
@@ -1936,7 +2008,7 @@
             const authorsStr = (mainArt.authors && mainArt.authors.length > 0) ? mainArt.authors.join(", ") : (mainArt.author || "파동 편집 위원회");
             const scoopBadgeHtml = getScoopBadgeHtml(mainArt.isScoop, true);
             const mainArtImage = mainArt.image || 'padongdefault.png';
-            const specialFeatureBadge = mainArt.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${mainArt.specialFeature}')" class="bg-red-50 text-red-600 border border-red-200 px-2 py-0.5 text-xs font-black mr-2 hover:bg-red-100 cursor-pointer inline-block align-middle">${mainArt.specialFeature}</span>` : '';
+            const specialFeatureBadge = mainArt.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${mainArt.specialFeature}')" class="bg-gray-100 text-gray-700 border border-gray-200 px-2 py-0.5 text-xs font-black mr-2 hover:bg-gray-200 cursor-pointer inline-block align-middle">${mainArt.specialFeature}</span>` : '';
 
             catMainCol.innerHTML = `
                 <div class="bg-white border border-gray-200 p-5 cursor-pointer group" onclick="viewArticle('${mainArt.id}')">
@@ -1966,7 +2038,7 @@
                     const subAuthorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "파동 편집진");
                     const scoopBadgeHtml = getScoopBadgeHtml(art.isScoop);
                     const subArtImage = art.image || 'padongdefault.png';
-                    const subSpecialFeatureBadge = art.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${art.specialFeature}')" class="bg-red-50 text-red-600 border border-red-200 px-1.5 py-0.2 text-[9px] font-black mr-1.5 hover:bg-red-100 cursor-pointer inline-block">${art.specialFeature}</span>` : '';
+                    const subSpecialFeatureBadge = art.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${art.specialFeature}')" class="bg-gray-100 text-gray-700 border border-gray-200 px-1.5 py-0.2 text-[9px] font-black mr-1.5 hover:bg-gray-200 cursor-pointer inline-block">${art.specialFeature}</span>` : '';
 
                     return `
                         <div class="bg-white border border-gray-200 p-4 cursor-pointer group hover:bg-gray-50 transition" onclick="viewArticle('${art.id}')">
@@ -2002,9 +2074,8 @@
             const badgeContainer = document.getElementById("detail-scoop-badge-container");
             if (badgeContainer) {
                 badgeContainer.innerHTML = "";
-                // 특집 지정 시 상세페이지 대형 뱃지 동시 노출
                 if (art.specialFeature) {
-                    badgeContainer.innerHTML += `<span onclick="viewSpecialFeature('${art.specialFeature}')" class="bg-red-600 text-white px-2.5 py-1 text-xs font-black mr-2 tracking-wider cursor-pointer hover:bg-red-700 inline-block align-middle">${art.specialFeature}</span>`;
+                    badgeContainer.innerHTML += `<span onclick="viewSpecialFeature('${art.specialFeature}')" class="bg-gray-100 text-gray-700 border border-gray-200 px-2.5 py-1 text-xs font-black mr-2 tracking-wider cursor-pointer hover:bg-gray-200 inline-block align-middle">${art.specialFeature}</span>`;
                 }
                 if (art.isScoop && art.isScoop !== "normal") {
                     badgeContainer.innerHTML += getScoopBadgeHtml(art.isScoop, true);
@@ -2013,7 +2084,7 @@
 
             const breadcrumbs = document.getElementById("detail-breadcrumbs");
             if (breadcrumbs) {
-                const specialBreadcrumb = art.specialFeature ? `<span onclick="viewSpecialFeature('${art.specialFeature}')" class="text-red-600 hover:underline cursor-pointer font-black">${art.specialFeature}</span> > ` : '';
+                const specialBreadcrumb = art.specialFeature ? `<span onclick="viewSpecialFeature('${art.specialFeature}')" class="text-[#0b1d33] hover:underline cursor-pointer font-black">${art.specialFeature}</span> > ` : '';
                 breadcrumbs.innerHTML = `${specialBreadcrumb}${art.category} > 일반`;
             }
             
@@ -2704,7 +2775,6 @@
             window.isEditorialSelected = !window.isEditorialSelected;
             
             if (window.isEditorialSelected) {
-                // 사설이 선택되면 활성화된 모든 기자의 칩 선택을 해제하여 간섭 예방
                 const chips = document.querySelectorAll('.reporter-chip');
                 chips.forEach(c => {
                     c.classList.remove('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
@@ -2730,9 +2800,7 @@
             }
         };
 
-        // 개별 기자 칩 클릭 토글 동작 설계
         window.toggleReporterChip = function(btn, name) {
-            // 기자를 개별 선택하면, 사설 전용 스위치는 자동으로 기각
             if (window.isEditorialSelected) {
                 window.isEditorialSelected = false;
                 updateEditorialButtonUI();
@@ -2748,7 +2816,6 @@
             }
         };
 
-        // 에디터 수정 혹은 로드 시 활성화된 서명 칩 UI 복제 동기화
         window.updateReporterChipsUI = function() {
             const artId = document.getElementById("admin-article-id").value;
             
@@ -2757,7 +2824,6 @@
                 if (art) {
                     const authorsList = art.authors || [art.author];
                     
-                    // 사설 서명 기록 감지
                     if (authorsList.includes("사설 (파동 전체 의견)")) {
                         window.isEditorialSelected = true;
                     } else {
@@ -2777,7 +2843,6 @@
                     });
                 }
             } else {
-                // 신규 기사 작성의 경우, 기본적으로 로그인된 기자를 매핑
                 const chips = document.querySelectorAll('.reporter-chip');
                 chips.forEach(c => {
                     const name = c.getAttribute('data-reporter-name');
@@ -2825,7 +2890,6 @@
                 const adminOnlys = document.querySelectorAll(".admin-only-element");
                 adminOnlys.forEach(el => el.classList.add("hidden"));
 
-                // 기자 모드 세션 칩 로딩 동기화
                 const targetChip = document.querySelector(`.reporter-chip[data-reporter-name="${window.loggedInUser}"]`);
                 if (targetChip) {
                     targetChip.classList.add('bg-[#0b1d33]', 'text-white', 'border-[#0b1d33]', 'reporter-chip-selected');
@@ -2868,14 +2932,12 @@
             document.getElementById("stat-total-comments").innerText = window.allComments.length;
         }
 
-        // 특집 지정 필드 바인딩 및 저장 관리
         function loadAdminPollData() {
             document.getElementById("admin-poll-question").value = window.pollData.question;
             document.getElementById("admin-poll-opt0").value = window.pollData.options[0] ? window.pollData.options[0].text : "";
             document.getElementById("admin-poll-opt1").value = window.pollData.options[1] ? window.pollData.options[1].text : "";
             document.getElementById("admin-poll-opt2").value = window.pollData.options[2] ? window.pollData.options[2].text : "";
             document.getElementById("admin-poll-active").checked = window.pollData.active;
-            // 특집 기획 지정 로딩
             document.getElementById("admin-featured-special").value = window.pollData.featuredSpecial || "";
 
             document.getElementById("admin-poll-vote0").innerText = window.pollData.options[0] ? window.pollData.options[0].votes : 0;
@@ -3121,12 +3183,10 @@
         window.saveArticle = async function() {
             const idInput = document.getElementById("admin-article-id").value;
             
-            // [자율 분류 기능 및 직접 입력 분류 대응]
             const categorySel = document.getElementById("admin-category").value;
             const customCat = document.getElementById("admin-custom-category").value.trim();
             const category = customCat ? customCat : categorySel;
 
-            // 특집 지정 보존 저장
             const specialFeature = document.getElementById("admin-special-feature").value.trim();
             const imageInput = document.getElementById("admin-image").value.trim();
             const title = document.getElementById("admin-title").value.trim();
@@ -3214,7 +3274,7 @@
                 const updatedArt = {
                     id: idInput,
                     category,
-                    specialFeature, // 특집 필드 동적 바인딩 추가
+                    specialFeature, 
                     authors: selectedAuthors,
                     image: finalImage,
                     title,
@@ -3242,7 +3302,7 @@
                 const newArt = {
                     id: targetArtId,
                     category,
-                    specialFeature, // 특집 필드 동적 바인딩 추가
+                    specialFeature, 
                     authors: selectedAuthors,
                     image: finalImage,
                     title,
@@ -3300,7 +3360,6 @@
                     document.getElementById("admin-custom-category").value = art.category;
                 }
 
-                // 특집 편집 바인딩 조율
                 document.getElementById("admin-special-feature").value = art.specialFeature || "";
                 document.getElementById("admin-image").value = art.image || "";
                 document.getElementById("admin-title").value = art.title;
@@ -3469,11 +3528,15 @@
             const headlineSection = document.getElementById("headline-section");
             const newsGrid = document.getElementById("news-grid");
             const rightFeaturedBox = document.getElementById("right-featured-box");
+            const specialSection = document.getElementById("special-feature-section");
+            const mainInvestigationSection = document.getElementById("main-investigation-section");
 
             document.getElementById("category-indicator").innerText = `'${query}' 기사 검색 결과`;
 
             headlineSection.style.display = "none";
             rightFeaturedBox.style.display = "none";
+            if (specialSection) specialSection.classList.add("hidden");
+            if (mainInvestigationSection) mainInvestigationSection.classList.add("hidden");
 
             if (results.length > 0) {
                 newsGrid.innerHTML = results.map(art => {
