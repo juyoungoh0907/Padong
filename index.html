@@ -47,6 +47,23 @@
         .hover\:bg-padong-navy-hover:hover {
             background-color: #122d4f;
         }
+
+        @media (max-width: 767px) {
+            nav button {
+                white-space: nowrap !important;
+                flex-shrink: 0 !important;
+            }
+            #nav-심층탐사 {
+                font-size: 0.8rem !important;
+                padding-left: 0.55rem !important;
+                padding-right: 0.55rem !important;
+            }
+            #nav-끄적끄적 {
+                font-size: 0.8rem !important;
+                padding-left: 0.55rem !important;
+                padding-right: 0.55rem !important;
+            }
+        }
     </style>
 </head>
 <body class="text-gray-950 flex flex-col min-h-screen bg-white">
@@ -95,7 +112,8 @@
                     <button onclick="navigateToCategory('청소년정치')" id="nav-청소년정치" class="px-3 py-2 hover:text-black border-b-4 border-transparent">청소년정치</button>
                     <button onclick="navigateToCategory('인터뷰')" id="nav-인터뷰" class="px-3 py-2 hover:text-black border-b-4 border-transparent">인터뷰</button>
                     <button onclick="navigateToCategory('시민연대')" id="nav-시민연대" class="px-3 py-2 hover:text-black border-b-4 border-transparent">시민연대</button>
-                    <button onclick="navigateToCategory('심층탐사')" id="nav-심층탐사" class="px-3 py-2 hover:text-black border-b-4 border-transparent text-gray-500">스트라이크</button>
+                    <button onclick="navigateToCategory('심층탐사')" id="nav-심층탐사" class="px-3 py-2 hover:text-black border-b-4 border-transparent">스트라이크</button>
+                    <button onclick="navigateToCategory('끄적끄적')" id="nav-끄적끄적" class="px-3 py-2 hover:text-black border-b-4 border-transparent">끄적끄적</button>
                 </nav>
 
                 <div class="flex border border-gray-400 bg-white h-8 shrink-0 items-center">
@@ -464,6 +482,7 @@
                                     <option value="청소년정치">청소년정치</option>
                                     <option value="인터뷰">인터뷰</option>
                                     <option value="시민연대">시민연대</option>
+                                    <option value="끄적끄적">끄적끄적</option>
                                 </select>
                             </div>
                             <div>
@@ -473,6 +492,10 @@
                             <div>
                                 <label class="block text-[10px] font-bold text-gray-500 mb-1">특집 지정 (예: [12.3 비상계엄])</label>
                                 <input type="text" id="admin-special-feature" placeholder="대괄호 포함 자유 입력" class="w-full border border-gray-300 p-2.5 text-xs outline-none focus:border-black font-semibold bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 mb-1">스트라이크 탐사 사건명 (심층탐사 전용)</label>
+                                <input type="text" id="admin-investigation-title" placeholder="예: 아동복지카드, 기후동행패스" class="w-full border border-gray-300 p-2.5 text-xs outline-none focus:border-black font-semibold bg-white">
                             </div>
                         </div>
                         <div class="grid grid-cols-1 gap-4">
@@ -997,7 +1020,8 @@
             "국제": "https://image.utoimage.com/preview/cp873166/2018/08/201808022655_500.jpg",
             "사설·칼럼": "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80",
             "인터뷰": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80",
-            "시민연대": "https://thumb.mt.co.kr/cdn-cgi/image/f=avif/21/2026/06/2026061509434058464_1.jpg"
+            "시민연대": "https://thumb.mt.co.kr/cdn-cgi/image/f=avif/21/2026/06/2026061509434058464_1.jpg",
+            "끄적끄적": "https://www.shutterstock.com/image-vector/hand-drawn-doodle-shapes-collection-260nw-2485977065.jpg"
         };
 
         // 특집 지정 기능을 저장할 수 있게 Poll 객체 구조 확장
@@ -1016,6 +1040,7 @@
         window.reporters = [];
         window.allComments = [];
         window.currentCategory = "전체";
+        window.activeSpecialFeature = null;
         window.activeView = "home"; 
         window.currentArticleId = null;
         window.currentReporterId = null;
@@ -1315,12 +1340,14 @@
 
         window.navigateToHome = function() {
             window.currentCategory = "전체";
+            window.activeSpecialFeature = null;
             updateNavigationHighlight("전체");
             window.switchView("home");
         };
 
         window.navigateToCategory = function(cat) {
             window.currentCategory = cat;
+            window.activeSpecialFeature = null;
             updateNavigationHighlight(cat);
             if (cat === "전체") {
                 window.switchView("home");
@@ -1344,6 +1371,13 @@
             const pageTitleEl = document.getElementById("page-title");
             const pageContentEl = document.getElementById("page-content");
             window.switchView("page");
+
+            if (pageId === "scribble") {
+                updateNavigationHighlight("끄적끄적");
+                pageTitleEl.innerText = "끄적끄적";
+                pageContentEl.innerHTML = `<p class="text-sm md:text-base text-gray-700 leading-relaxed">파동의 기자와 필진이 뉴스와 논평을 넘어 자유롭게 생각을 기록하는 공간입니다. 사회를 바라보며 떠오른 생각, 취재 뒷이야기, 일상 속 질문과 고민을 자유롭게 끄적입니다.</p>`;
+                return;
+            }
 
             if (pageId === "intro") {
                 pageTitleEl.innerText = "대한민국 유일 청소년 독립 정론지, 파동입니다.";
@@ -1485,8 +1519,9 @@
 
         window.viewSpecialFeature = function(featureName) {
             window.currentCategory = "전체";
+            window.activeSpecialFeature = featureName;
             updateNavigationHighlight("전체");
-            window.switchView("home");
+            if (window.activeView !== "home") window.switchView("home");
 
             const headlineSection = document.getElementById("headline-section");
             const newsGrid = document.getElementById("news-grid");
@@ -1500,6 +1535,9 @@
             rightFeaturedBox.style.display = "none";
             if (specialSection) specialSection.classList.add("hidden");
             if (mainInvestigationSection) mainInvestigationSection.classList.add("hidden");
+            document.getElementById("poll-card-wrapper")?.classList.add("hidden");
+            document.getElementById("trend-list")?.closest(".border")?.classList.add("hidden");
+            document.getElementById("opinion-list")?.closest("div")?.classList.add("hidden");
 
             const results = window.articles.filter(a => a.specialFeature === featureName);
 
@@ -1618,6 +1656,15 @@
             const specialSection = document.getElementById("special-feature-section");
             const mainInvestigationSection = document.getElementById("main-investigation-section");
 
+            document.getElementById("poll-card-wrapper")?.classList.remove("hidden");
+            document.getElementById("trend-list")?.closest(".border")?.classList.remove("hidden");
+            document.getElementById("opinion-list")?.closest("div")?.classList.remove("hidden");
+
+            if (window.activeSpecialFeature) {
+                window.viewSpecialFeature(window.activeSpecialFeature);
+                return;
+            }
+
             // 헤드라인 지목 기사 탐색
             let headline = window.articles.find(a => a.isHeadline === true || a.isHeadline === "true");
 
@@ -1695,67 +1742,40 @@
                 `;
             }
 
-            // 2. [강조 - 무조건 제일 위] 스트라이크(심층탐사보도) 고정 기획 섹션 - 디자인 대폭 부각 강화
-            const investigationArticles = window.articles.filter(a => a.category === "심층탐사" && a.id !== (headline ? headline.id : ''));
+            // 2. 스트라이크(심층탐사보도) 탐사 사건별 기획 섹션
+            const investigationArticles = window.articles.filter(a => (getTopLevelCategory(a.category) === "심층탐사" || a.category === "심층탐사") && a.id !== (headline ? headline.id : ''));
             if (investigationArticles.length > 0) {
+                const investigationGroups = {};
+                investigationArticles.forEach(article => {
+                    const groupTitle = getInvestigationTitle(article);
+                    if (!investigationGroups[groupTitle]) investigationGroups[groupTitle] = [];
+                    investigationGroups[groupTitle].push(article);
+                });
                 mainInvestigationSection.classList.remove("hidden");
-                
-                // 최고 우선순위 심층 보도 1개 부각 레이아웃
-                const topInvest = investigationArticles[0];
-                const topInvestImg = topInvest.image || 'padongdefault.png';
-                const topInvestAuthors = (topInvest.authors && topInvest.authors.length > 0) ? topInvest.authors.join(", ") : (topInvest.author || "파동 탐사 보도팀");
-                const topScoop = getScoopBadgeHtml(topInvest.isScoop);
-
-                // 우측 서브 심층 보도 리스트 수립
-                const subInvestListHtml = investigationArticles.slice(1, 4).map(sub => {
-                    const subAuthors = (sub.authors && sub.authors.length > 0) ? sub.authors.join(", ") : (sub.author || "파동 탐사팀");
-                    const subScoop = getScoopBadgeHtml(sub.isScoop);
-                    return `
-                        <div class="border-b border-gray-200 pb-3 last:border-0 last:pb-0 cursor-pointer group" onclick="viewArticle('${sub.id}')">
-                            <h4 class="text-sm font-bold text-gray-950 group-hover:underline leading-snug line-clamp-2">
-                                ${subScoop}${escapeHtml(sub.title)}
-                            </h4>
-                            <p class="text-[11px] text-gray-400 mt-1">${subAuthors} | 👁 ${sub.views || 0}</p>
-                        </div>
-                    `;
-                }).join('');
-
-                // 볼드 테두리와 고유 백그라운드 디자인, 프로그램 설명글 고정 및 FOCUS 뱃지 강조를 통해 강렬히 어필
                 mainInvestigationSection.innerHTML = `
                     <div class="border-t-4 border-[#0b1d33] bg-slate-50 p-6 border border-gray-200 mt-8 space-y-4">
                         <h3 class="text-sm font-black pb-3 mb-2 flex justify-between items-center border-b-2 border-[#0b1d33]">
-                            <span class="flex items-center space-x-2.5">
-                                <span class="text-xl font-black text-[#0b1d33] tracking-tight">🔥 스트라이크 (STRIKE)</span>
-                                <span class="bg-[#0b1d33] text-white font-extrabold text-[9px] px-2 py-0.5 uppercase tracking-widest">심층탐사</span>
+                            <span class="flex items-center space-x-2.5 min-w-0">
+                                <span class="text-lg md:text-xl font-black text-[#0b1d33] tracking-tight whitespace-nowrap">🔥 스트라이크 (STRIKE)</span>
+                                <span class="bg-[#0b1d33] text-white font-extrabold text-[9px] px-2 py-0.5 uppercase tracking-widest whitespace-nowrap">심층탐사</span>
                             </span>
-                            <button onclick="navigateToCategory('심층탐사')" class="text-xs text-[#0b1d33] hover:underline font-extrabold">스트라이크 기획 전체보기 &rarr;</button>
+                            <button onclick="navigateToCategory('심층탐사')" class="text-[10px] md:text-xs text-[#0b1d33] hover:underline font-extrabold whitespace-nowrap shrink-0">전체보기 &rarr;</button>
                         </h3>
-                        <p class="text-xs text-gray-600 font-medium leading-relaxed pb-2 border-b border-gray-200/60">
-                            스트라이크는 파동의 심층탐사보도 기획 프로그램입니다. 정론직필을 통한 타협 없는 보도로 청소년의 목소리를 내겠습니다.
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 pt-2">
-                            <div class="md:col-span-7 bg-white p-4 border border-gray-200 cursor-pointer group shadow-sm hover:border-[#0b1d33] transition-all" onclick="viewArticle('${topInvest.id}')">
-                                <img src="${topInvestImg}" class="w-full h-48 object-cover border border-gray-200 mb-3 bg-slate-50" onerror="this.src='padongdefault.png'">
-                                <h4 class="text-lg md:text-xl font-black text-gray-950 group-hover:underline leading-snug">
-                                    ${topScoop}${escapeHtml(topInvest.title)}
-                                </h4>
-                                <p class="text-xs md:text-sm text-gray-600 mt-2 line-clamp-3 leading-relaxed font-medium">
-                                    ${escapeHtml(topInvest.subtitle || topInvest.content.substring(0, 150))}
-                                </p>
-                                <div class="text-[11px] text-gray-400 mt-4 pt-2 border-t border-gray-100 flex justify-between items-center">
-                                    <span class="font-bold text-gray-700">취재: ${topInvestAuthors}</span>
-                                    <span>조회수 ${topInvest.views || 0}</span>
-                                </div>
-                            </div>
-                            <div class="md:col-span-5 flex flex-col justify-between space-y-4 bg-white border border-gray-200 p-4">
-                                <span class="text-xs font-black text-[#0b1d33] border-b border-gray-200 pb-2 flex items-center justify-between">
-                                    <span>스트라이크 독점 보도 목록</span>
-                                    <span class="w-1.5 h-1.5 bg-[#0b1d33] rounded-full"></span>
-                                </span>
-                                <div class="space-y-4 flex-grow justify-start">
-                                    ${subInvestListHtml || `<p class="text-xs text-gray-400 py-6 text-center">추가 배포 대기 중입니다.</p>`}
-                                </div>
-                            </div>
+                        <p class="text-xs text-gray-600 font-medium leading-relaxed pb-2 border-b border-gray-200/60">스트라이크는 파동의 심층탐사보도 기획 프로그램입니다. 정론직필을 통한 타협 없는 보도로 청소년의 목소리를 내겠습니다.</p>
+                        <div class="space-y-5">
+                            ${Object.entries(investigationGroups).map(([groupTitle, groupArticles]) => `
+                                <section class="bg-white border border-gray-200 p-4">
+                                    <h4 class="text-base md:text-lg font-black text-[#0b1d33] border-b border-gray-200 pb-2 mb-3">${escapeHtml(groupTitle)}</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        ${groupArticles.slice(0, 4).map(article => `
+                                            <div class="border-b border-gray-200 pb-3 cursor-pointer group" onclick="viewArticle('${article.id}')">
+                                                <h5 class="text-sm font-bold leading-snug group-hover:underline">${getScoopBadgeHtml(article.isScoop)}${escapeHtml(article.title)}</h5>
+                                                <p class="text-[11px] text-gray-400 mt-1">조회 ${article.views || 0}</p>
+                                            </div>
+                                        `).join("")}
+                                    </div>
+                                </section>
+                            `).join("")}
                         </div>
                     </div>
                 `;
@@ -1986,6 +2006,15 @@
             showToast("여론조사가 실시간 지면에 반영되었습니다.");
         };
 
+        function getTopLevelCategory(category) {
+            if (!category) return "";
+            return String(category).split(">", 1)[0].trim();
+        }
+
+        function getInvestigationTitle(article) {
+            return (article.investigationTitle || "미분류 탐사 사건").trim();
+        }
+
         window.renderCategoryContent = function() {
             const cat = window.currentCategory;
             
@@ -1996,8 +2025,12 @@
             const bannerDescEl = document.querySelector("#cat-banner-bg p");
             if (bannerDescEl) {
                 if (cat === "심층탐사") {
-                    bannerDescEl.innerText = "스트라이크는 파동의 심층탐사보도 기획 프로그램입니다. 정론직필을 통한 타협 없는 보도로 청소년의 목소리를 내겠습니다.";
-                } else {
+                    bannerDescEl.innerText = "스트라이크는 파동의 심층탐사보도 기획 프로그램입니다.\n정론직필을 통한 타협 없는 보도로 청소년의 목소리를 내겠습니다.";
+                }
+                else if (cat === "끄적끄적") {
+                    bannerDescEl.innerText="칼럼의 형식에서 벗어나 청소년의 생각을 가감없이 기록합니다.\n난해하고 번잡하지만 올곧은 파동 기자들의 생각을 살펴보세요.";
+                }
+                else {
                     bannerDescEl.innerText = "";
                 }
             }
@@ -2006,9 +2039,36 @@
             const bgImgUrl = CATEGORY_BANNER_IMAGES[cat] || "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?auto=format&fit=crop&w=1200&q=80";
             bannerBgEl.style.backgroundImage = `url('${bgImgUrl}')`;
 
-            const filtered = window.articles.filter(a => a.category === cat);
+            const filtered = window.articles.filter(a => getTopLevelCategory(a.category) === cat || a.category === cat);
             const catMainCol = document.getElementById("cat-main-col");
             const catSubGrid = document.getElementById("cat-sub-grid");
+
+            if (cat === "심층탐사" && filtered.length > 0) {
+                const groups = {};
+                filtered.forEach(article => {
+                    const title = getInvestigationTitle(article);
+                    if (!groups[title]) groups[title] = [];
+                    groups[title].push(article);
+                });
+                catMainCol.innerHTML = Object.entries(groups).map(([groupTitle, groupArticles]) => `
+                    <section class="bg-white border border-gray-200 p-5 space-y-4">
+                        <div class="border-b-2 border-[#0b1d33] pb-2">
+                            <h2 class="text-lg md:text-xl font-black text-[#0b1d33] leading-tight">${escapeHtml(groupTitle)}</h2>
+                            <p class="text-[11px] text-gray-400 mt-1">${groupArticles.length}건의 탐사 보도</p>
+                        </div>
+                        <div class="space-y-3">
+                            ${groupArticles.map(article => `
+                                <div class="border-b border-gray-200 last:border-0 pb-3 last:pb-0 cursor-pointer group" onclick="viewArticle('${article.id}')">
+                                    <h3 class="text-sm md:text-base font-bold leading-snug group-hover:underline">${getScoopBadgeHtml(article.isScoop)}${escapeHtml(article.title)}</h3>
+                                    <p class="text-[11px] text-gray-400 mt-1">${escapeHtml((article.authors && article.authors.length ? article.authors.join(", ") : (article.author || "파동 탐사팀")))} | 조회 ${article.views || 0}</p>
+                                </div>
+                            `).join("")}
+                        </div>
+                    </section>
+                `).join("");
+                catSubGrid.innerHTML = ``;
+                return;
+            }
 
             if (filtered.length === 0) {
                 catMainCol.innerHTML = `
@@ -2105,7 +2165,7 @@
             // 대분류 > 일반 표시 규칙 세분화 적용 및 분류에서 특집 이름 완전 제거
             const breadcrumbs = document.getElementById("detail-breadcrumbs");
             if (breadcrumbs) {
-                const standardCategories = ["심층탐사", "국회·정당", "국제", "사설·칼럼", "청소년정치", "인터뷰", "시민연대"];
+                const standardCategories = ["심층탐사", "국회·정당", "국제", "사설·칼럼", "청소년정치", "인터뷰", "시민연대", "끄적끄적"];
                 
                 let catDisplay = art.category;
                 if (catDisplay === "심층탐사") {
@@ -2977,6 +3037,31 @@
             document.getElementById("admin-poll-vote2").innerText = window.pollData.options[2] ? window.pollData.options[2].votes : 0;
         }
 
+        window.resetPollVotes = async function() {
+            if (!window.isAdminMode) return;
+            const resetData = {
+                ...window.pollData,
+                options: (window.pollData.options || []).map(opt => ({ text: opt.text || "", votes: 0 }))
+            };
+            window.pollData = resetData;
+            localStorage.removeItem("padong_voted_v1");
+            localStorage.removeItem("padong_voted_question_v1");
+            localStorage.setItem("padong_poll_v1", JSON.stringify(window.pollData));
+            localStorage.setItem("pollData", JSON.stringify(window.pollData));
+
+            if (window.useFirebase) {
+                try {
+                    const pollDocRef = doc(db, 'artifacts', window.appId, 'public', 'data', 'polls', 'main_poll');
+                    await setDoc(pollDocRef, window.pollData);
+                } catch (e) {
+                    console.error("여론조사 집계치 리셋 오류:", e);
+                }
+            }
+            loadAdminPollData();
+            window.renderPollWidget();
+            showToast("여론조사 집계치가 완전히 리셋되었습니다.");
+        };
+
         window.saveAdminPoll = async function() {
             if (!window.isAdminMode) return;
             const q = document.getElementById("admin-poll-question").value.trim();
@@ -3220,6 +3305,7 @@
             const category = customCat ? customCat : categorySel;
 
             const specialFeature = document.getElementById("admin-special-feature").value.trim();
+            const investigationTitle = document.getElementById("admin-investigation-title").value.trim();
             const imageInput = document.getElementById("admin-image").value.trim();
             const title = document.getElementById("admin-title").value.trim();
             const subtitle = document.getElementById("admin-subtitle").value.trim();
@@ -3306,7 +3392,8 @@
                 const updatedArt = {
                     id: idInput,
                     category,
-                    specialFeature, 
+                    specialFeature,
+                    investigationTitle,
                     authors: selectedAuthors,
                     image: finalImage,
                     title,
@@ -3334,7 +3421,8 @@
                 const newArt = {
                     id: targetArtId,
                     category,
-                    specialFeature, 
+                    specialFeature,
+                    investigationTitle,
                     authors: selectedAuthors,
                     image: finalImage,
                     title,
@@ -3383,7 +3471,7 @@
                 window.switchAdminTab("write");
                 document.getElementById("admin-article-id").value = art.id;
 
-                const standardCategories = ["심층탐사", "국회·정당", "국제", "사설·칼럼", "청소년정치", "인터뷰", "시민연대"];
+                const standardCategories = ["심층탐사", "국회·정당", "국제", "사설·칼럼", "청소년정치", "인터뷰", "시민연대", "끄적끄적"];
                 if (standardCategories.includes(art.category)) {
                     document.getElementById("admin-category").value = art.category;
                     document.getElementById("admin-custom-category").value = "";
@@ -3393,6 +3481,7 @@
                 }
 
                 document.getElementById("admin-special-feature").value = art.specialFeature || "";
+                document.getElementById("admin-investigation-title").value = art.investigationTitle || "";
                 document.getElementById("admin-image").value = art.image || "";
                 document.getElementById("admin-title").value = art.title;
                 document.getElementById("admin-subtitle").value = art.subtitle || "";
@@ -3464,6 +3553,7 @@
             document.getElementById("admin-category").value = "심층탐사";
             document.getElementById("admin-custom-category").value = "";
             document.getElementById("admin-special-feature").value = "";
+            document.getElementById("admin-investigation-title").value = "";
             document.getElementById("admin-image").value = "";
             document.getElementById("admin-title").value = "";
             document.getElementById("admin-subtitle").value = "";
@@ -3555,6 +3645,7 @@
             });
 
             window.currentCategory = "전체";
+            window.activeSpecialFeature = null;
             window.switchView("home");
 
             const headlineSection = document.getElementById("headline-section");
