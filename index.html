@@ -48,6 +48,15 @@
             background-color: #122d4f;
         }
 
+        /* 기사 검색 결과 전용 정돈 레이아웃 */
+        #news-grid.search-results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.5rem;
+        }
+        #news-grid.search-results-grid .search-result-featured {
+            grid-column: 1 / -1;
+        }
         @media (max-width: 767px) {
             nav button {
                 white-space: nowrap !important;
@@ -730,8 +739,6 @@
                     <div class="flex flex-wrap gap-x-2 gap-y-0.5 items-center">
                         <span>법인명: 파동미디어</span>
                         <span class="text-gray-300 select-none">|</span>
-                        <span>주소: 경기도 부천시 원미구 상동</span>
-                        <span class="text-gray-300 select-none">|</span>
                         <span>대표전화: 010-5634-1865</span>
                     </div>
                     <div class="flex flex-wrap gap-x-2 gap-y-0.5 items-center">
@@ -739,8 +746,7 @@
                         <span class="text-gray-300 select-none">|</span>
                         <span>발행·편집인: 오주영</span>
                         <span class="text-gray-300 select-none">|</span>
-                        <span>창간일: 2026-07-16</span>
-                        <span class="text-gray-300 select-none">|</span>
+                        <span>창간일: 2026-07-23</span>
                     </div>
                 </div>
 
@@ -812,8 +818,8 @@
                     </div>
                     <div class="space-y-1.5 text-xs text-gray-800">
                         <div class="flex justify-between">
-                            <span class="font-bold text-gray-500">📧 보도국 대표 메일:</span>
-                            <span class="font-extrabold text-gray-900 underline">editor@padong.com</span>
+                            <span class="font-bold text-gray-500">📧 제보 메일:</span>
+                            <span class="font-extrabold text-gray-900 underline">juyoungoh0907@gmail.com</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="font-bold text-gray-500">📞 대표 연락처:</span>
@@ -855,13 +861,13 @@
                         <span>자율 투고 후원 안내</span>
                     </div>
                     <div class="space-y-2 text-xs md:text-sm text-gray-800">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-gray-500">🏦 공식 후원 계좌:</span>
-                            <span class="font-extrabold text-gray-900">국민은행 720502-01-319751 (예금주: 오주영)</span>
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1.5 sm:gap-4">
+                            <span class="font-bold text-gray-500 shrink-0">🏦 공식 후원 계좌:</span>
+                            <span class="font-extrabold text-gray-900 text-left sm:text-right break-words leading-relaxed">국민은행 720502-01-319751<br class="sm:hidden">(예금주: 오주영)</span>
                         </div>
-                        <div class="flex justify-between items-center border-t border-gray-100 pt-2">
-                            <span class="font-bold text-gray-500">✉️ 협력 조약 및 연대 제의:</span>
-                            <span class="font-extrabold text-[#0b1d33] underline">editor@padong.com</span>
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1.5 sm:gap-4 border-t border-gray-100 pt-2">
+                            <span class="font-bold text-gray-500 shrink-0">✉️ 협력 조약 및 연대 제의:</span>
+                            <span class="font-extrabold text-[#0b1d33] underline text-left sm:text-right break-all">juyoungoh0907@gmail.com</span>
                         </div>
                     </div>
                 </div>
@@ -1021,7 +1027,7 @@
             "사설·칼럼": "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80",
             "인터뷰": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80",
             "시민연대": "https://thumb.mt.co.kr/cdn-cgi/image/f=avif/21/2026/06/2026061509434058464_1.jpg",
-            "끄적끄적": "https://www.shutterstock.com/image-vector/hand-drawn-doodle-shapes-collection-260nw-2485977065.jpg"
+            "끄적끄적": "https://images.unsplash.com/photo-1623116135497-a90bdc0ddca9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8JUVCJTgyJTk5JUVDJTg0JTlDfGVufDB8fDB8fHww"
         };
 
         // 특집 지정 기능을 저장할 수 있게 Poll 객체 구조 확장
@@ -1410,28 +1416,121 @@
 [광고 문의 연락]
 - 파동미디어 대표 오주영
 - 대표 연락처 : 010-5634-1865
-- E-Mail : editor@padong.com</p>`;
+- E-Mail : juyoungoh0907@gmail.com</p>`;
             } else if (pageId === "rules") {
                 pageTitleEl.innerText = "이용약관";
-                pageContentEl.innerHTML = `<p class="text-sm md:text-base text-gray-700 leading-relaxed whitespace-pre-line">제1조 (목적)
-본 조항은 파동미디어가 공급하는 정보 통신 매체 '파동' 플랫폼의 저작권 보호, 독자 기여, 민주적 토론 가이드를 준용하기 위해 작성되었습니다.
+                pageContentEl.innerHTML = `<div class="text-sm md:text-base text-gray-700 leading-relaxed whitespace-pre-line">
+제1조 (목적)
+이 약관은 파동미디어(이하 "편집국")가 운영하는 파동 웹사이트 및 이에 부수하는 기사, 독자 참여, 제보, 후원 및 기타 서비스(이하 "서비스")의 이용 조건과 절차, 이용자와 편집국의 권리·의무 및 책임사항을 정함을 목적으로 합니다.
 
-제2조 (청소년 인권 존중 및 비방 배제)
-본 보도국의 기사 평론 및 독자 게시판에는 타인에 대한 폭력, 차별, 혐오 유발, 또는 정당 당원으로서의 품위를 손상시키는 보도 왜곡 행위의 게재를 금지하며 적발 시 자치 위원회에 기각됩니다.
+제2조 (약관의 효력 및 변경)
+① 본 약관은 서비스 화면에 게시하거나 기타 합리적인 방법으로 이용자에게 공지함으로써 효력이 발생합니다.
+② 편집국은 법령의 변경, 서비스 운영상 필요 또는 이용자 보호를 위해 약관을 변경할 수 있습니다. 중요한 변경사항은 시행일과 변경 내용을 서비스 내에서 알기 쉽게 공지합니다.
+③ 변경된 약관에 동의하지 않는 이용자는 서비스 이용을 중단할 수 있습니다.
 
-제3조 (저작권)
-파동의 모든 기사는 청소년 필진의 노력이 깃든 독자 지식 재산이며, 무단 데이터 스크래핑 및 인공지능(AI) 기계 학습용 벌크 다운로드를 규제합니다.</p>`;
+제3조 (서비스의 내용)
+편집국은 뉴스·기획·칼럼 등 콘텐츠의 제공, 독자 댓글 및 반응 기능, 여론조사, 제보 접수, 후원 안내 및 기타 관련 기능을 제공합니다.
+서비스의 일부는 기술적·운영상 필요에 따라 변경되거나 일시 중단될 수 있습니다.
+
+제4조 (이용자의 기본 의무)
+이용자는 관계 법령과 본 약관, 서비스 내 공지사항을 준수해야 합니다. 타인의 권리를 침해하거나 서비스의 정상적인 운영을 방해하는 행위는 금지됩니다.
+
+제5조 (댓글·독자 참여 및 금지행위)
+이용자는 댓글과 기타 참여 기능을 통해 타인을 모욕하거나 명예를 훼손하는 내용, 차별·혐오·협박·불법행위를 조장하는 내용, 개인정보를 공개하는 내용, 반복적인 도배·광고·스팸, 사실을 고의로 왜곡하는 내용을 게시해서는 안 됩니다.
+편집국은 신고 또는 자체 모니터링을 통해 위반 게시물을 숨김·삭제하거나 이용자의 참여를 제한할 수 있습니다. 긴급한 피해가 우려되는 경우 사전 통지 없이 조치할 수 있습니다.
+
+제6조 (제보 서비스)
+제보자는 제보 내용의 정확성과 적법한 취득 여부에 대해 스스로 책임을 집니다. 편집국은 제보 내용을 검토·확인한 뒤 보도 여부를 독립적으로 판단하며, 제보 내용의 접수만으로 보도를 약속하지 않습니다.
+제보 과정에서 전달된 자료는 사실 확인과 취재 목적 범위에서 검토될 수 있습니다.
+
+제7조 (후원)
+후원은 자발적인 의사에 따라 이루어져야 하며, 후원금 지급 여부가 기사 게재, 보도 방향, 편집권 행사 또는 특정 결과를 보장하지 않습니다.
+후원과 관련한 구체적인 절차나 확인이 필요한 경우 이용자는 편집국의 안내에 따라 문의할 수 있습니다.
+
+제8조 (저작권 및 콘텐츠 이용)
+서비스에 게시된 기사, 사진, 그래픽, 로고, 디자인 및 기타 콘텐츠의 저작권과 관련 권리는 별도 표시가 없는 한 정당한 권리자에게 귀속됩니다.
+이용자는 개인적·비영리적 열람을 넘어 콘텐츠를 무단 복제, 전재, 재배포, 판매하거나 대량 수집·스크래핑할 수 없습니다. 인공지능 학습 등 별도의 이용은 권리자의 허락과 관계 법령을 따릅니다.
+
+제9조 (기사의 정확성 및 편집권)
+편집국은 정확하고 공정한 보도를 위해 노력하지만 모든 콘텐츠의 완전한 무오류를 보증하지는 않습니다. 오류가 발견된 경우 정정·보완·수정 등 적절한 조치를 취할 수 있습니다.
+편집국은 독립적인 편집 판단에 따라 기사와 서비스의 구성, 노출 순서 및 제공 여부를 결정할 수 있습니다.
+
+제10조 (서비스 이용 제한)
+이용자가 본 약관 또는 관계 법령을 위반하거나 다른 이용자에게 중대한 피해를 주는 경우 편집국은 게시물 삭제, 댓글 제한, 계정 또는 세션 이용 제한 등 필요한 조치를 취할 수 있습니다.
+
+제11조 (면책)
+편집국은 천재지변, 통신 장애, 외부 서비스 장애, 불가항력적 사유 등 편집국의 합리적인 통제를 벗어난 사유로 발생한 서비스 중단에 대해 책임을 지지 않을 수 있습니다.
+다만 편집국의 고의 또는 중대한 과실로 인한 책임을 법령에 따라 배제하지 않습니다.
+
+제12조 (분쟁 및 문의)
+서비스 이용과 관련한 문의나 권리 침해 신고는 편집국이 안내하는 공식 연락처를 통해 접수할 수 있습니다. 편집국은 접수 내용을 확인하고 가능한 범위에서 답변 및 조치를 진행합니다.
+
+부칙
+본 약관은 2026년 7월 24일부터 시행합니다.
+</div>`;
             } else if (pageId === "privacy") {
                 pageTitleEl.innerText = "개인정보처리방침";
-                pageContentEl.innerHTML = `<p class="text-sm md:text-base text-gray-700 leading-relaxed whitespace-pre-line">파동미디어는 이용자의 개인 정보 보호법 제30조에 의거하여 다음과 같은 강력하고 구체적인 참정 정보 보호 방침을 고수합니다.
+                pageContentEl.innerHTML = `<div class="text-sm md:text-base text-gray-700 leading-relaxed whitespace-pre-line">
+파동미디어(이하 "편집국")는 이용자의 개인정보를 중요하게 보호하며, 개인정보 보호 관련 법령을 준수하기 위해 다음과 같이 개인정보처리방침을 공개합니다.
 
-1. 개인정보의 수집 항목 및 목적
-- 독자 댓글 등록 시: 작성자 필명, IP 주소 (스팸 도배 규제용 마스킹 수립)
-- 보도 제보 시: 이메일 및 전화번호 (제보 확인 절차 수습 이후 14일 이내 완결 소거)
+제1조 (개인정보의 처리 목적)
+편집국은 서비스 제공에 필요한 범위에서 개인정보를 처리합니다.
+① 댓글·독자 참여: 게시물 작성자 식별, 게시물 관리, 도배·악성 이용 방지 및 분쟁 대응
+② 제보 접수: 제보 내용 확인, 추가 취재 및 연락
+③ 후원·문의: 후원 및 협력 문의에 대한 확인과 회신
+④ 보안 및 운영: 비정상적인 접근, 반복 요청, 서비스 장애 원인 확인 및 보안 대응
 
-2. 독자 참정 비밀 보장
-기성 정당 가입법에 의해 정당 소속이 노출되어 교내에서 부당한 학칙 불이익을 당하는 사례가 없도록, 당사에 게재 및 제보된 독자 가입 정보는 외부 정부 기관 및 교육청에 일절 기증하거나 기명 인도되지 않음을 서약합니다.</p>`;
-            }
+제2조 (처리하는 개인정보의 항목)
+① 댓글 및 독자 참여 과정에서는 이용자가 직접 입력하는 닉네임 또는 작성자명과 댓글 내용이 처리될 수 있습니다.
+② 제보 및 문의 과정에서는 이용자가 자발적으로 제공하는 이메일 주소, 전화번호, 이름 및 제보 내용이 처리될 수 있습니다.
+③ 서비스 이용 과정에서 접속 기록, 브라우저·기기 정보, 쿠키 또는 세션 정보 등 기술적 정보가 자동으로 생성·수집될 수 있습니다.
+④ 편집국은 주민등록번호 등 법령상 민감하거나 불필요한 개인정보를 원칙적으로 요구하지 않습니다.
+
+제3조 (개인정보의 수집 방법)
+개인정보는 이용자가 댓글·제보·문의 등 서비스 이용 과정에서 직접 입력하거나, 서비스 운영 과정에서 자동으로 생성되는 정보의 형태로 수집될 수 있습니다.
+이용자는 필요한 범위를 넘어 개인정보를 게시하지 않아야 하며, 타인의 개인정보를 동의 없이 공개해서는 안 됩니다.
+
+제4조 (개인정보의 보유 및 이용기간)
+① 개인정보는 처리 목적이 달성될 때까지 보유·이용합니다.
+② 댓글 정보는 기사와 토론의 맥락을 위해 보관될 수 있으며, 삭제 요청이나 운영상 필요에 따라 별도 검토 후 삭제할 수 있습니다.
+③ 제보·문의 정보는 접수 및 회신, 사실 확인에 필요한 기간 동안 보관한 뒤 불필요해진 경우 지체 없이 삭제합니다.
+④ 관계 법령에 따라 보존이 필요한 경우에는 해당 법령에서 정한 기간 동안 보관합니다.
+
+제5조 (개인정보의 파기)
+보유기간이 지나거나 처리 목적이 달성된 개인정보는 지체 없이 파기합니다.
+전자적 파일은 복구하기 어려운 방법으로 삭제하고, 출력물 등 물리적 기록이 있는 경우 분쇄 또는 이에 준하는 방법으로 파기합니다.
+
+제6조 (개인정보의 제3자 제공)
+편집국은 이용자의 개인정보를 원칙적으로 외부에 제공하지 않습니다.
+다만 이용자의 별도 동의가 있거나, 법률에 특별한 규정이 있거나, 생명·신체·재산에 대한 급박한 위험을 방지하기 위해 필요한 경우 등 법령이 허용하는 범위에서 제공할 수 있습니다.
+
+제7조 (개인정보 처리의 위탁 및 외부 서비스)
+서비스 운영을 위해 호스팅, 데이터 저장, 인증, 분석 또는 외부 콘텐츠 제공 서비스가 사용될 수 있습니다. 이러한 외부 서비스가 개인정보를 처리하는 경우 편집국은 필요한 범위에서 관련 법령과 계약상 보호조치를 확인하도록 노력합니다.
+외부 서비스의 처리 방식은 해당 서비스의 정책과 기술적 운영에 따라 달라질 수 있습니다.
+
+제8조 (쿠키 및 세션 정보)
+편집국은 로그인 상태 유지, 중복 참여 방지, 이용 환경 개선 및 보안 목적을 위해 쿠키 또는 세션 정보를 사용할 수 있습니다.
+이용자는 브라우저 설정을 통해 쿠키 저장을 제한할 수 있으나, 일부 기능의 이용이 제한될 수 있습니다.
+
+제9조 (개인정보의 안전성 확보조치)
+편집국은 접근 권한 관리, 비밀번호 보호, 전송 구간의 보안 설정, 불필요한 정보의 최소 수집 및 접근 제한 등 합리적인 안전성 확보조치를 적용하기 위해 노력합니다.
+다만 인터넷 환경의 특성상 모든 보안 위험을 완전히 제거할 수는 없습니다.
+
+제10조 (이용자의 권리)
+이용자는 법령이 정하는 범위에서 자신의 개인정보에 대한 열람, 정정, 삭제 또는 처리정지를 요청할 수 있습니다.
+요청이 접수되면 본인 확인 및 다른 이용자·제보자의 권리 보호를 위해 필요한 절차를 거쳐 처리합니다.
+
+제11조 (개인정보 보호책임 및 문의)
+개인정보 처리와 관련한 문의, 열람·삭제 요청 또는 개인정보 침해 신고는 파동미디어 공식 연락처를 통해 접수할 수 있습니다.
+대표 연락처: 010-5634-1865
+이메일: juyoungoh0907@gmail.com
+
+제12조 (개인정보처리방침의 변경)
+법령, 서비스 또는 개인정보 처리 방식의 변경에 따라 본 방침이 변경될 수 있습니다. 변경 시 시행일과 주요 내용을 서비스 내에서 안내합니다.
+
+부칙
+본 개인정보처리방침은 2026년 7월 24일부터 시행합니다.
+</div>`;            }
         };
 
         window.openReportModal = function() {
@@ -1713,7 +1812,7 @@
                             </div>
                             <div class="md:col-span-4 space-y-3">
                                 <div class="block md:hidden">
-                                    <p class="text-xs text-gray-950 font-extrabold border-l-2 border-[#0b1d33] pl-2.5 leading-relaxed whitespace-pre-line">
+                                    <p class="text-xs text-gray-950 font-extrabold text-center leading-relaxed whitespace-pre-line border-t-2 border-[#0b1d33] pt-2.5">
                                         ${headline.subtitle || plainBodySnippet + '...'}
                                     </p>
                                 </div>
@@ -3638,8 +3737,8 @@
 
             const results = window.articles.filter(a => {
                 const authorsStr = (a.authors && a.authors.length > 0) ? a.authors.join(", ") : (a.author || "");
-                return a.title.toLowerCase().includes(query) || 
-                       a.content.toLowerCase().includes(query) || 
+                return (a.title || "").toLowerCase().includes(query) || 
+                       (a.content || "").toLowerCase().includes(query) || 
                        authorsStr.toLowerCase().includes(query) ||
                        (a.subtitle && a.subtitle.toLowerCase().includes(query));
             });
@@ -3661,35 +3760,65 @@
             if (specialSection) specialSection.classList.add("hidden");
             if (mainInvestigationSection) mainInvestigationSection.classList.add("hidden");
 
+            newsGrid.className = "search-results-grid";
+
             if (results.length > 0) {
-                newsGrid.innerHTML = results.map(art => {
+                const renderSearchCard = (art, featured = false) => {
                     const authorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "파동 편집인");
                     const scoopBadgeHtml = getScoopBadgeHtml(art.isScoop);
                     const searchedImage = art.image || 'padongdefault.png';
+                    const bodySnippet = (art.subtitle || art.content || "").replace(/\[(?:이미지|동영상)링크:[^\]]+\]/g, '').trim().substring(0, featured ? 180 : 90);
+
+                    if (featured) {
+                        return `
+                            <div class="search-result-featured border-b-2 border-[#0b1d33] pb-5 cursor-pointer group" onclick="viewArticle('${art.id}')">
+                                <div class="grid grid-cols-1 md:grid-cols-5 gap-5 items-start">
+                                    <img src="${searchedImage}" class="w-full h-48 md:h-40 object-cover border border-gray-200 bg-slate-50 md:col-span-2" alt="검색결과" onerror="this.src='padongdefault.png'">
+                                    <div class="space-y-2 md:col-span-3 min-w-0">
+                                        <span class="text-[10px] text-[#0b1d33] font-bold uppercase tracking-wider">${art.category === "심층탐사" ? "스트라이크" : art.category}</span>
+                                        <h4 class="text-xl md:text-2xl font-black leading-tight text-black group-hover:underline">${scoopBadgeHtml}${art.title}</h4>
+                                        <p class="text-xs text-gray-600 leading-relaxed line-clamp-3">${bodySnippet}${bodySnippet.length >= (featured ? 180 : 90) ? "..." : ""}</p>
+                                        <div class="text-xs text-gray-400 flex flex-wrap gap-x-2 gap-y-1 pt-1">
+                                            <span class="font-semibold text-gray-600">${authorsStr}</span><span>|</span><span>조회수 ${art.views || 0}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                    }
 
                     return `
-                        <div class="border-b border-gray-200 pb-5 cursor-pointer group hover:bg-gray-50/50 p-2 flex space-x-4 items-start" onclick="viewArticle('${art.id}')">
-                            <img src="${searchedImage}" 
-                                 class="w-28 h-20 md:w-36 md:h-24 object-cover border border-gray-200 shrink-0 bg-slate-50"
-                                 alt="검색결과"
-                                 onerror="this.src='padongdefault.png'">
-                            <div class="space-y-1 flex-grow min-w-0 font-sans">
-                                <span class="text-[10px] text-[#0b1d33] font-bold uppercase tracking-wider">${art.category === "심층탐사" ? "스트라이크" : art.category}</span>
-                                <h4 class="text-base font-bold leading-snug text-black group-hover:underline line-clamp-2">
-                                    ${scoopBadgeHtml}${art.title}
-                                </h4>
-                                <div class="text-xs text-gray-400 flex space-x-2 pt-1">
-                                    <span class="font-semibold text-gray-600">${authorsStr}</span>
-                                    <span>|</span>
-                                    <span>조회수 ${art.views || 0}</span>
+                        <div class="border-b border-gray-200 pb-4 cursor-pointer group hover:bg-gray-50/50 p-2 min-w-0" onclick="viewArticle('${art.id}')">
+                            <div class="flex space-x-3 items-start">
+                                <img src="${searchedImage}" class="w-24 h-16 md:w-32 md:h-20 object-cover border border-gray-200 shrink-0 bg-slate-50" alt="검색결과" onerror="this.src='padongdefault.png'">
+                                <div class="space-y-1 min-w-0 flex-grow">
+                                    <span class="text-[10px] text-[#0b1d33] font-bold uppercase tracking-wider">${art.category === "심층탐사" ? "스트라이크" : art.category}</span>
+                                    <h4 class="text-sm font-bold leading-snug text-black group-hover:underline line-clamp-2">${scoopBadgeHtml}${art.title}</h4>
+                                    <div class="text-[11px] text-gray-400 flex flex-wrap gap-x-2">
+                                        <span class="font-semibold text-gray-600">${authorsStr}</span><span>|</span><span>조회수 ${art.views || 0}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    `;
-                }).join('');
+                        </div>`;
+                };
+
+                const featured = results.slice(0, 1);
+                const secondary = results.slice(1, 5);
+                const remaining = results.slice(5);
+
+                newsGrid.innerHTML = `
+                    ${featured.map(art => renderSearchCard(art, true)).join("")}
+                    ${secondary.map(art => renderSearchCard(art)).join("")}
+                    ${remaining.length > 0 ? `
+                        <div class="col-span-full border-t-2 border-gray-200 pt-5 mt-1">
+                            <h4 class="text-xs font-black text-gray-500 border-b border-gray-200 pb-2 mb-3">검색 결과 더보기 · ${remaining.length}건</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                                ${remaining.map(art => renderSearchCard(art)).join("")}
+                            </div>
+                        </div>` : ""}
+                `;
             } else {
                 newsGrid.innerHTML = `
-                    <div class="col-span-2 text-center py-16 text-gray-400 text-xs border border-dashed border-gray-200 bg-white font-sans">
+                    <div class="col-span-full text-center py-16 text-gray-400 text-xs border border-dashed border-gray-200 bg-white font-sans">
                         검색어 '${query}'와 일치하는 참정 정론 기사가 확보되지 않았습니다.
                     </div>
                 `;
