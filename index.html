@@ -1765,6 +1765,8 @@
                 return;
             }
 
+            document.getElementById("category-indicator").innerText = "주요 뉴스";
+
             // 헤드라인 지목 기사 탐색
             let headline = window.articles.find(a => a.isHeadline === true || a.isHeadline === "true");
 
@@ -1887,10 +1889,14 @@
             const renderedInvestIds = investigationArticles.map(a => a.id);
             remainingNews = remainingNews.filter(a => !renderedInvestIds.includes(a.id));
 
-            // 3. 특집 기사 섹션 렌더링
-            if (window.pollData && window.pollData.featuredSpecial && window.pollData.featuredSpecial.trim() !== "") {
-                const featSpecial = window.pollData.featuredSpecial.trim();
-                const featArticles = window.articles.filter(a => a.specialFeature === featSpecial && a.id !== (headline ? headline.id : ''));
+            // 3. 특집 기사 섹션 렌더링 (헤드라인이 특집 기사인 경우 해당 특집을 우선 자동 노출)
+            const autoFeatSpecial = (headline && headline.specialFeature) ? headline.specialFeature : null;
+            const manualFeatSpecial = (window.pollData && window.pollData.featuredSpecial && window.pollData.featuredSpecial.trim() !== "") ? window.pollData.featuredSpecial.trim() : null;
+            const featSpecial = autoFeatSpecial || manualFeatSpecial;
+            if (featSpecial) {
+                const featArticles = window.articles.filter(
+    a => a.specialFeature === featSpecial
+);
                 
                 if (featArticles.length > 0) {
                     specialSection.classList.remove("hidden");
