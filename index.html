@@ -57,6 +57,21 @@
         #news-grid.search-results-grid .search-result-featured {
             grid-column: 1 / -1;
         }
+        /* 모바일 헤드라인 요약 세로선이 텍스트 영역과 정확히 맞물리도록 보정 */
+        .headline-mobile-summary {
+            position: relative;
+            padding-left: 0.625rem;
+        }
+        .headline-mobile-summary::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #0b1d33;
+        }
+
         @media (max-width: 767px) {
             nav button {
                 white-space: nowrap !important;
@@ -499,8 +514,8 @@
                                 <input type="text" id="admin-custom-category" placeholder="예: 정치정당>더불어민주당" class="w-full border border-gray-300 p-2.5 text-xs outline-none focus:border-black font-semibold bg-white">
                             </div>
                             <div>
-                                <label class="block text-[10px] font-bold text-gray-500 mb-1">특집 지정 (예: [12.3 비상계엄])</label>
-                                <input type="text" id="admin-special-feature" placeholder="대괄호 포함 자유 입력" class="w-full border border-gray-300 p-2.5 text-xs outline-none focus:border-black font-semibold bg-white">
+                                <label class="block text-[10px] font-bold text-gray-500 mb-1">특집 지정 (대괄호 없이 입력 가능)</label>
+                                <input type="text" id="admin-special-feature" placeholder="예: 12.3 비상계엄" class="w-full border border-gray-300 p-2.5 text-xs outline-none focus:border-black font-semibold bg-white">
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold text-gray-500 mb-1">스트라이크 탐사 사건명 (심층탐사 전용)</label>
@@ -670,7 +685,7 @@
                         <div class="bg-gray-50 p-4 border border-gray-200 space-y-3">
                             <div>
                                 <label class="block text-[10px] font-bold text-[#0b1d33] mb-1">📌 메인화면 노출 특집 지정</label>
-                                <input type="text" id="admin-featured-special" placeholder="예: [12.3 비상계엄] (입력 시 메인화면에 해당 특집 보도 영역이 동적 활성화됩니다)" class="w-full border border-gray-300 p-2.5 text-xs outline-none bg-white focus:border-black font-semibold">
+                                <input type="text" id="admin-featured-special" placeholder="예: 12.3 비상계엄, 청소년의회 (쉼표로 여러 특집 지정 가능)" class="w-full border border-gray-300 p-2.5 text-xs outline-none bg-white focus:border-black font-semibold">
                             </div>
                             <hr class="border-gray-200 my-2">
                             <div>
@@ -966,7 +981,7 @@
             {
                 id: "art-headline-1",
                 category: "심층탐사",
-                specialFeature: "[12.3 비상계엄]",
+                specialFeature: "12.3 비상계엄",
                 authors: ["오주영 편집인"],
                 image: "",
                 title: "[단독] 전국 청소년의회 심층 검증... '실권 없는 교육청 홍보 대지' 전락 지적",
@@ -1617,7 +1632,31 @@
             return `<span class="inline-flex items-center justify-center ${padding} ${colorClasses} tracking-wider mr-2 shrink-0 whitespace-nowrap align-middle">${label}</span>`;
         }
 
+        function normalizeSpecialFeatureName(value) {
+            return String(value || "")
+                .trim()
+                .replace(/^\s*\[+/, "")
+                .replace(/\]+\s*$/, "")
+                .trim();
+        }
+
+        function getSpecialFeatureDisplay(value) {
+            return normalizeSpecialFeatureName(value);
+        }
+
+        function getFeaturedSpecialNames(value) {
+            return String(value || "")
+                .split(/[\n,]+/)
+                .map(normalizeSpecialFeatureName)
+                .filter(Boolean);
+        }
+
+        function articleBelongsToSpecialFeature(article, featureName) {
+            return normalizeSpecialFeatureName(article?.specialFeature) === normalizeSpecialFeatureName(featureName);
+        }
+
         window.viewSpecialFeature = function(featureName) {
+            featureName = normalizeSpecialFeatureName(featureName);
             window.currentCategory = "전체";
             window.activeSpecialFeature = featureName;
             updateNavigationHighlight("전체");
@@ -1639,7 +1678,7 @@
             document.getElementById("trend-list")?.closest(".border")?.classList.add("hidden");
             document.getElementById("opinion-list")?.closest("div")?.classList.add("hidden");
 
-            const results = window.articles.filter(a => a.specialFeature === featureName);
+            const results = window.articles.filter(a => articleBelongsToSpecialFeature(a, featureName));
 
             if (results.length > 0) {
                 newsGrid.innerHTML = results.map(art => {
@@ -1650,7 +1689,7 @@
                     const searchedImage = art.image || 'padongdefault.png';
                     
                     // 세련되게 디자인된 특집 뱃지 탑재 (네이비 아웃라인 & 그레이 톤업)
-                    const specialFeatureBadge = art.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${art.specialFeature}')" class="bg-slate-100 text-[#0b1d33] border-l-2 border-[#0b1d33] px-1.5 py-0.5 text-[9.5px] font-black mr-1.5 hover:bg-[#0b1d33] hover:text-white transition duration-150 cursor-pointer inline-block">${art.specialFeature}</span>` : '';
+                    const specialFeatureBadge = art.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${getSpecialFeatureDisplay(art.specialFeature)}')" class="bg-slate-100 text-[#0b1d33] border-l-2 border-[#0b1d33] px-1.5 py-0.5 text-[9.5px] font-black mr-1.5 hover:bg-[#0b1d33] hover:text-white transition duration-150 cursor-pointer inline-block">${getSpecialFeatureDisplay(art.specialFeature)}</span>` : '';
 
                     return `
                         <div class="border-b border-gray-200 pb-5 cursor-pointer group hover:bg-gray-50/50 p-2 flex space-x-4 items-start" onclick="viewArticle('${art.id}')">
@@ -1789,7 +1828,7 @@
                 const plainBodySnippet = headline.content.replace(/\[(?:이미지|동영상)링크:[^\]]+\]/g, '').substring(0, 240);
 
                 // 고품격 세련된 디자인의 특집 뱃지 탑재
-                const specialFeatureBadge = headline.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${headline.specialFeature}')" class="bg-slate-100 text-[#0b1d33] border-l-2 border-[#0b1d33] px-2.5 py-1 text-xs font-black mr-2 hover:bg-[#0b1d33] hover:text-white transition duration-150 cursor-pointer inline-block align-middle">${headline.specialFeature}</span>` : '';
+                const specialFeatureBadge = headline.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${headline.specialFeature}')" class="bg-slate-100 text-[#0b1d33] border-l-2 border-[#0b1d33] px-2.5 py-1 text-xs font-black mr-2 hover:bg-[#0b1d33] hover:text-white transition duration-150 cursor-pointer inline-block align-middle">${getSpecialFeatureDisplay(headline.specialFeature)}</span>` : '';
                 const categoryBadgeHtml = `<span class="bg-[#0b1d33] text-white px-2.5 py-1 text-xs font-black uppercase tracking-wider inline-block align-middle mr-2">${headline.category === "심층탐사" ? "스트라이크" : headline.category}</span>`;
 
                 headlineSection.innerHTML = `
@@ -1813,9 +1852,9 @@
                             </div>
                             <div class="md:col-span-4 space-y-3">
                                 <div class="block md:hidden">
-                                    <p class="text-xs text-gray-950 font-extrabold text-left leading-relaxed whitespace-pre-line border-l-2 border-[#0b1d33] pl-2.5">
+                                    <div class="headline-mobile-summary text-xs text-gray-950 font-extrabold text-left leading-relaxed whitespace-pre-line">
                                         ${headline.subtitle || plainBodySnippet + '...'}
-                                    </p>
+                                    </div>
                                 </div>
                                 <div class="hidden md:block space-y-2.5">
                                     ${headline.subtitle ? `<p class="text-xs md:text-sm text-gray-950 font-extrabold border-l-2 border-[#0b1d33] pl-2.5 leading-relaxed whitespace-pre-line">${headline.subtitle}</p>` : ''}
@@ -1888,28 +1927,28 @@
             remainingNews = remainingNews.filter(a => !renderedInvestIds.includes(a.id));
 
             // 3. 특집 기사 섹션 렌더링
-            if (window.pollData && window.pollData.featuredSpecial && window.pollData.featuredSpecial.trim() !== "") {
-                const featSpecial = window.pollData.featuredSpecial.trim();
-                const featArticles = window.articles.filter(a => a.specialFeature === featSpecial && a.id !== (headline ? headline.id : ''));
-                
-                if (featArticles.length > 0) {
-                    specialSection.classList.remove("hidden");
-                    specialSection.innerHTML = `
-                        <div class="mt-6 bg-slate-50 border border-gray-200 p-6 space-y-4">
-                            <h3 class="text-sm font-black border-b border-gray-300 pb-2 flex justify-between items-center">
-                                <span class="flex items-center space-x-2">
-                                    <span class="w-3.5 h-3.5 bg-gray-600"></span>
-                                    <span class="text-lg font-black text-gray-800">특집 포커스: ${escapeHtml(featSpecial)}</span>
+            const featuredSpecialNames = getFeaturedSpecialNames(window.pollData && window.pollData.featuredSpecial);
+            if (featuredSpecialNames.length > 0) {
+                const featureBlocks = featuredSpecialNames.map(featSpecial => {
+                    const featArticles = window.articles.filter(a => articleBelongsToSpecialFeature(a, featSpecial) && a.id !== (headline ? headline.id : ''));
+                    if (featArticles.length === 0) return "";
+
+                    return `
+                        <section class="bg-slate-50 border border-gray-200 p-5 space-y-4">
+                            <h3 class="text-sm font-black border-b border-gray-300 pb-2 flex justify-between items-center gap-3">
+                                <span class="flex items-center space-x-2 min-w-0">
+                                    <span class="w-3.5 h-3.5 bg-gray-600 shrink-0"></span>
+                                    <span class="text-lg font-black text-gray-800 truncate">특집 포커스: ${escapeHtml(getSpecialFeatureDisplay(featSpecial))}</span>
                                 </span>
-                                <button onclick="viewSpecialFeature('${escapeHtml(featSpecial)}')" class="text-xs text-gray-500 hover:underline font-bold">전체보기 &rarr;</button>
+                                <button onclick="viewSpecialFeature('${escapeHtml(getSpecialFeatureDisplay(featSpecial))}')" class="text-xs text-gray-500 hover:underline font-bold shrink-0">전체보기 &rarr;</button>
                             </h3>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                                 ${featArticles.slice(0, 3).map(art => {
                                     const artImage = art.image || 'padongdefault.png';
                                     const authorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "파동 편집인");
                                     return `
                                         <div class="bg-white border border-gray-150 p-3.5 cursor-pointer group hover:border-gray-400 transition" onclick="viewArticle('${art.id}')">
-                                            <img src="${artImage}" 
+                                            <img src="${artImage}"
                                                  class="w-full h-28 object-cover border border-gray-200 mb-2.5 bg-slate-50"
                                                  onerror="this.src='padongdefault.png'">
                                             <h4 class="text-sm font-bold text-gray-950 group-hover:underline line-clamp-2 leading-snug">
@@ -1922,6 +1961,21 @@
                                         </div>
                                     `;
                                 }).join('')}
+                            </div>
+                        </section>
+                    `;
+                }).filter(Boolean);
+
+                if (featureBlocks.length > 0) {
+                    specialSection.classList.remove("hidden");
+                    specialSection.innerHTML = `
+                        <div class="mt-6 space-y-5">
+                            <div class="flex items-center justify-between border-b-2 border-gray-300 pb-2">
+                                <h2 class="text-xl font-black text-gray-900">특집 포커스</h2>
+                                <span class="text-[10px] text-gray-400 font-bold">${featureBlocks.length}개 기획</span>
+                            </div>
+                            <div class="grid grid-cols-1 xl:grid-cols-2 gap-5">
+                                ${featureBlocks.join('')}
                             </div>
                         </div>
                     `;
@@ -1939,7 +1993,7 @@
                 rightFeaturedBox.style.display = "block";
                 const scoopBadgeHtml = getScoopBadgeHtml(subFeatured.isScoop);
                 const subFeaturedImage = subFeatured.image || 'padongdefault.png';
-                const specialFeatureBadge = subFeatured.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${subFeatured.specialFeature}')" class="bg-slate-100 text-[#0b1d33] border-l-2 border-[#0b1d33] px-1.5 py-0.5 text-[9.5px] font-black mr-1.5 hover:bg-[#0b1d33] hover:text-white transition duration-150 cursor-pointer inline-block">${subFeatured.specialFeature}</span>` : '';
+                const specialFeatureBadge = subFeatured.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${subFeatured.specialFeature}')" class="bg-slate-100 text-[#0b1d33] border-l-2 border-[#0b1d33] px-1.5 py-0.5 text-[9.5px] font-black mr-1.5 hover:bg-[#0b1d33] hover:text-white transition duration-150 cursor-pointer inline-block">${getSpecialFeatureDisplay(subFeatured.specialFeature)}</span>` : '';
 
                 rightFeaturedBox.innerHTML = `
                     <div class="cursor-pointer space-y-3 group border-b border-gray-100 pb-4" onclick="viewArticle('${subFeatured.id}')">
@@ -1970,7 +2024,7 @@
                     const authorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "파동 편집진");
                     const scoopBadgeHtml = getScoopBadgeHtml(art.isScoop);
                     const artImage = art.image || 'padongdefault.png';
-                    const specialFeatureBadge = art.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${art.specialFeature}')" class="bg-slate-100 text-[#0b1d33] border-l-2 border-[#0b1d33] px-1.5 py-0.5 text-[9.5px] font-black mr-1.5 hover:bg-[#0b1d33] hover:text-white transition duration-150 cursor-pointer inline-block">${art.specialFeature}</span>` : '';
+                    const specialFeatureBadge = art.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${art.specialFeature}')" class="bg-slate-100 text-[#0b1d33] border-l-2 border-[#0b1d33] px-1.5 py-0.5 text-[9.5px] font-black mr-1.5 hover:bg-[#0b1d33] hover:text-white transition duration-150 cursor-pointer inline-block">${getSpecialFeatureDisplay(art.specialFeature)}</span>` : '';
 
                     if (compact) {
                         return `
@@ -2244,7 +2298,7 @@
                     const subAuthorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "파동 편집진");
                     const scoopBadgeHtml = getScoopBadgeHtml(art.isScoop);
                     const subArtImage = art.image || 'padongdefault.png';
-                    const subSpecialFeatureBadge = art.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${art.specialFeature}')" class="bg-slate-100 text-[#0b1d33] border-l-2 border-[#0b1d33] px-1.5 py-0.2 text-[9.5px] font-black mr-1.5 hover:bg-[#0b1d33] hover:text-white transition duration-150 cursor-pointer inline-block">${art.specialFeature}</span>` : '';
+                    const subSpecialFeatureBadge = art.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${art.specialFeature}')" class="bg-slate-100 text-[#0b1d33] border-l-2 border-[#0b1d33] px-1.5 py-0.2 text-[9.5px] font-black mr-1.5 hover:bg-[#0b1d33] hover:text-white transition duration-150 cursor-pointer inline-block">${getSpecialFeatureDisplay(art.specialFeature)}</span>` : '';
 
                     return `
                         <div class="bg-white border border-gray-200 p-4 cursor-pointer group hover:bg-gray-50 transition" onclick="viewArticle('${art.id}')">
@@ -2288,7 +2342,7 @@
                 
                 // 2. 특집 뱃지는 뒤쪽으로 배치하며, 세련된 네이비 아웃라인 디자인으로 변경
                 if (art.specialFeature) {
-                    badgeContainer.innerHTML += `<span onclick="viewSpecialFeature('${art.specialFeature}')" class="bg-slate-100 text-[#0b1d33] border-l-2 border-[#0b1d33] px-2.5 py-1 text-xs font-black mr-2 tracking-wider cursor-pointer hover:bg-[#0b1d33] hover:text-white transition duration-150 inline-block align-middle">${art.specialFeature}</span>`;
+                    badgeContainer.innerHTML += `<span onclick="viewSpecialFeature('${art.specialFeature}')" class="bg-slate-100 text-[#0b1d33] border-l-2 border-[#0b1d33] px-2.5 py-1 text-xs font-black mr-2 tracking-wider cursor-pointer hover:bg-[#0b1d33] hover:text-white transition duration-150 inline-block align-middle">${getSpecialFeatureDisplay(art.specialFeature)}</span>`;
                 }
             }
 
@@ -3199,7 +3253,7 @@
             const o1 = document.getElementById("admin-poll-opt1").value.trim();
             const o2 = document.getElementById("admin-poll-opt2").value.trim();
             const active = document.getElementById("admin-poll-active").checked;
-            const featuredSpecial = document.getElementById("admin-featured-special").value.trim();
+            const featuredSpecial = getFeaturedSpecialNames(document.getElementById("admin-featured-special").value).join(", ");
 
             if (!q || !o0 || !o1) {
                 showToast("투표 안건 문항 및 최소 2지 선다 이상의 구성이 필수 요구됩니다.");
@@ -3434,7 +3488,7 @@
             const customCat = document.getElementById("admin-custom-category").value.trim();
             const category = customCat ? customCat : categorySel;
 
-            const specialFeature = document.getElementById("admin-special-feature").value.trim();
+            const specialFeature = normalizeSpecialFeatureName(document.getElementById("admin-special-feature").value);
             const investigationTitle = document.getElementById("admin-investigation-title").value.trim();
             const imageInput = document.getElementById("admin-image").value.trim();
             const title = document.getElementById("admin-title").value.trim();
