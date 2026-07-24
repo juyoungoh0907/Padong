@@ -1974,7 +1974,7 @@
                                 <h2 class="text-xl font-black text-gray-900">특집 포커스</h2>
                                 <span class="text-[10px] text-gray-400 font-bold">${featureBlocks.length}개 기획</span>
                             </div>
-                            <div class="grid grid-cols-1 xl:grid-cols-2 gap-5">
+                            <div class="space-y-5">
                                 ${featureBlocks.join('')}
                             </div>
                         </div>
@@ -2020,62 +2020,71 @@
             // 5. 일반 주요 뉴스 그리드 마크업 구성
             const secondaryNews = remainingNews;
             if (secondaryNews.length > 0) {
-                const renderMainNewsCard = (art, compact = false) => {
+                const renderMainNewsCard = (art, type = "compact") => {
                     const authorsStr = (art.authors && art.authors.length > 0) ? art.authors.join(", ") : (art.author || "파동 편집진");
                     const scoopBadgeHtml = getScoopBadgeHtml(art.isScoop);
                     const artImage = art.image || 'padongdefault.png';
                     const specialFeatureBadge = art.specialFeature ? `<span onclick="event.stopPropagation(); viewSpecialFeature('${art.specialFeature}')" class="bg-slate-100 text-[#0b1d33] border-l-2 border-[#0b1d33] px-1.5 py-0.5 text-[9.5px] font-black mr-1.5 hover:bg-[#0b1d33] hover:text-white transition duration-150 cursor-pointer inline-block">${getSpecialFeatureDisplay(art.specialFeature)}</span>` : '';
 
-                    if (compact) {
+                    if (type === "large") {
                         return `
-                            <div class="border-b border-gray-200 pb-4 cursor-pointer group hover:bg-gray-50/50 p-2 min-w-0" onclick="viewArticle('${art.id}')">
-                                <div class="flex space-x-3 items-start">
-                                    <img src="${artImage}" class="w-24 h-16 object-cover border border-gray-200 shrink-0 bg-slate-50" alt="썸네일" onerror="this.src='padongdefault.png'">
-                                    <div class="space-y-1 min-w-0 flex-grow font-sans">
-                                        <div class="flex items-center flex-wrap gap-1">
-                                            <span class="text-[10px] text-[#0b1d33] font-bold uppercase tracking-wider">${art.category === "심층탐사" ? "스트라이크" : art.category}</span>
-                                            ${specialFeatureBadge}
-                                        </div>
-                                        <h4 class="text-sm font-bold leading-snug text-black group-hover:underline line-clamp-2">${scoopBadgeHtml}${art.title}</h4>
-                                        <div class="text-[10px] text-gray-400 flex flex-wrap gap-x-2">
-                                            <span class="font-semibold text-gray-600">${authorsStr}</span><span>|</span><span>조회수 ${art.views || 0}</span>
-                                        </div>
+                            <article class="cursor-pointer group" onclick="viewArticle('${art.id}')">
+                                <img src="${artImage}" class="w-full h-44 object-cover border border-gray-200 bg-slate-50" alt="썸네일" onerror="this.src='padongdefault.png'">
+                                <div class="pt-3">
+                                    <div class="flex items-center flex-wrap gap-1 mb-1.5">
+                                        <span class="text-[10px] text-[#0b1d33] font-bold uppercase tracking-wider">${art.category === "심층탐사" ? "스트라이크" : art.category}</span>
+                                        ${specialFeatureBadge}
                                     </div>
+                                    <h4 class="text-lg font-black leading-snug text-black group-hover:underline">${scoopBadgeHtml}${art.title}</h4>
+                                    <p class="text-[11px] text-gray-400 mt-2">${authorsStr} <span class="mx-1">|</span> 조회수 ${art.views || 0}</p>
                                 </div>
-                            </div>`;
+                            </article>`;
                     }
 
-                    return `
-                        <div class="border border-gray-200 bg-white cursor-pointer group hover:border-[#0b1d33] transition" onclick="viewArticle('${art.id}')">
-                            <img src="${artImage}" class="w-full h-36 object-cover border-b border-gray-200 bg-slate-50" alt="썸네일" onerror="this.src='padongdefault.png'">
-                            <div class="p-3.5 space-y-2">
-                                <div class="flex items-center flex-wrap gap-1">
+                    if (type === "title") {
+                        return `
+                            <article class="cursor-pointer group border-t-2 border-gray-200 py-4" onclick="viewArticle('${art.id}')">
+                                <div class="flex items-center flex-wrap gap-1 mb-1.5">
                                     <span class="text-[10px] text-[#0b1d33] font-bold uppercase tracking-wider">${art.category === "심층탐사" ? "스트라이크" : art.category}</span>
                                     ${specialFeatureBadge}
                                 </div>
-                                <h4 class="text-base font-bold leading-snug text-black group-hover:underline line-clamp-3">${scoopBadgeHtml}${art.title}</h4>
-                                <div class="text-[10px] text-gray-400 flex flex-wrap gap-x-2 pt-1 border-t border-gray-100">
-                                    <span class="font-semibold text-gray-600">${authorsStr}</span><span>|</span><span>조회수 ${art.views || 0}</span>
+                                <h4 class="text-base font-bold leading-snug text-black group-hover:underline">${scoopBadgeHtml}${art.title}</h4>
+                                <p class="text-[10px] text-gray-400 mt-2">${authorsStr} <span class="mx-1">|</span> 조회수 ${art.views || 0}</p>
+                            </article>`;
+                    }
+
+                    return `
+                        <article class="cursor-pointer group border-t border-gray-200 pt-3 pb-2" onclick="viewArticle('${art.id}')">
+                            <div class="flex items-start gap-3">
+                                <img src="${artImage}" class="w-24 h-16 object-cover border border-gray-200 shrink-0 bg-slate-50" alt="썸네일" onerror="this.src='padongdefault.png'">
+                                <div class="min-w-0">
+                                    <div class="flex items-center flex-wrap gap-1 mb-1">
+                                        <span class="text-[10px] text-[#0b1d33] font-bold uppercase tracking-wider">${art.category === "심층탐사" ? "스트라이크" : art.category}</span>
+                                        ${specialFeatureBadge}
+                                    </div>
+                                    <h4 class="text-sm font-bold leading-snug text-black group-hover:underline line-clamp-2">${scoopBadgeHtml}${art.title}</h4>
+                                    <p class="text-[10px] text-gray-400 mt-1.5">${authorsStr}</p>
                                 </div>
                             </div>
-                        </div>`;
+                        </article>`;
                 };
 
-                const leadNews = secondaryNews.slice(0, 4);
+                const leadNews = secondaryNews.slice(0, 2);
+                const titleNews = secondaryNews.slice(2, 4);
                 const moreNews = secondaryNews.slice(4);
 
                 newsGrid.innerHTML = `
-                    <div class="col-span-full grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        ${leadNews.map(art => renderMainNewsCard(art)).join("")}
+                    <div class="col-span-full grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                        ${leadNews.map(art => renderMainNewsCard(art, "large")).join("")}
                     </div>
+                    ${titleNews.length > 0 ? `
+                        <div class="col-span-full grid grid-cols-1 md:grid-cols-2 gap-x-8">
+                            ${titleNews.map(art => renderMainNewsCard(art, "title")).join("")}
+                        </div>` : ""}
                     ${moreNews.length > 0 ? `
-                        <div class="col-span-full border-t-2 border-gray-200 pt-5 mt-2">
-                            <div class="flex items-center justify-between mb-3">
-                                <h4 class="text-xs font-black text-gray-500 tracking-wide">더 많은 주요 뉴스</h4>
-                                <span class="text-[10px] text-gray-400">${moreNews.length}건</span>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
-                                ${moreNews.map(art => renderMainNewsCard(art, true)).join("")}
+                        <div class="col-span-full border-t-2 border-gray-200 pt-4 mt-1">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-1">
+                                ${moreNews.map(art => renderMainNewsCard(art, "compact")).join("")}
                             </div>
                         </div>` : ""}
                 `;
